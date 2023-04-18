@@ -1,0 +1,769 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2023-04-19 сре 00:39 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Programming exercises</title>
+<meta name="author" content="John Doe" />
+<meta name="generator" content="Org Mode" />
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/readtheorg.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/js/readtheorg.js"></script>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">Programming exercises</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orga44a1ab">1. Browser history</a>
+<ul>
+<li><a href="#org204f8d5">1.1. Implement the <code>BrowserHistory</code> class:</a></li>
+<li><a href="#org13746ad">1.2. Example</a></li>
+<li><a href="#org7987e76">1.3. Constraints:</a></li>
+<li><a href="#org3ad5bb2">1.4. Analysis</a></li>
+<li><a href="#org722ad11">1.5. Test scenario</a></li>
+<li><a href="#org2bb456c">1.6. Starter code</a></li>
+<li><a href="#orgae5cbc4">1.7. Solution</a></li>
+</ul>
+</li>
+<li><a href="#orgdf3b57c">2. Bipartite Graph</a>
+<ul>
+<li><a href="#orga474df0">2.1. Examples:</a>
+<ul>
+<li><a href="#orgee8d17c">2.1.1. Example 1:</a></li>
+<li><a href="#org5083d1e">2.1.2. Example 2:</a></li>
+</ul>
+</li>
+<li><a href="#org1f7c9fe">2.2. Constraints:</a></li>
+<li><a href="#orgef5e04c">2.3. Analysis</a></li>
+<li><a href="#orgdb38d81">2.4. Solutions</a>
+<ul>
+<li><a href="#org8e480aa">2.4.1. Bipartite Graph solution using BFS</a></li>
+<li><a href="#org1a6137e">2.4.2. Bipartite Graph solution using DFS</a></li>
+<li><a href="#org1303a07">2.4.3. Bipartite Graph solution using Union-Find</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org6734423">3. Reverse Pairs</a>
+<ul>
+<li><a href="#org1d662f1">3.1. Examples:</a>
+<ul>
+<li><a href="#org33094f1">3.1.1. Example 1:</a></li>
+<li><a href="#org3703fd4">3.1.2. Example 2:</a></li>
+</ul>
+</li>
+<li><a href="#orge5b24a8">3.2. Constraints:</a></li>
+<li><a href="#org10589f9">3.3. Solution</a>
+<ul>
+<li><a href="#orgc4f9e37">3.3.1. Using Divide and Conquer and Merge sort</a></li>
+<li><a href="#org8cce9f2">3.3.2. Using segment tree</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orga44a1ab" class="outline-2">
+<h2 id="orga44a1ab"><span class="section-number-2">1.</span> Browser history</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+You have a browser of one tab where you start on the homepage and you can visit another url, get back in the history
+number of steps or move forward in the history number of steps.
+</p>
+</div>
+
+<div id="outline-container-org204f8d5" class="outline-3">
+<h3 id="org204f8d5"><span class="section-number-3">1.1.</span> Implement the <code>BrowserHistory</code> class:</h3>
+<div class="outline-text-3" id="text-1-1">
+<dl class="org-dl">
+<dt><code>BrowserHistory(string homepage)</code></dt><dd>Initializes the object with the homepage of the browser.</dd>
+<dt><code>void visit(string url)</code></dt><dd>Visits <code>url</code> from the current page. It clears up all the forward history.</dd>
+<dt><code>string back(int steps)</code></dt><dd>Move <code>steps</code> back in history. If you can only return <code>x</code> steps in the history and <code>steps &gt; x</code>, you will return only <code>x</code> steps.
+Return the current <code>url</code> after moving back in history at most <code>steps</code>.</dd>
+<dt><code>string forward(int steps)</code></dt><dd>Move <code>steps</code> forward in history. If you can only forward <code>x steps</code> in the history and <code>steps &gt; x</code>, you will forward only <code>x steps</code>.
+Return the current <code>url</code> after forwarding in history at most <code>steps</code>.</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org13746ad" class="outline-3">
+<h3 id="org13746ad"><span class="section-number-3">1.2.</span> Example</h3>
+<div class="outline-text-3" id="text-1-2">
+<pre class="example" id="org60eab84">
+Input:
+["BrowserHistory","visit","visit","visit","back","back","forward","visit","forward","back","back"]
+[["mig.mk"],["google.com"],["facebook.com"],["youtube.com"],[1],[1],[1],["linkedin.com"],[2],[2],[7]]
+
+Output:
+[null,null,null,null,"facebook.com","google.com","facebook.com",null,"linkedin.com","google.com","mig.mk"]
+
+Explanation:
+BrowserHistory browserHistory = new BrowserHistory("mig.mk");
+browserHistory.visit("google.com");       // You are in "mig.mk". Visit "google.com"
+browserHistory.visit("facebook.com");     // You are in "google.com". Visit "facebook.com"
+browserHistory.visit("youtube.com");      // You are in "facebook.com". Visit "youtube.com"
+browserHistory.back(1);                   // You are in "youtube.com", move back to "facebook.com" return "facebook.com"
+browserHistory.back(1);                   // You are in "facebook.com", move back to "google.com" return "google.com"
+browserHistory.forward(1);                // You are in "google.com", move forward to "facebook.com" return "facebook.com"
+browserHistory.visit("linkedin.com");     // You are in "facebook.com". Visit "linkedin.com"
+browserHistory.forward(2);                // You are in "linkedin.com", you cannot move forward any steps.
+browserHistory.back(2);                   // You are in "linkedin.com", move back two steps to "facebook.com" then to "google.com". return "google.com"
+browserHistory.back(7);                   // You are in "google.com", you can move back only one step to "mig.mk". return "mig.mk"
+</pre>
+</div>
+</div>
+
+
+<div id="outline-container-org7987e76" class="outline-3">
+<h3 id="org7987e76"><span class="section-number-3">1.3.</span> Constraints:</h3>
+<div class="outline-text-3" id="text-1-3">
+<ul class="org-ul">
+<li>1 &lt;= homepage.length &lt;= 20</li>
+<li>1 &lt;= url.length &lt;= 20</li>
+<li>1 &lt;= steps &lt;= 100</li>
+<li>homepage and url consist of  &rsquo;.&rsquo; or lower case English letters.</li>
+<li>At most 5000 calls will be made to visit, back, and forward.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org3ad5bb2" class="outline-3">
+<h3 id="org3ad5bb2"><span class="section-number-3">1.4.</span> Analysis</h3>
+<div class="outline-text-3" id="text-1-4">
+<p>
+One approach is to use two stacks, one for <code>history</code>, one to save the <code>future</code> pages.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org722ad11" class="outline-3">
+<h3 id="org722ad11"><span class="section-number-3">1.5.</span> Test scenario</h3>
+<div class="outline-text-3" id="text-1-5">
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 1: </span>Test scenario</label><pre class="src src-cpp"><span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #51afef;">&lt;</span><span style="color: #98be65;">string</span><span style="color: #51afef;">&gt;</span>
+
+<span style="color: #51afef;">using</span> <span style="color: #a9a1e1;">std</span>::<span style="color: #a9a1e1;">string</span>;
+
+<span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">main</span><span style="color: #51afef;">(){</span>
+<span style="color: #ECBE7B;">BrowserHistory</span> <span style="color: #dcaeea;">history</span> = <span style="color: #51afef;">new</span> <span style="color: #ECBE7B;">BrowserHistory</span><span style="color: #c678dd;">(</span><span style="color: #98be65;">"https://www.google.com"</span><span style="color: #c678dd;">)</span>;
+
+<span style="color: #5B6268;">// </span><span style="color: #5B6268;">User visits a few pages</span>
+history.visit<span style="color: #c678dd;">(</span><span style="color: #98be65;">"https://www.google.com/search?q=java"</span><span style="color: #c678dd;">)</span>;
+history.visit<span style="color: #c678dd;">(</span><span style="color: #98be65;">"https://www.wikipedia.org/"</span><span style="color: #c678dd;">)</span>;
+history.visit<span style="color: #c678dd;">(</span><span style="color: #98be65;">"https://www.amazon.com/"</span><span style="color: #c678dd;">)</span>;
+
+<span style="color: #5B6268;">// </span><span style="color: #5B6268;">User clicks back button once</span>
+<span style="color: #ECBE7B;">string</span> <span style="color: #dcaeea;">previousPage</span> = history.back<span style="color: #c678dd;">(</span><span style="color: #da8548; font-weight: bold;">1</span><span style="color: #c678dd;">)</span>;
+cout &lt;&lt; <span style="color: #98be65;">"User is now on page: "</span> &lt;&lt; previousPage;
+
+<span style="color: #5B6268;">// </span><span style="color: #5B6268;">User clicks forward button twice</span>
+<span style="color: #ECBE7B;">string</span> <span style="color: #dcaeea;">nextPage</span> = history.forward<span style="color: #c678dd;">(</span><span style="color: #da8548; font-weight: bold;">2</span><span style="color: #c678dd;">)</span>;
+cout &lt;&lt; <span style="color: #98be65;">"User is now on page: "</span>,  nextPage;
+<span style="color: #51afef;">}</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2bb456c" class="outline-3">
+<h3 id="org2bb456c"><span class="section-number-3">1.6.</span> Starter code</h3>
+<div class="outline-text-3" id="text-1-6">
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 2: </span>Starter code</label><pre class="src src-cpp"><span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #51afef;">&lt;</span><span style="color: #98be65;">string</span><span style="color: #51afef;">&gt;</span>
+
+<span style="color: #51afef;">class</span> <span style="color: #ECBE7B;">BrowserHistory</span> <span style="color: #51afef;">{</span>
+<span style="color: #51afef;">public</span>:
+    <span style="color: #c678dd;">BrowserHistory</span><span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">string</span> <span style="color: #dcaeea;">homepage</span><span style="color: #c678dd;">){</span>
+
+    <span style="color: #c678dd;">}</span>
+    <span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">visit</span><span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">string</span> <span style="color: #dcaeea;">url</span><span style="color: #c678dd;">){</span>
+
+    <span style="color: #c678dd;">}</span>
+    <span style="color: #ECBE7B;">string</span> <span style="color: #c678dd;">back</span><span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">steps</span><span style="color: #c678dd;">){</span>
+
+    <span style="color: #c678dd;">}</span>
+    <span style="color: #ECBE7B;">string</span> <span style="color: #c678dd;">next</span><span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">steps</span><span style="color: #c678dd;">){</span>
+
+    <span style="color: #c678dd;">}</span>
+<span style="color: #51afef;">}</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgae5cbc4" class="outline-3">
+<h3 id="orgae5cbc4"><span class="section-number-3">1.7.</span> Solution</h3>
+<div class="outline-text-3" id="text-1-7">
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 3: </span>Example solution</label><pre class="src src-cpp"><span style="color: #51afef;">class</span> <span style="color: #ECBE7B;">BrowserHistory</span> <span style="color: #51afef;">{</span>
+    <span style="color: #ECBE7B;">stack</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">string</span><span style="color: #c678dd;">&gt;</span> <span style="color: #dcaeea;">history</span>, <span style="color: #dcaeea;">future</span>;
+    <span style="color: #ECBE7B;">string</span> <span style="color: #dcaeea;">current</span>;
+<span style="color: #51afef;">public</span>:
+    <span style="color: #c678dd;">BrowserHistory</span><span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">string</span> <span style="color: #dcaeea;">homepage</span><span style="color: #c678dd;">)</span> <span style="color: #c678dd;">{</span>
+        <span style="color: #5B6268;">// </span><span style="color: #5B6268;">'homepage' is the first visited URL.</span>
+        current = homepage;
+    <span style="color: #c678dd;">}</span>
+
+    <span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">visit</span><span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">string</span> <span style="color: #dcaeea;">url</span><span style="color: #c678dd;">)</span> <span style="color: #c678dd;">{</span>
+        <span style="color: #5B6268;">// </span><span style="color: #5B6268;">Push 'current' in 'history' stack and mark 'url' as 'current'.</span>
+        history.push<span style="color: #98be65;">(</span>current<span style="color: #98be65;">)</span>;
+        current = url;
+        <span style="color: #5B6268;">// </span><span style="color: #5B6268;">We need to delete all entries from 'future' stack.</span>
+        future = stack<span style="color: #98be65;">&lt;</span><span style="color: #ECBE7B;">string</span><span style="color: #98be65;">&gt;()</span>;
+    <span style="color: #c678dd;">}</span>
+
+    <span style="color: #ECBE7B;">string</span> <span style="color: #c678dd;">back</span><span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">steps</span><span style="color: #c678dd;">)</span> <span style="color: #c678dd;">{</span>
+        <span style="color: #5B6268;">// </span><span style="color: #5B6268;">Pop elements from 'history' stack, and push elements in 'future' stack.</span>
+        <span style="color: #51afef;">while</span><span style="color: #98be65;">(</span>steps &gt; <span style="color: #da8548; font-weight: bold;">0</span> &amp;&amp; <span style="color: #51afef; font-weight: bold;">!</span>history.empty<span style="color: #a9a1e1;">()</span><span style="color: #98be65;">)</span> <span style="color: #98be65;">{</span>
+            future.push<span style="color: #a9a1e1;">(</span>current<span style="color: #a9a1e1;">)</span>;
+            current = history.top<span style="color: #a9a1e1;">()</span>;
+            history.pop<span style="color: #a9a1e1;">()</span>;
+            steps--;
+        <span style="color: #98be65;">}</span>
+        <span style="color: #51afef;">return</span> current;
+    <span style="color: #c678dd;">}</span>
+
+    <span style="color: #ECBE7B;">string</span> <span style="color: #c678dd;">forward</span><span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">steps</span><span style="color: #c678dd;">)</span> <span style="color: #c678dd;">{</span>
+        <span style="color: #5B6268;">// </span><span style="color: #5B6268;">Pop elements from 'future' stack, and push elements in 'history' stack.</span>
+        <span style="color: #51afef;">while</span><span style="color: #98be65;">(</span>steps &gt; <span style="color: #da8548; font-weight: bold;">0</span> &amp;&amp; <span style="color: #51afef; font-weight: bold;">!</span>future.empty<span style="color: #a9a1e1;">()</span><span style="color: #98be65;">)</span> <span style="color: #98be65;">{</span>
+            history.push<span style="color: #a9a1e1;">(</span>current<span style="color: #a9a1e1;">)</span>;
+            current = future.top<span style="color: #a9a1e1;">()</span>;
+            future.pop<span style="color: #a9a1e1;">()</span>;
+            steps--;
+        <span style="color: #98be65;">}</span>
+        <span style="color: #51afef;">return</span> current;
+    <span style="color: #c678dd;">}</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgdf3b57c" class="outline-2">
+<h2 id="orgdf3b57c"><span class="section-number-2">2.</span> Bipartite Graph</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+There is an undirected graph with <code>n</code> nodes, where each node is numbered between <code>0</code> and <code>n-1</code>. You are given a 2D array graph, where <code>graph[u]</code> is an array of nodes that node <code>u</code> is adjacent to. More formally, for each <code>v</code> in <code>graph[u]</code>, there is an undirected edge between node <code>u</code> and node <code>v</code>. The graph has the following properties:
+</p>
+
+<ul class="org-ul">
+<li>There are no self-edges (<code>graph[u]</code> does not contain <code>u</code>).</li>
+<li>There are no parallel edges (<code>graph[u]</code> does not contain duplicate values).</li>
+<li>If <code>v</code> is in <code>graph[u]</code>, then <code>u</code> is in <code>graph[v]</code> (the graph is undirected).</li>
+<li>The graph may not be connected, meaning there may be two nodes <code>u</code> and <code>v</code> such that there is no path between them.</li>
+</ul>
+
+<p>
+A graph is bipartite if the nodes can be partitioned into two independent sets <code>A</code> and <code>B</code> such that every edge in the graph connects a node in set <code>A</code> and a node in set <code>B</code>.
+</p>
+
+<p>
+Return <code>true</code> if and only if it is bipartite.
+</p>
+</div>
+
+<div id="outline-container-orga474df0" class="outline-3">
+<h3 id="orga474df0"><span class="section-number-3">2.1.</span> Examples:</h3>
+<div class="outline-text-3" id="text-2-1">
+</div>
+<div id="outline-container-orgee8d17c" class="outline-4">
+<h4 id="orgee8d17c"><span class="section-number-4">2.1.1.</span> Example 1:</h4>
+<div class="outline-text-4" id="text-2-1-1">
+
+<div id="org567ff85" class="figure">
+<p><img src="./img/bi2.jpg" alt="bi2.jpg" />
+</p>
+<p><span class="figure-number">Figure 1: </span>Example graph 1</p>
+</div>
+
+<div class="verbatim" id="org7a0649b">
+<p>
+Input: graph = [[1,2,3],[0,2],[0,1,3],[0,2]]
+Output: false
+</p>
+
+</div>
+
+<dl class="org-dl">
+<dt>Explanation</dt><dd>There is no way to partition the nodes into two independent sets such that every edge connects a node in one and a node in the other.</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org5083d1e" class="outline-4">
+<h4 id="org5083d1e"><span class="section-number-4">2.1.2.</span> Example 2:</h4>
+<div class="outline-text-4" id="text-2-1-2">
+
+<div id="org0a2c8ed" class="figure">
+<p><img src="./img/bi1.jpg" alt="bi1.jpg" />
+</p>
+<p><span class="figure-number">Figure 2: </span>Example graph 2</p>
+</div>
+
+<div class="verbatim" id="orgc2b7325">
+<p>
+Input: graph = [[1,3],[0,2],[1,3],[0,2]]
+Output: true
+</p>
+
+</div>
+<p>
+<b>Explanation:</b> We can partition the nodes into two sets: {0, 2} and {1, 3}.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1f7c9fe" class="outline-3">
+<h3 id="org1f7c9fe"><span class="section-number-3">2.2.</span> Constraints:</h3>
+<div class="outline-text-3" id="text-2-2">
+<ul class="org-ul">
+<li><code>graph.length == n</code></li>
+<li><code>1 &lt;= n &lt;= 100</code></li>
+<li><code>0 &lt;= graph[u].length &lt; n</code></li>
+<li><code>0 &lt;= graph[u][i] &lt;= n - 1</code></li>
+<li><code>graph[u]</code> does not contain <code>u</code>.</li>
+<li>All the values of <code>graph[u]</code> are unique.</li>
+<li>If <code>graph[u]</code> contains <code>v</code>, then <code>graph[v]</code> contains <code>u</code>.</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-orgef5e04c" class="outline-3">
+<h3 id="orgef5e04c"><span class="section-number-3">2.3.</span> Analysis</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+The obvious approach is to use BFS or DFS to traverse the graph.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgdb38d81" class="outline-3">
+<h3 id="orgdb38d81"><span class="section-number-3">2.4.</span> Solutions</h3>
+<div class="outline-text-3" id="text-2-4">
+</div>
+<div id="outline-container-org8e480aa" class="outline-4">
+<h4 id="org8e480aa"><span class="section-number-4">2.4.1.</span> Bipartite Graph solution using BFS</h4>
+<div class="outline-text-4" id="text-2-4-1">
+<div class="org-src-container">
+<pre class="src src-cpp"><span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #51afef;">&lt;</span><span style="color: #98be65;">iostream</span><span style="color: #51afef;">&gt;</span>
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #51afef;">&lt;</span><span style="color: #98be65;">queue</span><span style="color: #51afef;">&gt;</span>
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #51afef;">&lt;</span><span style="color: #98be65;">vector</span><span style="color: #51afef;">&gt;</span>
+
+<span style="color: #51afef;">using</span> <span style="color: #a9a1e1;">std</span>::<span style="color: #a9a1e1;">vector</span>;
+<span style="color: #51afef;">using</span> <span style="color: #a9a1e1;">std</span>::<span style="color: #a9a1e1;">queue</span>;
+
+<span style="color: #ECBE7B;">bool</span> <span style="color: #c678dd;">bfs</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">node</span>, <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">color</span>, <span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">vector</span><span style="color: #98be65;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #98be65;">&gt;</span><span style="color: #c678dd;">&gt;</span>&amp; <span style="color: #dcaeea;">graph</span>, <span style="color: #ECBE7B;">vector</span> <span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span>&amp; <span style="color: #dcaeea;">visited</span><span style="color: #51afef;">)</span> <span style="color: #51afef;">{</span>
+    <span style="color: #ECBE7B;">queue</span> <span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span> <span style="color: #dcaeea;">q</span>;
+    q.push<span style="color: #c678dd;">(</span>node<span style="color: #c678dd;">)</span>;
+    visited<span style="color: #c678dd;">[</span>node<span style="color: #c678dd;">]</span> = color;
+    <span style="color: #51afef;">while</span> <span style="color: #c678dd;">(</span><span style="color: #51afef; font-weight: bold;">!</span>q.empty<span style="color: #98be65;">()</span><span style="color: #c678dd;">)</span> <span style="color: #c678dd;">{</span>
+        <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">curr</span> = q.front<span style="color: #98be65;">()</span>;
+        q.pop<span style="color: #98be65;">()</span>;
+        <span style="color: #51afef;">for</span> <span style="color: #98be65;">(</span><span style="color: #51afef;">auto</span> <span style="color: #dcaeea;">adjNode</span>: graph<span style="color: #a9a1e1;">[</span>curr<span style="color: #a9a1e1;">]</span><span style="color: #98be65;">)</span> <span style="color: #98be65;">{</span>
+            <span style="color: #51afef;">if</span> <span style="color: #a9a1e1;">(</span>visited<span style="color: #51afef;">[</span>adjNode<span style="color: #51afef;">]</span> == -<span style="color: #da8548; font-weight: bold;">1</span><span style="color: #a9a1e1;">)</span> <span style="color: #a9a1e1;">{</span>
+                q.push<span style="color: #51afef;">(</span>adjNode<span style="color: #51afef;">)</span>;
+                visited<span style="color: #51afef;">[</span>adjNode<span style="color: #51afef;">]</span> = <span style="color: #51afef; font-weight: bold;">!</span>visited<span style="color: #51afef;">[</span>curr<span style="color: #51afef;">]</span>;
+            <span style="color: #a9a1e1;">}</span> <span style="color: #51afef;">else</span> <span style="color: #51afef;">if</span> <span style="color: #a9a1e1;">(</span>visited<span style="color: #51afef;">[</span>adjNode<span style="color: #51afef;">]</span> == visited<span style="color: #51afef;">[</span>curr<span style="color: #51afef;">]</span><span style="color: #a9a1e1;">)</span> <span style="color: #a9a1e1;">{</span>
+                <span style="color: #51afef;">return</span> <span style="color: #a9a1e1;">false</span>;
+            <span style="color: #a9a1e1;">}</span>
+        <span style="color: #98be65;">}</span>
+    <span style="color: #c678dd;">}</span>
+    <span style="color: #51afef;">return</span> <span style="color: #a9a1e1;">true</span>;
+<span style="color: #51afef;">}</span>
+<span style="color: #ECBE7B;">bool</span> <span style="color: #c678dd;">isBipartite</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">vector</span><span style="color: #98be65;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #98be65;">&gt;</span><span style="color: #c678dd;">&gt;</span>&amp; <span style="color: #dcaeea;">graph</span><span style="color: #51afef;">)</span> <span style="color: #51afef;">{</span>
+    <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">n</span> = graph.size<span style="color: #c678dd;">()</span>; <span style="color: #5B6268;">// </span><span style="color: #5B6268;">Get the node number</span>
+    <span style="color: #ECBE7B;">vector</span> <span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span> <span style="color: #dcaeea;">visited</span><span style="color: #c678dd;">(</span>n, -<span style="color: #da8548; font-weight: bold;">1</span><span style="color: #c678dd;">)</span>; <span style="color: #5B6268;">// </span><span style="color: #5B6268;">Create visited vector for every node</span>
+    <span style="color: #51afef;">for</span> <span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">i</span> = <span style="color: #da8548; font-weight: bold;">0</span>; i &lt; n; i++<span style="color: #c678dd;">)</span> <span style="color: #c678dd;">{</span>
+        <span style="color: #51afef;">if</span> <span style="color: #98be65;">(</span>visited<span style="color: #a9a1e1;">[</span>i<span style="color: #a9a1e1;">]</span> == -<span style="color: #da8548; font-weight: bold;">1</span><span style="color: #98be65;">)</span> <span style="color: #98be65;">{</span>
+            <span style="color: #51afef;">if</span> <span style="color: #a9a1e1;">(</span>bfs<span style="color: #51afef;">(</span>i, <span style="color: #da8548; font-weight: bold;">0</span>, graph, visited<span style="color: #51afef;">)</span> == <span style="color: #a9a1e1;">false</span><span style="color: #a9a1e1;">)</span>
+                <span style="color: #51afef;">return</span> <span style="color: #a9a1e1;">false</span>;
+        <span style="color: #98be65;">}</span>
+    <span style="color: #c678dd;">}</span>
+    <span style="color: #51afef;">return</span> <span style="color: #a9a1e1;">true</span>;
+<span style="color: #51afef;">}</span>
+</pre>
+</div>
+
+<p>
+Similatrly, we can use DFS instead of BFS
+</p>
+</div>
+</div>
+
+<div id="outline-container-org1a6137e" class="outline-4">
+<h4 id="org1a6137e"><span class="section-number-4">2.4.2.</span> Bipartite Graph solution using DFS</h4>
+<div class="outline-text-4" id="text-2-4-2">
+<div class="org-src-container">
+<pre class="src src-cpp"><span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #51afef;">&lt;</span><span style="color: #98be65;">iostream</span><span style="color: #51afef;">&gt;</span>
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #51afef;">&lt;</span><span style="color: #98be65;">vector</span><span style="color: #51afef;">&gt;</span>
+
+<span style="color: #51afef;">using</span> <span style="color: #a9a1e1;">std</span>::<span style="color: #a9a1e1;">vector</span>;
+
+<span style="color: #ECBE7B;">bool</span> <span style="color: #c678dd;">dfs</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">node</span>, <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">color</span>, <span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">vector</span><span style="color: #98be65;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #98be65;">&gt;</span><span style="color: #c678dd;">&gt;</span>&amp; <span style="color: #dcaeea;">graph</span>, <span style="color: #ECBE7B;">vector</span> <span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span>&amp; <span style="color: #dcaeea;">visited</span><span style="color: #51afef;">)</span> <span style="color: #51afef;">{</span>
+    visited<span style="color: #c678dd;">[</span>node<span style="color: #c678dd;">]</span> = color;
+    <span style="color: #51afef;">for</span> <span style="color: #c678dd;">(</span><span style="color: #51afef;">auto</span> <span style="color: #dcaeea;">adjNode</span>: graph<span style="color: #98be65;">[</span>node<span style="color: #98be65;">]</span><span style="color: #c678dd;">)</span> <span style="color: #c678dd;">{</span>
+        <span style="color: #51afef;">if</span> <span style="color: #98be65;">(</span>visited<span style="color: #a9a1e1;">[</span>adjNode<span style="color: #a9a1e1;">]</span> == -<span style="color: #da8548; font-weight: bold;">1</span><span style="color: #98be65;">)</span> <span style="color: #98be65;">{</span>
+            <span style="color: #51afef;">if</span> <span style="color: #a9a1e1;">(</span>dfs<span style="color: #51afef;">(</span>adjNode, <span style="color: #51afef; font-weight: bold;">!</span>color, graph, visited<span style="color: #51afef;">)</span> == <span style="color: #a9a1e1;">false</span><span style="color: #a9a1e1;">)</span>
+                <span style="color: #51afef;">return</span> <span style="color: #a9a1e1;">false</span>;
+        <span style="color: #98be65;">}</span> <span style="color: #51afef;">else</span> <span style="color: #51afef;">if</span> <span style="color: #98be65;">(</span>visited<span style="color: #a9a1e1;">[</span>adjNode<span style="color: #a9a1e1;">]</span> == color<span style="color: #98be65;">)</span> <span style="color: #98be65;">{</span>
+            <span style="color: #51afef;">return</span> <span style="color: #a9a1e1;">false</span>;
+        <span style="color: #98be65;">}</span>
+    <span style="color: #c678dd;">}</span>
+    <span style="color: #51afef;">return</span> <span style="color: #a9a1e1;">true</span>;
+<span style="color: #51afef;">}</span>
+
+<span style="color: #ECBE7B;">bool</span> <span style="color: #c678dd;">isBipartite</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">vector</span><span style="color: #98be65;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #98be65;">&gt;</span><span style="color: #c678dd;">&gt;</span>&amp; <span style="color: #dcaeea;">graph</span><span style="color: #51afef;">)</span> <span style="color: #51afef;">{</span>
+    <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">n</span> = graph.size<span style="color: #c678dd;">()</span>;
+    <span style="color: #ECBE7B;">vector</span> <span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span> <span style="color: #dcaeea;">visited</span><span style="color: #c678dd;">(</span>n, -<span style="color: #da8548; font-weight: bold;">1</span><span style="color: #c678dd;">)</span>;
+    <span style="color: #51afef;">for</span> <span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">i</span> = <span style="color: #da8548; font-weight: bold;">0</span>; i &lt; n; i++<span style="color: #c678dd;">)</span> <span style="color: #c678dd;">{</span>
+        <span style="color: #51afef;">if</span> <span style="color: #98be65;">(</span>visited<span style="color: #a9a1e1;">[</span>i<span style="color: #a9a1e1;">]</span> == -<span style="color: #da8548; font-weight: bold;">1</span><span style="color: #98be65;">)</span> <span style="color: #98be65;">{</span>
+            <span style="color: #51afef;">if</span> <span style="color: #a9a1e1;">(</span>dfs<span style="color: #51afef;">(</span>i, <span style="color: #da8548; font-weight: bold;">0</span>, graph, visited<span style="color: #51afef;">)</span> == <span style="color: #a9a1e1;">false</span><span style="color: #a9a1e1;">)</span>
+                <span style="color: #51afef;">return</span> <span style="color: #a9a1e1;">false</span>;
+        <span style="color: #98be65;">}</span>
+    <span style="color: #c678dd;">}</span>
+    <span style="color: #51afef;">return</span> <span style="color: #a9a1e1;">true</span>;
+<span style="color: #51afef;">}</span>
+</pre>
+</div>
+
+<p>
+But this is a primer on how we can utilize <code>Union-Find</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org1303a07" class="outline-4">
+<h4 id="org1303a07"><span class="section-number-4">2.4.3.</span> Bipartite Graph solution using Union-Find</h4>
+<div class="outline-text-4" id="text-2-4-3">
+<div class="org-src-container">
+<pre class="src src-cpp"><span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #51afef;">&lt;</span><span style="color: #98be65;">iostream</span><span style="color: #51afef;">&gt;</span>
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #51afef;">&lt;</span><span style="color: #98be65;">vector</span><span style="color: #51afef;">&gt;</span>
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #51afef;">&lt;</span><span style="color: #98be65;">utility</span><span style="color: #51afef;">&gt;</span> <span style="color: #5B6268;">// </span><span style="color: #5B6268;">For std::pair</span>
+
+<span style="color: #51afef;">using</span> <span style="color: #a9a1e1;">std</span>::<span style="color: #a9a1e1;">vector</span>;
+<span style="color: #51afef;">using</span> <span style="color: #a9a1e1;">std</span>::<span style="color: #a9a1e1;">pair</span>;
+
+
+<span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">find</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">pair</span><span style="color: #98be65;">&lt;</span><span style="color: #ECBE7B;">int</span>,<span style="color: #ECBE7B;">int</span><span style="color: #98be65;">&gt;</span><span style="color: #c678dd;">&gt;</span> &amp;<span style="color: #dcaeea;">parent</span>, <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">k</span><span style="color: #51afef;">){</span>
+    <span style="color: #51afef;">if</span><span style="color: #c678dd;">(</span>parent<span style="color: #98be65;">[</span>k<span style="color: #98be65;">]</span>.first == -<span style="color: #da8548; font-weight: bold;">1</span> || parent<span style="color: #98be65;">[</span>k<span style="color: #98be65;">]</span>.first==k<span style="color: #c678dd;">){</span>
+        parent<span style="color: #98be65;">[</span>k<span style="color: #98be65;">]</span>.first = k;
+        <span style="color: #51afef;">return</span> k;
+    <span style="color: #c678dd;">}</span>
+    parent<span style="color: #c678dd;">[</span>k<span style="color: #c678dd;">]</span>.first=find<span style="color: #c678dd;">(</span>parent,parent<span style="color: #98be65;">[</span>k<span style="color: #98be65;">]</span>.first<span style="color: #c678dd;">)</span>;
+    <span style="color: #51afef;">return</span> parent<span style="color: #c678dd;">[</span>k<span style="color: #c678dd;">]</span>.first;
+<span style="color: #51afef;">}</span>
+
+<span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">unionFind</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">pair</span><span style="color: #98be65;">&lt;</span><span style="color: #ECBE7B;">int</span>,<span style="color: #ECBE7B;">int</span><span style="color: #98be65;">&gt;</span><span style="color: #c678dd;">&gt;</span> &amp;<span style="color: #dcaeea;">parent</span>, <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">x</span>, <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">y</span><span style="color: #51afef;">){</span>
+   <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">a</span> = find<span style="color: #c678dd;">(</span>parent,x<span style="color: #c678dd;">)</span>;
+    <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">b</span> = find<span style="color: #c678dd;">(</span>parent,y<span style="color: #c678dd;">)</span>;
+    <span style="color: #51afef;">if</span><span style="color: #c678dd;">(</span>a != b<span style="color: #c678dd;">){</span>
+       <span style="color: #51afef;">if</span><span style="color: #98be65;">(</span>parent<span style="color: #a9a1e1;">[</span>a<span style="color: #a9a1e1;">]</span>.second &lt; parent<span style="color: #a9a1e1;">[</span>b<span style="color: #a9a1e1;">]</span>.second<span style="color: #98be65;">){</span>
+           parent<span style="color: #a9a1e1;">[</span>a<span style="color: #a9a1e1;">]</span>.first=b;
+       <span style="color: #98be65;">}</span><span style="color: #51afef;">else</span> <span style="color: #51afef;">if</span><span style="color: #98be65;">(</span>parent<span style="color: #a9a1e1;">[</span>a<span style="color: #a9a1e1;">]</span>.second &gt; parent<span style="color: #a9a1e1;">[</span>b<span style="color: #a9a1e1;">]</span>.second<span style="color: #98be65;">){</span>
+            parent<span style="color: #a9a1e1;">[</span>b<span style="color: #a9a1e1;">]</span>.first=a;
+        <span style="color: #98be65;">}</span><span style="color: #51afef;">else</span><span style="color: #98be65;">{</span>
+            parent<span style="color: #a9a1e1;">[</span>b<span style="color: #a9a1e1;">]</span>.first=a;
+            parent<span style="color: #a9a1e1;">[</span>a<span style="color: #a9a1e1;">]</span>.second += <span style="color: #da8548; font-weight: bold;">1</span>;
+        <span style="color: #98be65;">}</span>
+    <span style="color: #c678dd;">}</span>
+<span style="color: #51afef;">}</span>
+<span style="color: #ECBE7B;">bool</span> <span style="color: #c678dd;">isBipartite</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">vector</span><span style="color: #98be65;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #98be65;">&gt;</span><span style="color: #c678dd;">&gt;</span>&amp; <span style="color: #dcaeea;">graph</span><span style="color: #51afef;">)</span> <span style="color: #51afef;">{</span>
+    <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">n</span> =graph.size<span style="color: #c678dd;">()</span>;
+    <span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">pair</span><span style="color: #98be65;">&lt;</span><span style="color: #ECBE7B;">int</span>,<span style="color: #ECBE7B;">int</span><span style="color: #98be65;">&gt;</span><span style="color: #c678dd;">&gt;</span> <span style="color: #dcaeea;">parent</span><span style="color: #c678dd;">(</span>n,<span style="color: #98be65;">{</span>-<span style="color: #da8548; font-weight: bold;">1</span>,<span style="color: #da8548; font-weight: bold;">0</span><span style="color: #98be65;">}</span><span style="color: #c678dd;">)</span>;
+    <span style="color: #51afef;">for</span><span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">i</span>=<span style="color: #da8548; font-weight: bold;">0</span>;i&lt;n;i++<span style="color: #c678dd;">){</span>
+        <span style="color: #51afef;">for</span><span style="color: #98be65;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">j</span>=<span style="color: #da8548; font-weight: bold;">0</span>;j&lt;graph<span style="color: #a9a1e1;">[</span>i<span style="color: #a9a1e1;">]</span>.size<span style="color: #a9a1e1;">()</span>;j++<span style="color: #98be65;">){</span>
+         <span style="color: #5B6268;">// </span><span style="color: #5B6268;">node and neighbour shouldn't belong to same set in bipartite</span>
+            <span style="color: #51afef;">if</span><span style="color: #a9a1e1;">(</span>find<span style="color: #51afef;">(</span>parent,i<span style="color: #51afef;">)</span> == find<span style="color: #51afef;">(</span>parent,graph<span style="color: #c678dd;">[</span>i<span style="color: #c678dd;">][</span>j<span style="color: #c678dd;">]</span><span style="color: #51afef;">)</span><span style="color: #a9a1e1;">){</span>
+                <span style="color: #51afef;">return</span> <span style="color: #a9a1e1;">false</span>;
+            <span style="color: #a9a1e1;">}</span>
+            <span style="color: #5B6268;">// </span><span style="color: #5B6268;">all node neighbours should belong to one set</span>
+            unionFind<span style="color: #a9a1e1;">(</span>parent,graph<span style="color: #51afef;">[</span>i<span style="color: #51afef;">][</span>j<span style="color: #51afef;">]</span>,graph<span style="color: #51afef;">[</span>i<span style="color: #51afef;">][</span><span style="color: #da8548; font-weight: bold;">0</span><span style="color: #51afef;">]</span><span style="color: #a9a1e1;">)</span>;
+        <span style="color: #98be65;">}</span>
+    <span style="color: #c678dd;">}</span>
+    <span style="color: #51afef;">return</span> <span style="color: #a9a1e1;">true</span>;
+<span style="color: #51afef;">}</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org6734423" class="outline-2">
+<h2 id="org6734423"><span class="section-number-2">3.</span> Reverse Pairs</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Given an integer array <code>nums</code>, return the number of <i>reverse pairs</i> in the array.
+</p>
+
+<p>
+A <i>reverse pair</i> is a pair <code>(i, j)</code> where:
+</p>
+<ul class="org-ul">
+<li><code>0 &lt;= i &lt; j &lt; nums.length</code> and</li>
+<li><code>nums[i] &gt; 2 * nums[j]</code>.</li>
+</ul>
+</div>
+
+<div id="outline-container-org1d662f1" class="outline-3">
+<h3 id="org1d662f1"><span class="section-number-3">3.1.</span> Examples:</h3>
+<div class="outline-text-3" id="text-3-1">
+</div>
+<div id="outline-container-org33094f1" class="outline-4">
+<h4 id="org33094f1"><span class="section-number-4">3.1.1.</span> Example 1:</h4>
+<div class="outline-text-4" id="text-3-1-1">
+<pre class="example" id="orgb404531">
+Input: nums = [1,3,2,3,1]
+Output: 2
+</pre>
+<dl class="org-dl">
+<dt>Explanation</dt><dd><p>
+The reverse pairs are:
+</p>
+<pre class="example" id="org1f7fdba">
+  (1, 4) --&gt; nums[1] = 3, nums[4] = 1, 3 &gt; 2 * 1
+  (3, 4) --&gt; nums[3] = 3, nums[4] = 1, 3 &gt; 2 * 1
+</pre></dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org3703fd4" class="outline-4">
+<h4 id="org3703fd4"><span class="section-number-4">3.1.2.</span> Example 2:</h4>
+<div class="outline-text-4" id="text-3-1-2">
+<pre class="example" id="org6ba80cc">
+Input: nums = [2,4,3,5,1]
+Output: 3
+</pre>
+<dl class="org-dl">
+<dt>Explanation</dt><dd><p>
+The reverse pairs are:
+</p>
+<pre class="example" id="org222caaf">
+  (1, 4) --&gt; nums[1] = 4, nums[4] = 1, 4 &gt; 2 * 1
+  (2, 4) --&gt; nums[2] = 3, nums[4] = 1, 3 &gt; 2 * 1
+  (3, 4) --&gt; nums[3] = 5, nums[4] = 1, 5 &gt; 2 * 1
+</pre></dd>
+</dl>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge5b24a8" class="outline-3">
+<h3 id="orge5b24a8"><span class="section-number-3">3.2.</span> Constraints:</h3>
+<div class="outline-text-3" id="text-3-2">
+<ul class="org-ul">
+<li>\(1 <= ~nums.length~ <= 5 * 10^4\)</li>
+<li>\(-2^{31} <= ~nums[i]~ <= 2^{31} - 1\)</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org10589f9" class="outline-3">
+<h3 id="org10589f9"><span class="section-number-3">3.3.</span> Solution</h3>
+<div class="outline-text-3" id="text-3-3">
+</div>
+<div id="outline-container-orgc4f9e37" class="outline-4">
+<h4 id="orgc4f9e37"><span class="section-number-4">3.3.1.</span> Using Divide and Conquer and Merge sort</h4>
+<div class="outline-text-4" id="text-3-3-1">
+<div class="org-src-container">
+<pre class="src src-cpp"><span style="color: #51afef;">class</span> <span style="color: #ECBE7B;">Solution</span> <span style="color: #51afef;">{</span>
+<span style="color: #51afef;">public</span>:
+    <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">inversions</span>=<span style="color: #da8548; font-weight: bold;">0</span>;
+    <span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">find_index_where_just_greater</span><span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">left</span>,<span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">right</span>,<span style="color: #ECBE7B;">vector</span><span style="color: #98be65;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #98be65;">&gt;</span>&amp;<span style="color: #dcaeea;">arr</span>,<span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">target</span><span style="color: #c678dd;">)</span>
+    <span style="color: #c678dd;">{</span>
+        <span style="color: #51afef;">while</span><span style="color: #98be65;">(</span>left&lt;=right<span style="color: #98be65;">)</span>
+        <span style="color: #98be65;">{</span>
+            <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">mid</span>=<span style="color: #a9a1e1;">(</span>left+right<span style="color: #a9a1e1;">)</span>/<span style="color: #da8548; font-weight: bold;">2</span>;
+            <span style="color: #ECBE7B;">long</span> <span style="color: #ECBE7B;">long</span> <span style="color: #dcaeea;">x</span>=arr<span style="color: #a9a1e1;">[</span>mid<span style="color: #a9a1e1;">]</span>;
+            x*=<span style="color: #da8548; font-weight: bold;">2</span>;
+            <span style="color: #51afef;">if</span><span style="color: #a9a1e1;">(</span>x&gt;=target<span style="color: #a9a1e1;">)</span>
+            <span style="color: #a9a1e1;">{</span>
+                right=mid-<span style="color: #da8548; font-weight: bold;">1</span>;
+            <span style="color: #a9a1e1;">}</span>
+            <span style="color: #51afef;">else</span>
+            <span style="color: #a9a1e1;">{</span>
+                left=mid+<span style="color: #da8548; font-weight: bold;">1</span>;
+            <span style="color: #a9a1e1;">}</span>
+        <span style="color: #98be65;">}</span>
+        <span style="color: #51afef;">return</span> <span style="color: #98be65;">(</span>left-<span style="color: #da8548; font-weight: bold;">1</span><span style="color: #98be65;">)</span>;
+    <span style="color: #c678dd;">}</span>
+    <span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">merge</span><span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">vector</span><span style="color: #98be65;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #98be65;">&gt;</span>&amp;<span style="color: #dcaeea;">arr</span>,<span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">l</span>,<span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">m</span>,<span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">r</span><span style="color: #c678dd;">)</span>
+    <span style="color: #c678dd;">{</span>
+        <span style="color: #ECBE7B;">vector</span><span style="color: #98be65;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #98be65;">&gt;</span><span style="color: #dcaeea;">Arr</span><span style="color: #98be65;">(</span>r-l+<span style="color: #da8548; font-weight: bold;">1</span><span style="color: #98be65;">)</span>;
+        <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">ptr1</span>=l,<span style="color: #dcaeea;">ptr2</span>=m+<span style="color: #da8548; font-weight: bold;">1</span>,<span style="color: #dcaeea;">ptr3</span>=<span style="color: #da8548; font-weight: bold;">0</span>;
+        <span style="color: #51afef;">while</span><span style="color: #98be65;">(</span>ptr3&lt;=<span style="color: #a9a1e1;">(</span>r-l<span style="color: #a9a1e1;">)</span><span style="color: #98be65;">)</span>
+        <span style="color: #98be65;">{</span>
+            <span style="color: #51afef;">if</span><span style="color: #a9a1e1;">(</span>ptr1==<span style="color: #51afef;">(</span>m+<span style="color: #da8548; font-weight: bold;">1</span><span style="color: #51afef;">)</span><span style="color: #a9a1e1;">)</span>
+            <span style="color: #a9a1e1;">{</span>
+                Arr<span style="color: #51afef;">[</span>ptr3<span style="color: #51afef;">]</span>=arr<span style="color: #51afef;">[</span>ptr2<span style="color: #51afef;">]</span>;
+                ptr2++;
+                ptr3++;
+                <span style="color: #51afef;">continue</span>;
+            <span style="color: #a9a1e1;">}</span>
+            <span style="color: #51afef;">if</span><span style="color: #a9a1e1;">(</span>ptr2==<span style="color: #51afef;">(</span>r+<span style="color: #da8548; font-weight: bold;">1</span><span style="color: #51afef;">)</span><span style="color: #a9a1e1;">)</span>
+            <span style="color: #a9a1e1;">{</span>
+                <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">idx</span>=find_index_where_just_greater<span style="color: #51afef;">(</span>m+<span style="color: #da8548; font-weight: bold;">1</span>,r,arr,<span style="color: #ECBE7B;">arr</span><span style="color: #c678dd;">[</span>ptr1<span style="color: #c678dd;">]</span><span style="color: #51afef;">)</span>;
+                inversions+=idx-m;
+                Arr<span style="color: #51afef;">[</span>ptr3<span style="color: #51afef;">]</span>=arr<span style="color: #51afef;">[</span>ptr1<span style="color: #51afef;">]</span>;
+                ptr1++;
+                ptr3++;
+                <span style="color: #51afef;">continue</span>;
+            <span style="color: #a9a1e1;">}</span>
+            <span style="color: #51afef;">if</span><span style="color: #a9a1e1;">(</span>arr<span style="color: #51afef;">[</span>ptr1<span style="color: #51afef;">]</span>&lt;=arr<span style="color: #51afef;">[</span>ptr2<span style="color: #51afef;">]</span><span style="color: #a9a1e1;">)</span>
+            <span style="color: #a9a1e1;">{</span>
+                <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">idx</span>=find_index_where_just_greater<span style="color: #51afef;">(</span>m+<span style="color: #da8548; font-weight: bold;">1</span>,r,<span style="color: #ECBE7B;">arr</span>,<span style="color: #ECBE7B;">arr</span><span style="color: #c678dd;">[</span>ptr1<span style="color: #c678dd;">]</span><span style="color: #51afef;">)</span>;
+                inversions+=idx-m;
+                Arr<span style="color: #51afef;">[</span>ptr3<span style="color: #51afef;">]</span>=arr<span style="color: #51afef;">[</span>ptr1<span style="color: #51afef;">]</span>;
+                ptr1++;
+                ptr3++;
+            <span style="color: #a9a1e1;">}</span>
+            <span style="color: #51afef;">else</span>
+            <span style="color: #a9a1e1;">{</span>
+                Arr<span style="color: #51afef;">[</span>ptr3<span style="color: #51afef;">]</span>=arr<span style="color: #51afef;">[</span>ptr2<span style="color: #51afef;">]</span>;
+                ptr2++;
+                ptr3++;
+            <span style="color: #a9a1e1;">}</span>
+        <span style="color: #98be65;">}</span>
+        <span style="color: #51afef;">for</span><span style="color: #98be65;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">i</span>=l;i&lt;=r;i++<span style="color: #98be65;">)</span>
+        <span style="color: #98be65;">{</span>
+            arr<span style="color: #a9a1e1;">[</span>i<span style="color: #a9a1e1;">]</span>=Arr<span style="color: #a9a1e1;">[</span>i-l<span style="color: #a9a1e1;">]</span>;
+        <span style="color: #98be65;">}</span>
+        <span style="color: #51afef;">return</span>;
+    <span style="color: #c678dd;">}</span>
+    <span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">mergeSort</span><span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">vector</span><span style="color: #98be65;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #98be65;">&gt;</span>&amp;<span style="color: #dcaeea;">arr</span>,<span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">l</span>,<span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">r</span><span style="color: #c678dd;">)</span>
+    <span style="color: #c678dd;">{</span>
+        <span style="color: #51afef;">if</span><span style="color: #98be65;">(</span>l==r<span style="color: #98be65;">)</span>
+        <span style="color: #98be65;">{</span>
+            <span style="color: #51afef;">return</span>;
+        <span style="color: #98be65;">}</span>
+        <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">mid</span>=<span style="color: #98be65;">(</span>l+r<span style="color: #98be65;">)</span>/<span style="color: #da8548; font-weight: bold;">2</span>;
+        mergeSort<span style="color: #98be65;">(</span><span style="color: #ECBE7B;">arr</span>,l,mid<span style="color: #98be65;">)</span>;
+        mergeSort<span style="color: #98be65;">(</span><span style="color: #ECBE7B;">arr</span>,mid+<span style="color: #da8548; font-weight: bold;">1</span>,r<span style="color: #98be65;">)</span>;
+        merge<span style="color: #98be65;">(</span><span style="color: #ECBE7B;">arr</span>,l,mid,r<span style="color: #98be65;">)</span>;
+        <span style="color: #51afef;">return</span>;
+    <span style="color: #c678dd;">}</span>
+    <span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">reversePairs</span><span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">vector</span><span style="color: #98be65;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #98be65;">&gt;</span>&amp;<span style="color: #dcaeea;">nums</span><span style="color: #c678dd;">)</span>
+    <span style="color: #c678dd;">{</span>
+        mergeSort<span style="color: #98be65;">(</span>nums,<span style="color: #da8548; font-weight: bold;">0</span>,nums.size<span style="color: #a9a1e1;">()</span>-<span style="color: #da8548; font-weight: bold;">1</span><span style="color: #98be65;">)</span>;
+        <span style="color: #51afef;">return</span> inversions;
+    <span style="color: #c678dd;">}</span>
+<span style="color: #51afef;">}</span>;
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org8cce9f2" class="outline-4">
+<h4 id="org8cce9f2"><span class="section-number-4">3.3.2.</span> Using segment tree</h4>
+<div class="outline-text-4" id="text-3-3-2">
+<div class="org-src-container">
+<pre class="src src-cpp"><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">seg</span><span style="color: #51afef;">[</span><span style="color: #da8548; font-weight: bold;">1000006</span><span style="color: #51afef;">]</span>;
+<span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">update</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">ind</span>, <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">st</span>, <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">en</span>, <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">index</span><span style="color: #51afef;">)</span> <span style="color: #51afef;">{</span>
+    <span style="color: #51afef;">if</span><span style="color: #c678dd;">(</span>st == en<span style="color: #c678dd;">)</span> <span style="color: #c678dd;">{</span>
+        seg<span style="color: #98be65;">[</span>ind<span style="color: #98be65;">]</span>++;
+        <span style="color: #51afef;">return</span>;
+    <span style="color: #c678dd;">}</span>
+    <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">mid</span> = <span style="color: #c678dd;">(</span>st + en<span style="color: #c678dd;">)</span> &gt;&gt; <span style="color: #da8548; font-weight: bold;">1</span>;
+    <span style="color: #51afef;">if</span><span style="color: #c678dd;">(</span>index &lt;= mid<span style="color: #c678dd;">)</span> <span style="color: #c678dd;">{</span>
+        update<span style="color: #98be65;">(</span><span style="color: #da8548; font-weight: bold;">2</span> * ind + <span style="color: #da8548; font-weight: bold;">1</span>, st, mid, index<span style="color: #98be65;">)</span>;
+    <span style="color: #c678dd;">}</span>
+    <span style="color: #51afef;">else</span> <span style="color: #c678dd;">{</span>
+        update<span style="color: #98be65;">(</span><span style="color: #da8548; font-weight: bold;">2</span> * ind + <span style="color: #da8548; font-weight: bold;">2</span>, mid + <span style="color: #da8548; font-weight: bold;">1</span>, en, index<span style="color: #98be65;">)</span>;
+    <span style="color: #c678dd;">}</span>
+    seg<span style="color: #c678dd;">[</span>ind<span style="color: #c678dd;">]</span> = seg<span style="color: #c678dd;">[</span><span style="color: #da8548; font-weight: bold;">2</span> * ind + <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #c678dd;">]</span> + seg<span style="color: #c678dd;">[</span><span style="color: #da8548; font-weight: bold;">2</span> * ind + <span style="color: #da8548; font-weight: bold;">2</span><span style="color: #c678dd;">]</span>;
+<span style="color: #51afef;">}</span>
+<span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">query</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">ind</span>, <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">st</span>, <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">en</span>, <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">l</span>, <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">r</span><span style="color: #51afef;">)</span> <span style="color: #51afef;">{</span>
+    <span style="color: #51afef;">if</span><span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">en</span> <span style="color: #98be65;">&lt;</span> l || st <span style="color: #98be65;">&gt;</span> <span style="color: #dcaeea;">r</span> || st &gt; en<span style="color: #c678dd;">)</span> <span style="color: #c678dd;">{</span>
+        <span style="color: #51afef;">return</span> <span style="color: #da8548; font-weight: bold;">0</span>;
+    <span style="color: #c678dd;">}</span>
+    <span style="color: #51afef;">if</span><span style="color: #c678dd;">(</span>l &lt;= st &amp;&amp; en &lt;= r<span style="color: #c678dd;">)</span> <span style="color: #c678dd;">{</span>
+        <span style="color: #51afef;">return</span> seg<span style="color: #98be65;">[</span>ind<span style="color: #98be65;">]</span>;
+    <span style="color: #c678dd;">}</span>
+    <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">mid</span> = <span style="color: #c678dd;">(</span>st + en<span style="color: #c678dd;">)</span> &gt;&gt; <span style="color: #da8548; font-weight: bold;">1</span>;
+    <span style="color: #51afef;">return</span> query<span style="color: #c678dd;">(</span><span style="color: #da8548; font-weight: bold;">2</span> * ind + <span style="color: #da8548; font-weight: bold;">1</span>, st, mid, l, r<span style="color: #c678dd;">)</span> + query<span style="color: #c678dd;">(</span><span style="color: #da8548; font-weight: bold;">2</span> * ind + <span style="color: #da8548; font-weight: bold;">2</span>, mid + <span style="color: #da8548; font-weight: bold;">1</span>, en, l, r<span style="color: #c678dd;">)</span>;
+<span style="color: #51afef;">}</span>
+<span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">reversePairs</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span>&amp; <span style="color: #dcaeea;">nums</span><span style="color: #51afef;">)</span> <span style="color: #51afef;">{</span>
+    <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">n</span> = nums.size<span style="color: #c678dd;">()</span>;
+    <span style="color: #ECBE7B;">set</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">long</span> <span style="color: #ECBE7B;">long</span><span style="color: #c678dd;">&gt;</span> <span style="color: #dcaeea;">st</span><span style="color: #c678dd;">(</span>nums.begin<span style="color: #98be65;">()</span>, nums.end<span style="color: #98be65;">()</span><span style="color: #c678dd;">)</span>;
+    <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">cnt</span> = <span style="color: #da8548; font-weight: bold;">0</span>;
+    <span style="color: #ECBE7B;">unordered_map</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span>, <span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span> <span style="color: #dcaeea;">mp</span>;
+    <span style="color: #51afef;">for</span><span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">i</span> : st<span style="color: #c678dd;">)</span> <span style="color: #c678dd;">{</span>
+        mp<span style="color: #98be65;">[</span>i<span style="color: #98be65;">]</span> = cnt++;
+    <span style="color: #c678dd;">}</span>
+    <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">ans</span> = <span style="color: #da8548; font-weight: bold;">0</span>;
+    <span style="color: #51afef;">for</span><span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">i</span> = <span style="color: #da8548; font-weight: bold;">0</span>; i &lt; n; i++<span style="color: #c678dd;">)</span> <span style="color: #c678dd;">{</span>
+        <span style="color: #ECBE7B;">long</span> <span style="color: #ECBE7B;">long</span> <span style="color: #dcaeea;">rq</span> = nums<span style="color: #98be65;">[</span>i<span style="color: #98be65;">]</span> * <span style="color: #a9a1e1;">2</span><span style="color: #51afef;">ll</span> + <span style="color: #da8548; font-weight: bold;">1</span>;
+        <span style="color: #51afef;">if</span><span style="color: #98be65;">(</span>st.find<span style="color: #a9a1e1;">(</span>rq<span style="color: #a9a1e1;">)</span> != st.end<span style="color: #a9a1e1;">()</span><span style="color: #98be65;">)</span> <span style="color: #98be65;">{</span>
+            <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">l</span> = mp<span style="color: #a9a1e1;">[</span>rq<span style="color: #a9a1e1;">]</span>, <span style="color: #dcaeea;">r</span> = n - <span style="color: #da8548; font-weight: bold;">1</span>;
+            ans += query<span style="color: #a9a1e1;">(</span><span style="color: #da8548; font-weight: bold;">0</span>, <span style="color: #da8548; font-weight: bold;">0</span>, n - <span style="color: #da8548; font-weight: bold;">1</span>, l, r<span style="color: #a9a1e1;">)</span>;
+        <span style="color: #98be65;">}</span>
+        <span style="color: #51afef;">else</span> <span style="color: #98be65;">{</span>
+            <span style="color: #51afef;">auto</span> <span style="color: #dcaeea;">it</span> = st.lower_bound<span style="color: #a9a1e1;">(</span>rq<span style="color: #a9a1e1;">)</span>;
+            <span style="color: #51afef;">if</span><span style="color: #a9a1e1;">(</span>it != st.end<span style="color: #51afef;">()</span><span style="color: #a9a1e1;">)</span> <span style="color: #a9a1e1;">{</span>
+                <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">l</span> = mp<span style="color: #51afef;">[</span>*it<span style="color: #51afef;">]</span>, <span style="color: #dcaeea;">r</span> = n - <span style="color: #da8548; font-weight: bold;">1</span>;
+                ans += query<span style="color: #51afef;">(</span><span style="color: #da8548; font-weight: bold;">0</span>, <span style="color: #da8548; font-weight: bold;">0</span>, n - <span style="color: #da8548; font-weight: bold;">1</span>, l, r<span style="color: #51afef;">)</span>;
+            <span style="color: #a9a1e1;">}</span>
+        <span style="color: #98be65;">}</span>
+        update<span style="color: #98be65;">(</span><span style="color: #da8548; font-weight: bold;">0</span>, <span style="color: #da8548; font-weight: bold;">0</span>, n - <span style="color: #da8548; font-weight: bold;">1</span>, mp<span style="color: #a9a1e1;">[</span>nums<span style="color: #51afef;">[</span>i<span style="color: #51afef;">]</span><span style="color: #a9a1e1;">]</span><span style="color: #98be65;">)</span>;
+    <span style="color: #c678dd;">}</span>
+    <span style="color: #51afef;">return</span> ans;
+<span style="color: #51afef;">}</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: John Doe</p>
+<p class="date">Created: 2023-04-19 сре 00:39</p>
+</div>
+</body>
+</html>

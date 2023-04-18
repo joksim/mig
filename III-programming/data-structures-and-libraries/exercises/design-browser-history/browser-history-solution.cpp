@@ -1,48 +1,65 @@
-/*
-You have a browser of one tab where you start on the homepage and you can visit another url,
- get back in the history number of steps or move forward in the history number of steps.
-
-Implement the BrowserHistory class:
- - BrowserHistory(string homepage) Initializes the object with the homepage of the browser.
- - void visit(string url) Visits url from the current page. It clears up all the forward history.
-    string back(int steps) Move steps back in history. If you can only return x steps in the history and steps > x, you will return only x steps. Return the current url after moving back in history at most steps.
-        string forward(int steps) Move steps forward in history. If you can only forward x steps in the history and steps > x, you will forward only x steps. Return the current url after forwarding in history at most steps.
-
- */
-
-
+#include <iostream>
 #include <stack>
 #include <string>
+using std::stack;
+using std::string;
+using std::cout;
 
-using std::stack, std::string;
 
 class BrowserHistory {
-private:
-  stack<string> history; // Stack to store past pages
-  stack<string> future; // Stack to store future pages
+    stack<string> history, future;
+    string current;
 public:
-  // Constructor that takes the starting page URL and adds it to the history
-  BrowserHistory(string homepage) {
-    visit(homepage);
-  }
+    BrowserHistory(string homepage) {
+        // 'homepage' is the first visited URL.
+        current = homepage;
+    }
 
-  // Adds a new page to the history and clears the future stack
-  void visit(string url) {
-    history.push(url);
-    future = stack<string>(); // Clear the future stack
-  }
+    void visit(string url) {
+        // Push 'current' in 'history' stack and mark 'url' as 'current'.
+        history.push(current);
+        current = url;
+        // We need to delete all entries from 'future' stack.
+        future = stack<string>();
+    }
 
-  // Moves the user back a certain number of pages in the history
-  string back(int steps) {
-    while (history.size() > 1 && steps-- > 0)
-      future.push(history.top()), history.pop(); // Move pages from history to future stack
-    return history.top(); // Return the current page after navigation
-  }
+    string back(int steps) {
+        // Pop elements from 'history' stack, and push elements in 'future' stack.
+        while(steps > 0 && !history.empty()) {
+            future.push(current);
+            current = history.top();
+            history.pop();
+            steps--;
+        }
+        return current;
+    }
 
-  // Moves the user forward a certain number of pages in the future
-  string forward(int steps) {
-    while (!future.empty() && steps-- > 0)
-      history.push(future.top()), future.pop(); // Move pages from future to history stack
-    return history.top(); // Return the current page after navigation
-  }
+    string forward(int steps) {
+        // Pop elements from 'future' stack, and push elements in 'history' stack.
+        while(steps > 0 && !future.empty()) {
+            history.push(current);
+            current = future.top();
+            future.pop();
+            steps--;
+        }
+        return current;
+    }
 };
+using std::string;
+
+int main(){
+  BrowserHistory history ("https://www.google.com");
+
+  // User visits a few pages
+  history.visit("https://www.google.com/search?q=java");
+  history.visit("https://www.wikipedia.org/");
+  history.visit("https://www.amazon.com/");
+
+  // User clicks back button once
+  string previousPage = history.back(1);
+  cout << "\nUser is now on page: " << previousPage;
+
+  // User clicks forward button twice
+  string nextPage = history.forward(2);
+  cout << "\nUser is now on page: ",  nextPage;
+}
