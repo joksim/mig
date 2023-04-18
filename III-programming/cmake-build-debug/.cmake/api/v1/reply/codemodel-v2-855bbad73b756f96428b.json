@@ -1,0 +1,171 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						4
+					],
+					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.24"
+					},
+					"projectIndex" : 0,
+					"source" : "."
+				},
+				{
+					"build" : "data-structures-and-libraries",
+					"childIndexes" : 
+					[
+						2,
+						3
+					],
+					"jsonFile" : "directory-data-structures-and-libraries-Debug-af9e0281aa18c8123c45.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.24"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "data-structures-and-libraries"
+				},
+				{
+					"build" : "data-structures-and-libraries/n-queens",
+					"jsonFile" : "directory-data-structures-and-libraries.n-queens-Debug-b660785000dcdfafa28a.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.24"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 0,
+					"source" : "data-structures-and-libraries/n-queens",
+					"targetIndexes" : 
+					[
+						1
+					]
+				},
+				{
+					"build" : "data-structures-and-libraries/std-vector",
+					"jsonFile" : "directory-data-structures-and-libraries.std-vector-Debug-a72018051e4350e0e3cc.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.24"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 0,
+					"source" : "data-structures-and-libraries/std-vector",
+					"targetIndexes" : 
+					[
+						2
+					]
+				},
+				{
+					"build" : "algorithm-archetypes",
+					"childIndexes" : 
+					[
+						5,
+						6
+					],
+					"jsonFile" : "directory-algorithm-archetypes-Debug-d682c4083fd4a7e835bf.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.24"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "algorithm-archetypes"
+				},
+				{
+					"build" : "algorithm-archetypes/brute-force",
+					"jsonFile" : "directory-algorithm-archetypes.brute-force-Debug-edd3f4acc9a05b7102ca.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.24"
+					},
+					"parentIndex" : 4,
+					"projectIndex" : 0,
+					"source" : "algorithm-archetypes/brute-force"
+				},
+				{
+					"build" : "algorithm-archetypes/divide-and-conquer",
+					"jsonFile" : "directory-algorithm-archetypes.divide-and-conquer-Debug-11cea0a4711e76635f16.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.24"
+					},
+					"parentIndex" : 4,
+					"projectIndex" : 0,
+					"source" : "algorithm-archetypes/divide-and-conquer",
+					"targetIndexes" : 
+					[
+						0
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6
+					],
+					"name" : "III-programming",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 6,
+					"id" : "binary-search::@cabdf41f8f1921b20fef",
+					"jsonFile" : "target-binary-search-Debug-1f7491de3f9016eae126.json",
+					"name" : "binary-search",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "n-queens::@5ef89d842758057aff7c",
+					"jsonFile" : "target-n-queens-Debug-47402644832741a65b4e.json",
+					"name" : "n-queens",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "std-vector-usage::@692e35a8684c3fa93e4f",
+					"jsonFile" : "target-std-vector-usage-Debug-a5ba0d114fa3d3da7232.json",
+					"name" : "std-vector-usage",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/joksim/io/MIG/mig/III-programming/cmake-build-debug",
+		"source" : "/home/joksim/io/MIG/mig/III-programming"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 4
+	}
+}

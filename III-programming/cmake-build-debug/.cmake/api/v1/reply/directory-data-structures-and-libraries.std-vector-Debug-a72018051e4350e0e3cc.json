@@ -1,0 +1,14 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : [],
+		"nodes" : []
+	},
+	"installers" : [],
+	"paths" : 
+	{
+		"build" : "data-structures-and-libraries/std-vector",
+		"source" : "data-structures-and-libraries/std-vector"
+	}
+}
