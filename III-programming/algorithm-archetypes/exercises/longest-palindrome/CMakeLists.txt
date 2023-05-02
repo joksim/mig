@@ -1,0 +1,1 @@
+add_executable(longest-palindrome longest-palindrome.cpp)

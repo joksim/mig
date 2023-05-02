@@ -1,0 +1,120 @@
+* Fractional Knapsack
+** Problem
+Given the weights and profits of ~N~ items, in the form of ~{profit, weight}~
+put these items in a knapsack of capacity ~W~ to get the maximum total profit in the knapsack.
+
+In Fractional Knapsack, we can break items for maximizing the total value of the knapsack.
+
+** Input
+#+begin_example
+Input: arr[] = {{60, 10}, {100, 20}, {120, 30}}, W = 50
+Output: 240
+
+Explanation: By taking items of weight 10 and 20 kg and 2/3 fraction of 30 kg.
+
+Hence total price will be 60+100+(2/3)(120) = 240
+
+Input:  arr[] = {{500, 30}}, W = 10
+Output: 166.667
+#+end_example
+
+** Naive Approach
+Try all possible subsets with all different fractions.
+
+Time Complexity: $O(2^N)$
+Auxiliary Space: $O(N)$
+
+** Greedy approach
+The basic idea of the greedy approach is to calculate the ratio ~profit/weight~ for each item and sort the item on the basis of this ratio.
+Then take the item with the highest ratio and add them as much as we can (can be the whole element or a fraction of it).
+
+This will always give the maximum profit because, in each step it adds an element such that this is the maximum possible profit for that much weight.
+
+*** Example
+#+begin_example
+arr[] = {{100, 20}, {60, 10}, {120, 30}}, W = 50.
+
+Sorting: Initially sort the array based on the profit/weight ratio. The sorted array will be {{60, 10}, {100, 20}, {120, 30}}.
+
+Iteration:
+- For i = 0, weight = 10 which is less than W. So add this element in the knapsack. profit = 60 and remaining W = 50 – 10 = 40.
+- For i = 1, weight = 20 which is less than W. So add this element too. profit = 60 + 100 = 160 and remaining W = 40 – 20 = 20.
+- For i = 2, weight = 30 is greater than W. So add 20/30 fraction = 2/3 fraction of the element. Therefore profit = 2/3 * 120 + 160 = 80 + 160 = 240 and remaining W becomes 0.
+
+So the final profit becomes 240 for W = 50.
+#+end_example
+
+** Example solution
+#+begin_src cpp
+
+// C++ program to solve fractional Knapsack Problem
+
+#include <bits/stdc++.h>
+using namespace std;
+
+// Structure for an item which stores weight and
+// corresponding value of Item
+struct Item {
+    int profit, weight;
+
+    // Constructor
+    Item(int profit, int weight)
+    {
+        this->profit = profit;
+        this->weight = weight;
+    }
+};
+
+// Comparison function to sort Item
+// according to profit/weight ratio
+static bool cmp(struct Item a, struct Item b)
+{
+    double r1 = (double)a.profit / (double)a.weight;
+    double r2 = (double)b.profit / (double)b.weight;
+    return r1 > r2;
+}
+
+// Main greedy function to solve problem
+double fractionalKnapsack(int W, struct Item arr[], int N)
+{
+    // Sorting Item on basis of ratio
+    sort(arr, arr + N, cmp);
+
+    double finalvalue = 0.0;
+
+    // Looping through all items
+    for (int i = 0; i < N; i++) {
+
+        // If adding Item won't overflow,
+        // add it completely
+        if (arr[i].weight <= W) {
+            W -= arr[i].weight;
+            finalvalue += arr[i].profit;
+        }
+
+        // If we can't add current Item,
+        // add fractional part of it
+        else {
+            finalvalue
+                += arr[i].profit
+                   * ((double)W / (double)arr[i].weight);
+            break;
+        }
+    }
+
+    // Returning final value
+    return finalvalue;
+}
+
+// Driver code
+int main()
+{
+    int W = 50;
+    Item arr[] = { { 60, 10 }, { 100, 20 }, { 120, 30 } };
+    int N = sizeof(arr) / sizeof(arr[0]);
+
+    // Function call
+    cout << fractionalKnapsack(W, arr, N);
+    return 0;
+}
+#+end_src

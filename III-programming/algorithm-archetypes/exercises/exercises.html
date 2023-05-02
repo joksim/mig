@@ -1,0 +1,645 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2023-05-02 Tue 19:59 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Programming exercises #2</title>
+<meta name="generator" content="Org Mode" />
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/readtheorg.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/js/readtheorg.js"></script>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">Programming exercises #2</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org2d76213">1. Fractional Knapsack</a></li>
+<li><a href="#org80e81c8">2. Longest Palindrome</a></li>
+<li><a href="#org57b6a8f">3. Maximum Subarray</a></li>
+<li><a href="#org008304a">4. Create Maximum Number</a></li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-org2d76213" class="outline-2">
+<h2 id="org2d76213"><span class="section-number-2">1.</span> Fractional Knapsack</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-orgbd5d29c" class="outline-3">
+<h3 id="orgbd5d29c"><span class="section-number-3">1.1.</span> Problem</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+Given the weights and profits of <code>N</code> items, in the form of <code>{profit, weight}</code>
+put these items in a knapsack of capacity <code>W</code> to get the maximum total profit in the knapsack.
+</p>
+
+<p>
+In Fractional Knapsack, we can break items for maximizing the total value of the knapsack.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org079d65d" class="outline-3">
+<h3 id="org079d65d"><span class="section-number-3">1.2.</span> Input</h3>
+<div class="outline-text-3" id="text-1-2">
+<pre class="example" id="orgd9504bd">
+Input: arr[] = {{60, 10}, {100, 20}, {120, 30}}, W = 50
+Output: 240
+
+Explanation: By taking items of weight 10 and 20 kg and 2/3 fraction of 30 kg.
+
+Hence total price will be 60+100+(2/3)(120) = 240
+
+Input:  arr[] = {{500, 30}}, W = 10
+Output: 166.667
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgc87d7fd" class="outline-3">
+<h3 id="orgc87d7fd"><span class="section-number-3">1.3.</span> Naive Approach</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+Try all possible subsets with all different fractions.
+</p>
+
+<p>
+Time Complexity: \(O(2^N)\)
+Auxiliary Space: \(O(N)\)
+</p>
+</div>
+</div>
+
+<div id="outline-container-org10953d2" class="outline-3">
+<h3 id="org10953d2"><span class="section-number-3">1.4.</span> Greedy approach</h3>
+<div class="outline-text-3" id="text-1-4">
+<p>
+The basic idea of the greedy approach is to calculate the ratio <code>profit/weight</code> for each item and sort the item on the basis of this ratio.
+Then take the item with the highest ratio and add them as much as we can (can be the whole element or a fraction of it).
+</p>
+
+<p>
+This will always give the maximum profit because, in each step it adds an element such that this is the maximum possible profit for that much weight.
+</p>
+</div>
+
+<div id="outline-container-orgc4b8a9a" class="outline-4">
+<h4 id="orgc4b8a9a"><span class="section-number-4">1.4.1.</span> Example</h4>
+<div class="outline-text-4" id="text-1-4-1">
+<pre class="example" id="org0e6c4b7">
+arr[] = {{100, 20}, {60, 10}, {120, 30}}, W = 50.
+
+Sorting: Initially sort the array based on the profit/weight ratio. The sorted array will be {{60, 10}, {100, 20}, {120, 30}}.
+
+Iteration:
+- For i = 0, weight = 10 which is less than W. So add this element in the knapsack. profit = 60 and remaining W = 50 – 10 = 40.
+- For i = 1, weight = 20 which is less than W. So add this element too. profit = 60 + 100 = 160 and remaining W = 40 – 20 = 20.
+- For i = 2, weight = 30 is greater than W. So add 20/30 fraction = 2/3 fraction of the element. Therefore profit = 2/3 * 120 + 160 = 80 + 160 = 240 and remaining W becomes 0.
+
+So the final profit becomes 240 for W = 50.
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org6153993" class="outline-3">
+<h3 id="org6153993"><span class="section-number-3">1.5.</span> Example solution</h3>
+<div class="outline-text-3" id="text-1-5">
+<div class="org-src-container">
+<pre class="src src-cpp">
+<span style="color: #5B6268;">// </span><span style="color: #5B6268;">C++ program to solve fractional Knapsack Problem</span>
+
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #51afef;">&lt;</span><span style="color: #98be65;">bits/stdc++.h</span><span style="color: #51afef;">&gt;</span>
+<span style="color: #51afef;">using</span> <span style="color: #51afef;">namespace</span> <span style="color: #a9a1e1;">std</span>;
+
+<span style="color: #5B6268;">// </span><span style="color: #5B6268;">Structure for an item which stores weight and</span>
+<span style="color: #5B6268;">// </span><span style="color: #5B6268;">corresponding value of Item</span>
+<span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">Item</span> <span style="color: #51afef;">{</span>
+    <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">profit</span>, <span style="color: #dcaeea;">weight</span>;
+
+    <span style="color: #5B6268;">// </span><span style="color: #5B6268;">Constructor</span>
+    <span style="color: #c678dd;">Item</span><span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">profit</span>, <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">weight</span><span style="color: #c678dd;">)</span>
+    <span style="color: #c678dd;">{</span>
+        <span style="color: #51afef;">this</span>-&gt;profit = profit;
+        <span style="color: #51afef;">this</span>-&gt;weight = weight;
+    <span style="color: #c678dd;">}</span>
+<span style="color: #51afef;">}</span>;
+
+<span style="color: #5B6268;">// </span><span style="color: #5B6268;">Comparison function to sort Item</span>
+<span style="color: #5B6268;">// </span><span style="color: #5B6268;">according to profit/weight ratio</span>
+<span style="color: #51afef;">static</span> <span style="color: #ECBE7B;">bool</span> <span style="color: #c678dd;">cmp</span><span style="color: #51afef;">(</span><span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">Item</span> <span style="color: #dcaeea;">a</span>, <span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">Item</span> <span style="color: #dcaeea;">b</span><span style="color: #51afef;">)</span>
+<span style="color: #51afef;">{</span>
+    <span style="color: #ECBE7B;">double</span> <span style="color: #dcaeea;">r1</span> = <span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">double</span><span style="color: #c678dd;">)</span>a.profit / <span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">double</span><span style="color: #c678dd;">)</span>a.weight;
+    <span style="color: #ECBE7B;">double</span> <span style="color: #dcaeea;">r2</span> = <span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">double</span><span style="color: #c678dd;">)</span>b.profit / <span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">double</span><span style="color: #c678dd;">)</span>b.weight;
+    <span style="color: #51afef;">return</span> r1 &gt; r2;
+<span style="color: #51afef;">}</span>
+
+<span style="color: #5B6268;">// </span><span style="color: #5B6268;">Main greedy function to solve problem</span>
+<span style="color: #ECBE7B;">double</span> <span style="color: #c678dd;">fractionalKnapsack</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">W</span>, <span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">Item</span> <span style="color: #dcaeea;">arr</span><span style="color: #c678dd;">[]</span>, <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">N</span><span style="color: #51afef;">)</span>
+<span style="color: #51afef;">{</span>
+    <span style="color: #5B6268;">// </span><span style="color: #5B6268;">Sorting Item on basis of ratio</span>
+    sort<span style="color: #c678dd;">(</span>arr, arr + N, cmp<span style="color: #c678dd;">)</span>;
+
+    <span style="color: #ECBE7B;">double</span> <span style="color: #dcaeea;">finalvalue</span> = <span style="color: #da8548; font-weight: bold;">0.0</span>;
+
+    <span style="color: #5B6268;">// </span><span style="color: #5B6268;">Looping through all items</span>
+    <span style="color: #51afef;">for</span> <span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">i</span> = <span style="color: #da8548; font-weight: bold;">0</span>; i &lt; N; i++<span style="color: #c678dd;">)</span> <span style="color: #c678dd;">{</span>
+
+        <span style="color: #5B6268;">// </span><span style="color: #5B6268;">If adding Item won't overflow,</span>
+        <span style="color: #5B6268;">// </span><span style="color: #5B6268;">add it completely</span>
+        <span style="color: #51afef;">if</span> <span style="color: #98be65;">(</span>arr<span style="color: #a9a1e1;">[</span>i<span style="color: #a9a1e1;">]</span>.weight &lt;= W<span style="color: #98be65;">)</span> <span style="color: #98be65;">{</span>
+            W -= arr<span style="color: #a9a1e1;">[</span>i<span style="color: #a9a1e1;">]</span>.weight;
+            finalvalue += arr<span style="color: #a9a1e1;">[</span>i<span style="color: #a9a1e1;">]</span>.profit;
+        <span style="color: #98be65;">}</span>
+
+        <span style="color: #5B6268;">// </span><span style="color: #5B6268;">If we can't add current Item,</span>
+        <span style="color: #5B6268;">// </span><span style="color: #5B6268;">add fractional part of it</span>
+        <span style="color: #51afef;">else</span> <span style="color: #98be65;">{</span>
+            finalvalue
+                += arr<span style="color: #a9a1e1;">[</span>i<span style="color: #a9a1e1;">]</span>.profit
+                   * <span style="color: #a9a1e1;">(</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">double</span><span style="color: #51afef;">)</span>W / <span style="color: #51afef;">(</span><span style="color: #ECBE7B;">double</span><span style="color: #51afef;">)</span>arr<span style="color: #51afef;">[</span>i<span style="color: #51afef;">]</span>.weight<span style="color: #a9a1e1;">)</span>;
+            <span style="color: #51afef;">break</span>;
+        <span style="color: #98be65;">}</span>
+    <span style="color: #c678dd;">}</span>
+
+    <span style="color: #5B6268;">// </span><span style="color: #5B6268;">Returning final value</span>
+    <span style="color: #51afef;">return</span> finalvalue;
+<span style="color: #51afef;">}</span>
+
+<span style="color: #5B6268;">// </span><span style="color: #5B6268;">Driver code</span>
+<span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">main</span><span style="color: #51afef;">()</span>
+<span style="color: #51afef;">{</span>
+    <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">W</span> = <span style="color: #da8548; font-weight: bold;">50</span>;
+    <span style="color: #ECBE7B;">Item</span> <span style="color: #dcaeea;">arr</span><span style="color: #c678dd;">[]</span> = <span style="color: #c678dd;">{</span> <span style="color: #98be65;">{</span> <span style="color: #da8548; font-weight: bold;">60</span>, <span style="color: #da8548; font-weight: bold;">10</span> <span style="color: #98be65;">}</span>, <span style="color: #98be65;">{</span> <span style="color: #da8548; font-weight: bold;">100</span>, <span style="color: #da8548; font-weight: bold;">20</span> <span style="color: #98be65;">}</span>, <span style="color: #98be65;">{</span> <span style="color: #da8548; font-weight: bold;">120</span>, <span style="color: #da8548; font-weight: bold;">30</span> <span style="color: #98be65;">}</span> <span style="color: #c678dd;">}</span>;
+    <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">N</span> = <span style="color: #51afef;">sizeof</span><span style="color: #c678dd;">(</span>arr<span style="color: #c678dd;">)</span> / <span style="color: #51afef;">sizeof</span><span style="color: #c678dd;">(</span>arr<span style="color: #98be65;">[</span><span style="color: #da8548; font-weight: bold;">0</span><span style="color: #98be65;">]</span><span style="color: #c678dd;">)</span>;
+
+    <span style="color: #5B6268;">// </span><span style="color: #5B6268;">Function call</span>
+    cout &lt;&lt; fractionalKnapsack<span style="color: #c678dd;">(</span>W, arr, N<span style="color: #c678dd;">)</span>;
+    <span style="color: #51afef;">return</span> <span style="color: #da8548; font-weight: bold;">0</span>;
+<span style="color: #51afef;">}</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org80e81c8" class="outline-2">
+<h2 id="org80e81c8"><span class="section-number-2">2.</span> Longest Palindrome</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Given a string <code>s</code> which consists of lowercase or uppercase letters, return the length of the longest palindrome that can be built with those letters.
+</p>
+
+<p>
+Letters are case sensitive, for example, <code>"Aa"</code> is not considered a palindrome here.
+</p>
+</div>
+
+<div id="outline-container-org3fd6175" class="outline-3">
+<h3 id="org3fd6175"><span class="section-number-3">2.1.</span> Examples</h3>
+<div class="outline-text-3" id="text-2-1">
+</div>
+<div id="outline-container-org6442d8f" class="outline-4">
+<h4 id="org6442d8f"><span class="section-number-4">2.1.1.</span> Example 1</h4>
+<div class="outline-text-4" id="text-2-1-1">
+<pre class="example" id="org9d73f6d">
+Input: s = "abccccdd"
+Output: 7
+</pre>
+<p>
+Explanation: One longest palindrome that can be built is <code>"dccaccd"</code>, whose length is 7.
+</p>
+</div>
+</div>
+<div id="outline-container-org9085a3e" class="outline-4">
+<h4 id="org9085a3e"><span class="section-number-4">2.1.2.</span> Example 2</h4>
+<div class="outline-text-4" id="text-2-1-2">
+<pre class="example" id="orgab47a85">
+Input: s = "a"
+Output: 1
+</pre>
+<p>
+Explanation: The longest palindrome that can be built is <code>"a"</code>, whose length is 1.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge883b0c" class="outline-3">
+<h3 id="orge883b0c"><span class="section-number-3">2.2.</span> Constraints:</h3>
+<div class="outline-text-3" id="text-2-2">
+<ul class="org-ul">
+<li>\(1 \le s.length \le 2000\)</li>
+<li><code>s</code> consists of lowercase and/or uppercase English letters only.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org758b962" class="outline-3">
+<h3 id="org758b962"><span class="section-number-3">2.3.</span> Solution</h3>
+<div class="outline-text-3" id="text-2-3">
+</div>
+<div id="outline-container-org141523d" class="outline-4">
+<h4 id="org141523d"><span class="section-number-4">2.3.1.</span> Greedy approach using hashmaps</h4>
+<div class="outline-text-4" id="text-2-3-1">
+<p>
+To get a palindrome from a group of characters, the group of characters should have some constraints:
+</p>
+
+<ol class="org-ol">
+<li>Every letter must appear <b>even</b> number of times like <code>"aabb"</code> or <code>"baba"</code> in any order it doesn&rsquo;t matter, what matters is that we have <b>2 a</b> and <b>2 b</b> which are even numbers and at the end it can be converted to a palindrome in our case <code>"abba"</code> or <code>"baab"</code>. The exception is that <b>one letter may appear an odd number of times</b> like <code>"abcba"</code> where we have <code>1 c</code> but it&rsquo;s not a problem as long as it&rsquo;s only one letter that appears an odd number of times.</li>
+<li>If there is only one letter type then it must appear an odd number of times like <code>"a"</code> or <code>"aaa"</code> or <code>"aaaaa"</code> etc..</li>
+</ol>
+</div>
+
+<ol class="org-ol">
+<li><a id="org91f9d95"></a>Algorithm:<br />
+<div class="outline-text-5" id="text-2-3-1-1">
+<ol class="org-ol">
+<li>Get the number of times each letter appears (letter frequency).</li>
+<li>Get how many characters appear an odd number of times.</li>
+<li>Return your the number of all characters &#x2013; the number of characters that appear an odd number of times.</li>
+</ol>
+
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">longestPalindrome_array</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">string</span> <span style="color: #dcaeea;">s</span><span style="color: #51afef;">)</span> <span style="color: #51afef;">{</span>
+    <span style="color: #5B6268;">//</span><span style="color: #5B6268;">Get every character frequency in an array</span>
+    <span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span> <span style="color: #dcaeea;">freqCount</span><span style="color: #c678dd;">(</span><span style="color: #da8548; font-weight: bold;">128</span><span style="color: #c678dd;">)</span>; <span style="color: #5B6268;">// </span><span style="color: #5B6268;">working with the lower ASCII subset</span>
+    <span style="color: #51afef;">for</span> <span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">char</span> <span style="color: #dcaeea;">c</span> : s<span style="color: #c678dd;">)</span>
+        freqCount<span style="color: #c678dd;">[</span>c<span style="color: #c678dd;">]</span>++;
+
+    <span style="color: #5B6268;">/* </span><span style="color: #5B6268;">Get how many characters have an odd frequency.</span><span style="color: #5B6268;">*/</span>
+    <span style="color: #5B6268;">/* </span><span style="color: #5B6268;">because of the exception that</span>
+<span style="color: #5B6268;">one character may have odd frequency, we will set oddCount to -1</span><span style="color: #5B6268;"> */</span>
+    <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">oddCount</span> = -<span style="color: #da8548; font-weight: bold;">1</span>;
+    <span style="color: #51afef;">for</span> <span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">v</span> : freqCount<span style="color: #c678dd;">)</span> <span style="color: #c678dd;">{</span>
+        <span style="color: #51afef;">if</span> <span style="color: #98be65;">(</span>v % <span style="color: #da8548; font-weight: bold;">2</span><span style="color: #98be65;">)</span> oddCount++;
+    <span style="color: #c678dd;">}</span>
+    <span style="color: #5B6268;">/* </span><span style="color: #5B6268;">Return your the number of all characters -</span>
+<span style="color: #5B6268;">the number of characters that appear an odd number of times.</span><span style="color: #5B6268;"> */</span>
+    <span style="color: #5B6268;">// </span><span style="color: #5B6268;">if there is no letter with odd frequency return full length</span>
+    <span style="color: #51afef;">return</span> <span style="color: #c678dd;">(</span>oddCount &gt; <span style="color: #da8548; font-weight: bold;">0</span><span style="color: #c678dd;">)</span> ? s.length<span style="color: #c678dd;">()</span> - oddCount: s.length<span style="color: #c678dd;">()</span>;
+<span style="color: #51afef;">}</span>
+</pre>
+</div>
+
+<p>
+Alternative solution using <code>unordered_map</code>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">longestPalindrome_umap</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">string</span> <span style="color: #dcaeea;">s</span><span style="color: #51afef;">)</span> <span style="color: #51afef;">{</span>
+    <span style="color: #a9a1e1;">std</span>::<span style="color: #ECBE7B;">unordered_map</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">char</span>,<span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span> <span style="color: #dcaeea;">mp</span>;
+    <span style="color: #51afef;">for</span><span style="color: #c678dd;">(</span><span style="color: #51afef;">auto</span>&amp;<span style="color: #dcaeea;">i</span>:s<span style="color: #c678dd;">)</span> mp<span style="color: #c678dd;">[</span>i<span style="color: #c678dd;">]</span>++;
+
+    <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">evenLen</span>=<span style="color: #da8548; font-weight: bold;">0</span>, <span style="color: #dcaeea;">longestPalindrome</span>=<span style="color: #da8548; font-weight: bold;">0</span> , <span style="color: #dcaeea;">oddLen</span>=<span style="color: #da8548; font-weight: bold;">0</span>;
+    <span style="color: #ECBE7B;">bool</span> <span style="color: #dcaeea;">visited</span>=<span style="color: #da8548; font-weight: bold;">0</span>;
+    <span style="color: #51afef;">for</span><span style="color: #c678dd;">(</span><span style="color: #51afef;">auto</span>&amp;<span style="color: #dcaeea;">it</span>:mp<span style="color: #c678dd;">){</span>
+        <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">freq</span> = it.second ;
+
+        <span style="color: #5B6268;">//</span><span style="color: #5B6268;">take all freq if even number of times</span>
+        <span style="color: #51afef;">if</span><span style="color: #98be65;">(</span><span style="color: #51afef; font-weight: bold;">!</span><span style="color: #a9a1e1;">(</span>freq&amp;<span style="color: #da8548; font-weight: bold;">1</span><span style="color: #a9a1e1;">)</span><span style="color: #98be65;">){</span>
+            evenLen+=freq;
+        <span style="color: #98be65;">}</span>
+        <span style="color: #51afef;">else</span> <span style="color: #51afef;">if</span><span style="color: #98be65;">(</span>freq&amp;<span style="color: #da8548; font-weight: bold;">1</span><span style="color: #98be65;">){</span>
+            <span style="color: #5B6268;">//</span><span style="color: #5B6268;">a-&gt;3,b-&gt;5,c-&gt;7 --&gt; take c (7) all and rest freq-1 times i.e a-&gt;2 and b-&gt;4 , take max one time and left one freq-1 times</span>
+            visited=<span style="color: #da8548; font-weight: bold;">1</span>;
+            oddLen+=freq-<span style="color: #da8548; font-weight: bold;">1</span>;
+        <span style="color: #98be65;">}</span>
+    <span style="color: #c678dd;">}</span>
+
+    longestPalindrome = evenLen;
+
+    <span style="color: #51afef;">if</span><span style="color: #c678dd;">(</span>visited<span style="color: #c678dd;">){</span>
+        longestPalindrome+=oddLen+<span style="color: #da8548; font-weight: bold;">1</span>; <span style="color: #5B6268;">//</span><span style="color: #5B6268;">+1 bcs max freq was taken freq-1 times above so make it freq times</span>
+    <span style="color: #c678dd;">}</span>
+
+    <span style="color: #51afef;">return</span> longestPalindrome;
+
+<span style="color: #51afef;">}</span>
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org57b6a8f" class="outline-2">
+<h2 id="org57b6a8f"><span class="section-number-2">3.</span> Maximum Subarray</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Given an integer array <code>nums</code>, find the  subarray with the largest sum, and return its sum.
+</p>
+</div>
+
+<div id="outline-container-org663a3a0" class="outline-3">
+<h3 id="org663a3a0"><span class="section-number-3">3.1.</span> Examples</h3>
+<div class="outline-text-3" id="text-3-1">
+<pre class="example" id="org2117362">
+Input: nums = [-2,1,-3,4,-1,2,1,-5,4]
+Output: 6
+</pre>
+
+<p>
+Explanation: The subarray [4,-1,2,1] has the largest sum 6.
+</p>
+
+<pre class="example" id="org3cc8dba">
+Input: nums = [1]
+Output: 1
+</pre>
+
+<p>
+Explanation: The subarray [1] has the largest sum 1.
+</p>
+
+<pre class="example" id="org6809c6a">
+Input: nums = [5,4,-1,7,8]
+Output: 23
+</pre>
+<p>
+Explanation: The subarray [5,4,-1,7,8] has the largest sum 23.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org5f101aa" class="outline-3">
+<h3 id="org5f101aa"><span class="section-number-3">3.2.</span> Constraints:</h3>
+<div class="outline-text-3" id="text-3-2">
+<ul class="org-ul">
+<li>\(1 <= nums.length <= 10^5\)</li>
+<li>\(-10^4 <= nums[i] <= 10^4\)</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org1928206" class="outline-3">
+<h3 id="org1928206"><span class="section-number-3">3.3.</span> Solutions</h3>
+<div class="outline-text-3" id="text-3-3">
+</div>
+<div id="outline-container-org961e35c" class="outline-4">
+<h4 id="org961e35c"><span class="section-number-4">3.3.1.</span> Brute force</h4>
+<div class="outline-text-4" id="text-3-3-1">
+<p>
+We can start with brute-force by trying out every possible sub-array in \(nums\) and choosing the one with maximum sum.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">maxSubArray_bf</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span> &amp;<span style="color: #dcaeea;">nums</span><span style="color: #51afef;">)</span> <span style="color: #51afef;">{</span>
+    <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">n</span> = size<span style="color: #c678dd;">(</span>nums<span style="color: #c678dd;">)</span>, <span style="color: #dcaeea;">ans</span> = <span style="color: #a9a1e1;">INT_MIN</span>;
+    <span style="color: #51afef;">for</span> <span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">i</span> = <span style="color: #da8548; font-weight: bold;">0</span>; i &lt; n; i++<span style="color: #c678dd;">)</span>
+        <span style="color: #51afef;">for</span> <span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">j</span> = i, <span style="color: #dcaeea;">curSum</span> = <span style="color: #da8548; font-weight: bold;">0</span>; j &lt; n; j++<span style="color: #c678dd;">)</span>
+            curSum += nums<span style="color: #c678dd;">[</span>j<span style="color: #c678dd;">]</span>,
+                    ans = max<span style="color: #c678dd;">(</span>ans, curSum<span style="color: #c678dd;">)</span>;
+    <span style="color: #51afef;">return</span> ans;
+<span style="color: #51afef;">}</span>
+</pre>
+</div>
+
+
+<dl class="org-dl">
+<dt>Time Complexity</dt><dd>\(O(N^2)\), where \(N\) is the number of elements in <code>nums</code>. There are \(N*(N+1)/2\) total sub-arrays and trying out each one takes time of \(O(N^2)\)</dd>
+<dt>Space Complexity</dt><dd>\(O(1)\)</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org773084c" class="outline-4">
+<h4 id="org773084c"><span class="section-number-4">3.3.2.</span> Divide &amp; conquer</h4>
+<div class="outline-text-4" id="text-3-3-2">
+<p>
+We can solve this using divide and conquer strategy. This is the follow-up question asked in this question. This involves modelling the problem by observing that the maximum subarray sum is such that it lies somewhere:
+</p>
+<ul class="org-ul">
+<li>entirely in the left-half of array <code>[L, mid-1]</code>, OR</li>
+<li>entirely in the right-half of array <code>[mid+1, R]</code>, OR</li>
+<li>in array consisting of mid element along with some part of left-half and some part of right-half such that these form contiguous subarray - <code>[L', R'] = [L', mid-1] + [mid] + [mid+1,R']</code>, where <code>L' &gt;= L</code> and <code>R' &lt;= R</code>.</li>
+</ul>
+
+<p>
+With the above observation, we can recursively divide the array into sub-problems on the left and right halves and then combine these results on the way back up to find the maximum subarray sum.
+</p>
+
+
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">maxSubArray_dq</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span> &amp;<span style="color: #dcaeea;">nums</span><span style="color: #51afef;">)</span> <span style="color: #51afef;">{</span>
+    <span style="color: #51afef;">return</span> maxSubArray_dq<span style="color: #c678dd;">(</span>nums, <span style="color: #da8548; font-weight: bold;">0</span>, size<span style="color: #98be65;">(</span>nums<span style="color: #98be65;">)</span> - <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #c678dd;">)</span>;
+<span style="color: #51afef;">}</span>
+
+<span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">maxSubArray_dq</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span> &amp;<span style="color: #dcaeea;">A</span>, <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">L</span>, <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">R</span><span style="color: #51afef;">)</span> <span style="color: #51afef;">{</span>
+    <span style="color: #51afef;">if</span> <span style="color: #c678dd;">(</span>L &gt; R<span style="color: #c678dd;">)</span> <span style="color: #51afef;">return</span> <span style="color: #a9a1e1;">INT_MIN</span>;
+    <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">mid</span> = <span style="color: #c678dd;">(</span>L + R<span style="color: #c678dd;">)</span> / <span style="color: #da8548; font-weight: bold;">2</span>, <span style="color: #dcaeea;">leftSum</span> = <span style="color: #da8548; font-weight: bold;">0</span>, <span style="color: #dcaeea;">rightSum</span> = <span style="color: #da8548; font-weight: bold;">0</span>;
+    <span style="color: #5B6268;">// </span><span style="color: #5B6268;">leftSum = max subarray sum in [L, mid-1] and starting from mid-1</span>
+    <span style="color: #51afef;">for</span> <span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">i</span> = mid - <span style="color: #da8548; font-weight: bold;">1</span>, <span style="color: #dcaeea;">curSum</span> = <span style="color: #da8548; font-weight: bold;">0</span>; i &gt;= L; i--<span style="color: #c678dd;">)</span>
+        curSum += A<span style="color: #c678dd;">[</span>i<span style="color: #c678dd;">]</span>,
+                leftSum = max<span style="color: #c678dd;">(</span>leftSum, curSum<span style="color: #c678dd;">)</span>;
+    <span style="color: #5B6268;">// </span><span style="color: #5B6268;">rightSum = max subarray sum in [mid+1, R] and starting from mid+1</span>
+    <span style="color: #51afef;">for</span> <span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">i</span> = mid + <span style="color: #da8548; font-weight: bold;">1</span>, <span style="color: #dcaeea;">curSum</span> = <span style="color: #da8548; font-weight: bold;">0</span>; i &lt;= R; i++<span style="color: #c678dd;">)</span>
+        curSum += A<span style="color: #c678dd;">[</span>i<span style="color: #c678dd;">]</span>,
+                rightSum = max<span style="color: #c678dd;">(</span>rightSum, curSum<span style="color: #c678dd;">)</span>;
+    <span style="color: #5B6268;">// </span><span style="color: #5B6268;">return max of 3 cases</span>
+    <span style="color: #51afef;">return</span> max<span style="color: #c678dd;">(</span><span style="color: #98be65;">{</span>maxSubArray_dq<span style="color: #a9a1e1;">(</span>A, L, mid - <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #a9a1e1;">)</span>, maxSubArray_dq<span style="color: #a9a1e1;">(</span>A, mid + <span style="color: #da8548; font-weight: bold;">1</span>, R<span style="color: #a9a1e1;">)</span>, leftSum + A<span style="color: #a9a1e1;">[</span>mid<span style="color: #a9a1e1;">]</span> + rightSum<span style="color: #98be65;">}</span><span style="color: #c678dd;">)</span>;
+<span style="color: #51afef;">}</span>
+</pre>
+</div>
+
+<dl class="org-dl">
+<dt>Time Complexity</dt><dd>\(O(NlogN)\), the recurrence relation can be written as \(T(N) = 2T(N/2) + O(N)\) since we are recurring for left and right half \((2T(N/2))\) and also calculating maximal subarray including mid element which takes \(O(N)\) to calculate. Solving this recurrence using master theorem, we can get the time complexity as \(O(NlogN)\)</dd>
+<dt>Space Complexity</dt><dd>\(O(logN)\), required by recursive stack</dd>
+</dl>
+
+<p>
+We can further optimize the previous solution. The \(O(N)\) term in the recurrence relation of previous solution was due to computation of max sum subarray involving \(nums[mid]\) in each recursion.
+</p>
+
+<p>
+But we can reduce that term to \(O(1)\) if we precompute it. This can be done by precomputing two arrays \(pre\) and \(suf\) where pre[i] will denote maximum sum subarray ending at \(i\) and \(suf[i]\) denotes the maximum subarray starting at \(i\).
+</p>
+
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #ECBE7B;">vector</span><span style="color: #51afef;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #51afef;">&gt;</span> <span style="color: #dcaeea;">pre</span>, <span style="color: #dcaeea;">suf</span>; <span style="color: #5B6268;">//</span><span style="color: #5B6268;">Global vectors</span>
+
+<span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">maxSubArray_dq1</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span> &amp;<span style="color: #dcaeea;">nums</span><span style="color: #51afef;">)</span> <span style="color: #51afef;">{</span>
+    pre = suf = nums;
+    <span style="color: #51afef;">for</span> <span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">i</span> = <span style="color: #da8548; font-weight: bold;">1</span>; i &lt; size<span style="color: #98be65;">(</span>nums<span style="color: #98be65;">)</span>; i++<span style="color: #c678dd;">)</span> pre<span style="color: #c678dd;">[</span>i<span style="color: #c678dd;">]</span> += max<span style="color: #c678dd;">(</span><span style="color: #da8548; font-weight: bold;">0</span>, pre<span style="color: #98be65;">[</span>i - <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #98be65;">]</span><span style="color: #c678dd;">)</span>;
+    <span style="color: #51afef;">for</span> <span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">i</span> = size<span style="color: #98be65;">(</span>nums<span style="color: #98be65;">)</span> - <span style="color: #da8548; font-weight: bold;">2</span>; ~i; i--<span style="color: #c678dd;">)</span> suf<span style="color: #c678dd;">[</span>i<span style="color: #c678dd;">]</span> += max<span style="color: #c678dd;">(</span><span style="color: #da8548; font-weight: bold;">0</span>, suf<span style="color: #98be65;">[</span>i + <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #98be65;">]</span><span style="color: #c678dd;">)</span>;
+    <span style="color: #51afef;">return</span> maxSubArray_dq1<span style="color: #c678dd;">(</span>nums, <span style="color: #da8548; font-weight: bold;">0</span>, size<span style="color: #98be65;">(</span>nums<span style="color: #98be65;">)</span> - <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #c678dd;">)</span>;
+<span style="color: #51afef;">}</span>
+
+<span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">maxSubArray_dq1</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span> &amp;<span style="color: #dcaeea;">A</span>, <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">L</span>, <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">R</span><span style="color: #51afef;">)</span> <span style="color: #51afef;">{</span>
+    <span style="color: #51afef;">if</span> <span style="color: #c678dd;">(</span>L == R<span style="color: #c678dd;">)</span> <span style="color: #51afef;">return</span> A<span style="color: #c678dd;">[</span>L<span style="color: #c678dd;">]</span>;
+    <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">mid</span> = <span style="color: #c678dd;">(</span>L + R<span style="color: #c678dd;">)</span> / <span style="color: #da8548; font-weight: bold;">2</span>;
+    <span style="color: #51afef;">return</span> max<span style="color: #c678dd;">(</span><span style="color: #98be65;">{</span>maxSubArray_dq1<span style="color: #a9a1e1;">(</span>A, L, mid<span style="color: #a9a1e1;">)</span>, maxSubArray_dq1<span style="color: #a9a1e1;">(</span>A, mid + <span style="color: #da8548; font-weight: bold;">1</span>, R<span style="color: #a9a1e1;">)</span>, pre<span style="color: #a9a1e1;">[</span>mid<span style="color: #a9a1e1;">]</span> + suf<span style="color: #a9a1e1;">[</span>mid + <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #a9a1e1;">]</span><span style="color: #98be65;">}</span><span style="color: #c678dd;">)</span>;
+<span style="color: #51afef;">}</span>
+</pre>
+</div>
+
+<dl class="org-dl">
+<dt>Time Complexity</dt><dd>\(O(N)\), the recurrence relation can be written as \(T(N) = 2T(N/2) + O(1)\) since we are recurring for left and right half \((2T(N/2))\) and calculating maximal subarray including mid element in \(O(1)\). Solving this recurrence using master theorem, we can get the time complexity as \(O(N)\)</dd>
+<dt>Space Complexity</dt><dd>\(O(N)\), required by <code>suf</code> and <code>pre</code>.</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org008304a" class="outline-2">
+<h2 id="org008304a"><span class="section-number-2">4.</span> Create Maximum Number</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+You are given two integer arrays <code>nums1</code> and <code>nums2</code> of lengths <code>m</code> and <code>n</code> respectively. <code>nums1</code> and <code>nums2</code> represent the digits of two numbers. You are also given an integer <code>k</code>.
+</p>
+
+<p>
+Create the maximum number of length <code>k &lt;= m + n</code> from digits of the two numbers. The relative order of the digits from the same array must be preserved.
+</p>
+
+<p>
+Return an array of the <code>k</code> digits representing the answer.
+</p>
+</div>
+
+<div id="outline-container-orgbac599d" class="outline-3">
+<h3 id="orgbac599d"><span class="section-number-3">4.1.</span> Examples</h3>
+<div class="outline-text-3" id="text-4-1">
+<pre class="example" id="org92e4ee0">
+Input: nums1 = [3,4,6,5], nums2 = [9,1,2,5,8,3], k = 5
+Output: [9,8,6,5,3]
+</pre>
+
+<pre class="example" id="org8399aed">
+Input: nums1 = [6,7], nums2 = [6,0,4], k = 5
+Output: [6,7,6,0,4]
+</pre>
+
+<pre class="example" id="orgd3f720c">
+Input: nums1 = [3,9], nums2 = [8,9], k = 3
+Output: [9,8,9]
+</pre>
+</div>
+</div>
+
+
+<div id="outline-container-org252f6d4" class="outline-3">
+<h3 id="org252f6d4"><span class="section-number-3">4.2.</span> Constraints:</h3>
+<div class="outline-text-3" id="text-4-2">
+<ul class="org-ul">
+<li>\(m == nums1.length\)</li>
+<li>\(n == nums2.length\)</li>
+<li>\(1 \le m, n \le 500\)</li>
+<li>\(0 \le nums1[i], nums2[i] \le 9\)</li>
+<li>\(1 \le k \le m + n\)</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-org4209734" class="outline-3">
+<h3 id="org4209734"><span class="section-number-3">4.3.</span> Solution</h3>
+<div class="outline-text-3" id="text-4-3">
+</div>
+<div id="outline-container-org8802561" class="outline-4">
+<h4 id="org8802561"><span class="section-number-4">4.3.1.</span> Greedy approach</h4>
+<div class="outline-text-4" id="text-4-3-1">
+<p>
+To create max number of length <code>k</code> from two arrays, you need to create max number of length <code>i</code> from array one and max number of length <code>k-i</code> from array two, then combine them together. After trying all possible <code>i</code>, you will get the max number created from two arrays.
+</p>
+
+<p>
+Optimization steps:
+</p>
+<ol class="org-ol">
+<li>Suppose <code>nums1 = [3, 4, 6, 5]</code>, <code>nums2 = [9, 1, 2, 5, 8, 3]</code>, the maximum number you can create from <code>nums1</code> is <code>[6, 5]</code> with length <code>2</code>. For <code>nums2</code>, it&rsquo;s <code>[9, 8, 3]</code> with length 3. Merging the two sequence, we have <code>[9, 8, 6, 5, 3]</code>, which is the max number we can create from two arrays without length constraint. If the required length \(k \le 5\), we can simply trim the result to required length from front. For instance, if \(k = 3\), then <code>[9, 8, 6]</code> is the result.</li>
+<li>Suppose we need to create max number with <code>length 2</code> from <code>num = [4, 5, 3, 2, 1, 6, 0, 8]</code>. The simple way is to use a stack, first we push <code>4</code> and have <code>stack [4]</code>, then comes <code>5 &gt; 4</code>, we pop <code>4</code> and push <code>5</code>, stack becomes <code>[5]</code>, <code>3 &lt; 5</code>, we push <code>3</code>, stack becomes <code>[5, 3]</code>. Now we have the required length 2, but we need to keep going through the array in case a larger number comes, \(2 < 3\), we discard it instead of pushing it because the stack already grows to required size <code>2</code>. <code>1 &lt; 3</code>, we discard it. <code>6 &gt; 3</code>, we pop <code>3</code>, since <code>6 &gt; 5</code> and there are still elements left, we can continue to pop <code>5</code> and push <code>6</code>, the stack becomes <code>[6]</code>, since <code>0 &lt; 6</code>, we push <code>0</code>, the stack becomes <code>[6, 0]</code>, the stack grows to required length again. Since <code>8 &gt; 0</code>, we pop <code>0</code>, although \(8 > 6\), we can&rsquo;t continue to pop 6 since there is only one number, which is <code>8</code>, left, if we pop <code>6</code> and push <code>8</code>, we can&rsquo;t get to length 2, so we push <code>8</code> directly, the stack becomes <code>[6, 8]</code>.</li>
+<li>In the basic idea, we mentioned trying all possible lengths <code>i</code>. If we create max number for different <code>i</code> from scratch each time, that would be a waste of time. Suppose <code>num = [4, 9, 3, 2, 1, 8, 7, 6]</code>, we need to create max number with length from <code>1</code> to <code>8</code>. For <code>i==8</code>, result is the original array. For <code>i==7</code>, we need to drop 1 number from array, since <code>9 &gt; 4</code>, we drop <code>4</code>, the result is <code>[9, 3, 2, 1, 8, 7, 6]</code>. For <code>i==6</code>, we need to drop <code>1</code> more number, <code>3 &lt; 9</code>, skip, <code>2 &lt; 3</code>, skip, <code>1 &lt; 2</code>, skip, <code>8 &gt; 1</code>, we drop <code>1</code>, the result is <code>[9, 3, 2, 8, 7, 6]</code>. For <code>i==5</code>, we need to drop <code>1</code> more, but this time, we needn&rsquo;t check from beginning, during last scan, we already know <code>[9, 3, 2]</code> is monotonically non-increasing, so we check <code>8</code> directly, since <code>8 &gt; 2</code>, we drop <code>2</code>, the result is <code>[9, 3, 8, 7, 6]</code>. For <code>i==4</code>, we start with <code>8</code>, <code>8 &gt; 3</code>, we drop <code>3</code>, the result is <code>[9, 8, 7, 6]</code>. For <code>i==3</code>, we start with <code>8</code>, <code>8 &lt; 9</code>, skip, <code>7 &lt; 8</code>, skip, <code>6 &lt; 7</code>, skip, by now, we&rsquo;ve got maximum number we can create from <code>num</code> without length constraint. So from now on, we can drop a number from the end each time. The result is <code>[9, 8, 7]</code>, For <code>i==2</code>, we drop last number <code>7</code> and have <code>[9, 8]</code>. For <code>i==1</code>, we drop last number <code>8</code> and have <code>[9]</code>.</li>
+</ol>
+
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #ECBE7B;">vector</span><span style="color: #51afef;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #51afef;">&gt;</span> <span style="color: #c678dd;">maxNumber</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span> &amp;<span style="color: #dcaeea;">nums1</span>, <span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span> &amp;<span style="color: #dcaeea;">nums2</span>, <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">k</span><span style="color: #51afef;">)</span> <span style="color: #51afef;">{</span>
+    <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">n1</span> = nums1.size<span style="color: #c678dd;">()</span>, <span style="color: #dcaeea;">n2</span> = nums2.size<span style="color: #c678dd;">()</span>;
+    <span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span> <span style="color: #dcaeea;">best</span>;
+    <span style="color: #51afef;">for</span> <span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">k1</span> = max<span style="color: #98be65;">(</span>k - n2, <span style="color: #da8548; font-weight: bold;">0</span><span style="color: #98be65;">)</span>; k1 &lt;= min<span style="color: #98be65;">(</span>k, n1<span style="color: #98be65;">)</span>; ++k1<span style="color: #c678dd;">)</span>
+        best = max<span style="color: #c678dd;">(</span>best, maxNumber<span style="color: #98be65;">(</span>maxNumber<span style="color: #a9a1e1;">(</span>nums1, k1<span style="color: #a9a1e1;">)</span>,
+                                   maxNumber<span style="color: #a9a1e1;">(</span>nums2, k - k1<span style="color: #a9a1e1;">)</span><span style="color: #98be65;">)</span><span style="color: #c678dd;">)</span>;
+    <span style="color: #51afef;">return</span> best;
+<span style="color: #51afef;">}</span>
+
+<span style="color: #ECBE7B;">vector</span><span style="color: #51afef;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #51afef;">&gt;</span> <span style="color: #c678dd;">maxNumber</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span> <span style="color: #dcaeea;">nums</span>, <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">k</span><span style="color: #51afef;">)</span> <span style="color: #51afef;">{</span>
+    <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">drop</span> = nums.size<span style="color: #c678dd;">()</span> - k;
+    <span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span> <span style="color: #dcaeea;">out</span>;
+    <span style="color: #51afef;">for</span> <span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">num</span>: nums<span style="color: #c678dd;">)</span> <span style="color: #c678dd;">{</span>
+        <span style="color: #51afef;">while</span> <span style="color: #98be65;">(</span>drop &amp;&amp; out.size<span style="color: #a9a1e1;">()</span> &amp;&amp; out.back<span style="color: #a9a1e1;">()</span> &lt; num<span style="color: #98be65;">)</span> <span style="color: #98be65;">{</span>
+            out.pop_back<span style="color: #a9a1e1;">()</span>;
+            drop--;
+        <span style="color: #98be65;">}</span>
+        out.push_back<span style="color: #98be65;">(</span>num<span style="color: #98be65;">)</span>;
+    <span style="color: #c678dd;">}</span>
+    out.resize<span style="color: #c678dd;">(</span>k<span style="color: #c678dd;">)</span>;
+    <span style="color: #51afef;">return</span> out;
+<span style="color: #51afef;">}</span>
+
+<span style="color: #ECBE7B;">vector</span><span style="color: #51afef;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #51afef;">&gt;</span> <span style="color: #c678dd;">maxNumber</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span> <span style="color: #dcaeea;">nums1</span>, <span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span> <span style="color: #dcaeea;">nums2</span><span style="color: #51afef;">)</span> <span style="color: #51afef;">{</span>
+    <span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span> <span style="color: #dcaeea;">out</span>;
+    <span style="color: #51afef;">while</span> <span style="color: #c678dd;">(</span>nums1.size<span style="color: #98be65;">()</span> + nums2.size<span style="color: #98be65;">()</span><span style="color: #c678dd;">)</span> <span style="color: #c678dd;">{</span>
+        <span style="color: #ECBE7B;">vector</span><span style="color: #98be65;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #98be65;">&gt;</span> &amp;<span style="color: #dcaeea;">now</span> = nums1 &gt; nums2 ? nums1 : nums2;
+        out.push_back<span style="color: #98be65;">(</span>now<span style="color: #a9a1e1;">[</span><span style="color: #da8548; font-weight: bold;">0</span><span style="color: #a9a1e1;">]</span><span style="color: #98be65;">)</span>;
+        now.erase<span style="color: #98be65;">(</span>now.begin<span style="color: #a9a1e1;">()</span><span style="color: #98be65;">)</span>;
+    <span style="color: #c678dd;">}</span>
+    <span style="color: #51afef;">return</span> out;
+<span style="color: #51afef;">}</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Created: 2023-05-02 Tue 19:59</p>
+</div>
+</body>
+</html>

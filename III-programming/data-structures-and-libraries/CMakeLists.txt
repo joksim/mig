@@ -1,7 +1,7 @@
 set(CMAKE_CXX_STANDARD 17)
 
 MACRO(SUBDIRLIST result curdir)
-    FILE(GLOB children ${curdir}/*) # This was changed
+    FILE(GLOB children ${curdir}/*)
     SET(dirlist "")
     FOREACH(child ${children})
         IF(IS_DIRECTORY ${child}) # This was changed

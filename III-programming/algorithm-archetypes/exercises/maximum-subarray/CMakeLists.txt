@@ -1,0 +1,1 @@
+add_executable(maximum-subarray maximum-subarray.cpp ../../../util/generate/generate.cpp)

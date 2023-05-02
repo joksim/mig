@@ -1,0 +1,16 @@
+#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup
+
+#+TITLE: Programming exercises #2
+
+#+OPTIONS: author:nil
+#+OPTIONS: toc:1
+#+OPTIONS: date:nil
+
+
+#+INCLUDE: ./fractional-knapsack/fractional-knapsack.org
+
+#+INCLUDE: ./longest-palindrome/longest-palindrome.org
+
+#+INCLUDE: ./maximum-subarray/maximum-subarray.org
+
+#+INCLUDE: ./create-maximum-number/create-maximum-number.org

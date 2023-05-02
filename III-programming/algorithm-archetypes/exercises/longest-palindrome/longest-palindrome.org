@@ -1,0 +1,40 @@
+* Longest Palindrome
+Given a string ~s~ which consists of lowercase or uppercase letters, return the length of the longest palindrome that can be built with those letters.
+
+Letters are case sensitive, for example, ~"Aa"~ is not considered a palindrome here.
+
+** Examples
+*** Example 1
+#+begin_example
+Input: s = "abccccdd"
+Output: 7
+#+end_example
+Explanation: One longest palindrome that can be built is ~"dccaccd"~, whose length is 7.
+*** Example 2
+#+begin_example
+Input: s = "a"
+Output: 1
+#+end_example
+Explanation: The longest palindrome that can be built is ~"a"~, whose length is 1.
+
+** Constraints:
+- $1 \le s.length \le 2000$
+- ~s~ consists of lowercase and/or uppercase English letters only.
+
+** Solution
+*** Greedy approach using hashmaps
+To get a palindrome from a group of characters, the group of characters should have some constraints:
+
+1. Every letter must appear *even* number of times like ~"aabb"~ or ~"baba"~ in any order it doesn't matter, what matters is that we have *2 a* and *2 b* which are even numbers and at the end it can be converted to a palindrome in our case ~"abba"~ or ~"baab"~. The exception is that *one letter may appear an odd number of times* like ~"abcba"~ where we have ~1 c~ but it's not a problem as long as it's only one letter that appears an odd number of times.
+2. If there is only one letter type then it must appear an odd number of times like ~"a"~ or ~"aaa"~ or ~"aaaaa"~ etc..
+
+**** Algorithm:
+1. Get the number of times each letter appears (letter frequency).
+2. Get how many characters appear an odd number of times.
+3. Return your the number of all characters -- the number of characters that appear an odd number of times.
+
+#+INCLUDE: "./longest-palindrome.cpp" src c++ :lines "40-58"
+
+Alternative solution using ~unordered_map~:
+
+#+INCLUDE: "./longest-palindrome.cpp" src c++ :lines "10-39"

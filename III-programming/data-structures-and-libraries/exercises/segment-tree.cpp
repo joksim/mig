@@ -20,7 +20,6 @@ public:
         }
         int query(int ql, int qr, int l, int r, int node) {
             if(ql <= l && qr >= r)
-                return sums[node];
             if(r < ql || l > qr)
                 return 0;
             int mid = (l + r) / 2;

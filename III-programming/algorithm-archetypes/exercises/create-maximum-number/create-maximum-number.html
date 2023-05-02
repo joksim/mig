@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2023-05-02 Tue 19:50 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>&lrm;</title>
+<meta name="author" content="Boban Joksimoski" />
+<meta name="generator" content="Org Mode" />
+<style>
+  #content { max-width: 60em; margin: auto; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    padding: 3px;
+    color: #555;
+    background-color: #f2f2f299;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { }
+</style>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+</head>
+<body>
+<div id="content" class="content">
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org69e282d">1. Create Maximum Number</a>
+<ul>
+<li><a href="#org8c8bf46">1.1. Examples</a></li>
+<li><a href="#org832ec22">1.2. Constraints:</a></li>
+<li><a href="#orgba8c227">1.3. Solution</a>
+<ul>
+<li><a href="#orgd6a9d07">1.3.1. Greedy approach</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org69e282d" class="outline-2">
+<h2 id="org69e282d"><span class="section-number-2">1.</span> Create Maximum Number</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+You are given two integer arrays <code>nums1</code> and <code>nums2</code> of lengths <code>m</code> and <code>n</code> respectively. <code>nums1</code> and <code>nums2</code> represent the digits of two numbers. You are also given an integer <code>k</code>.
+</p>
+
+<p>
+Create the maximum number of length <code>k &lt;= m + n</code> from digits of the two numbers. The relative order of the digits from the same array must be preserved.
+</p>
+
+<p>
+Return an array of the <code>k</code> digits representing the answer.
+</p>
+</div>
+
+<div id="outline-container-org8c8bf46" class="outline-3">
+<h3 id="org8c8bf46"><span class="section-number-3">1.1.</span> Examples</h3>
+<div class="outline-text-3" id="text-1-1">
+<pre class="example" id="orgb97c676">
+Input: nums1 = [3,4,6,5], nums2 = [9,1,2,5,8,3], k = 5
+Output: [9,8,6,5,3]
+</pre>
+
+<pre class="example" id="org5569ed2">
+Input: nums1 = [6,7], nums2 = [6,0,4], k = 5
+Output: [6,7,6,0,4]
+</pre>
+
+<pre class="example" id="org3390e3b">
+Input: nums1 = [3,9], nums2 = [8,9], k = 3
+Output: [9,8,9]
+</pre>
+</div>
+</div>
+
+
+<div id="outline-container-org832ec22" class="outline-3">
+<h3 id="org832ec22"><span class="section-number-3">1.2.</span> Constraints:</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>\(m == nums1.length\)</li>
+<li>\(n == nums2.length\)</li>
+<li>\(1 \le m, n \le 500\)</li>
+<li>\(0 \le nums1[i], nums2[i] \le 9\)</li>
+<li>\(1 \le k \le m + n\)</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-orgba8c227" class="outline-3">
+<h3 id="orgba8c227"><span class="section-number-3">1.3.</span> Solution</h3>
+<div class="outline-text-3" id="text-1-3">
+</div>
+<div id="outline-container-orgd6a9d07" class="outline-4">
+<h4 id="orgd6a9d07"><span class="section-number-4">1.3.1.</span> Greedy approach</h4>
+<div class="outline-text-4" id="text-1-3-1">
+<p>
+To create max number of length <code>k</code> from two arrays, you need to create max number of length <code>i</code> from array one and max number of length <code>k-i</code> from array two, then combine them together. After trying all possible <code>i</code>, you will get the max number created from two arrays.
+</p>
+
+<p>
+Optimization steps:
+</p>
+<ol class="org-ol">
+<li>Suppose <code>nums1 = [3, 4, 6, 5]</code>, <code>nums2 = [9, 1, 2, 5, 8, 3]</code>, the maximum number you can create from <code>nums1</code> is <code>[6, 5]</code> with length <code>2</code>. For <code>nums2</code>, it&rsquo;s <code>[9, 8, 3]</code> with length 3. Merging the two sequence, we have <code>[9, 8, 6, 5, 3]</code>, which is the max number we can create from two arrays without length constraint. If the required length \(k \le 5\), we can simply trim the result to required length from front. For instance, if \(k = 3\), then <code>[9, 8, 6]</code> is the result.</li>
+<li>Suppose we need to create max number with <code>length 2</code> from <code>num = [4, 5, 3, 2, 1, 6, 0, 8]</code>. The simple way is to use a stack, first we push <code>4</code> and have <code>stack [4]</code>, then comes <code>5 &gt; 4</code>, we pop <code>4</code> and push <code>5</code>, stack becomes <code>[5]</code>, <code>3 &lt; 5</code>, we push <code>3</code>, stack becomes <code>[5, 3]</code>. Now we have the required length 2, but we need to keep going through the array in case a larger number comes, \(2 < 3\), we discard it instead of pushing it because the stack already grows to required size <code>2</code>. <code>1 &lt; 3</code>, we discard it. <code>6 &gt; 3</code>, we pop <code>3</code>, since <code>6 &gt; 5</code> and there are still elements left, we can continue to pop <code>5</code> and push <code>6</code>, the stack becomes <code>[6]</code>, since <code>0 &lt; 6</code>, we push <code>0</code>, the stack becomes <code>[6, 0]</code>, the stack grows to required length again. Since <code>8 &gt; 0</code>, we pop <code>0</code>, although \(8 > 6\), we can&rsquo;t continue to pop 6 since there is only one number, which is <code>8</code>, left, if we pop <code>6</code> and push <code>8</code>, we can&rsquo;t get to length 2, so we push <code>8</code> directly, the stack becomes <code>[6, 8]</code>.</li>
+<li>In the basic idea, we mentioned trying all possible lengths <code>i</code>. If we create max number for different <code>i</code> from scratch each time, that would be a waste of time. Suppose <code>num = [4, 9, 3, 2, 1, 8, 7, 6]</code>, we need to create max number with length from <code>1</code> to <code>8</code>. For <code>i==8</code>, result is the original array. For <code>i==7</code>, we need to drop 1 number from array, since <code>9 &gt; 4</code>, we drop <code>4</code>, the result is <code>[9, 3, 2, 1, 8, 7, 6]</code>. For <code>i==6</code>, we need to drop <code>1</code> more number, <code>3 &lt; 9</code>, skip, <code>2 &lt; 3</code>, skip, <code>1 &lt; 2</code>, skip, <code>8 &gt; 1</code>, we drop <code>1</code>, the result is <code>[9, 3, 2, 8, 7, 6]</code>. For <code>i==5</code>, we need to drop <code>1</code> more, but this time, we needn&rsquo;t check from beginning, during last scan, we already know <code>[9, 3, 2]</code> is monotonically non-increasing, so we check <code>8</code> directly, since <code>8 &gt; 2</code>, we drop <code>2</code>, the result is <code>[9, 3, 8, 7, 6]</code>. For <code>i==4</code>, we start with <code>8</code>, <code>8 &gt; 3</code>, we drop <code>3</code>, the result is <code>[9, 8, 7, 6]</code>. For <code>i==3</code>, we start with <code>8</code>, <code>8 &lt; 9</code>, skip, <code>7 &lt; 8</code>, skip, <code>6 &lt; 7</code>, skip, by now, we&rsquo;ve got maximum number we can create from <code>num</code> without length constraint. So from now on, we can drop a number from the end each time. The result is <code>[9, 8, 7]</code>, For <code>i==2</code>, we drop last number <code>7</code> and have <code>[9, 8]</code>. For <code>i==1</code>, we drop last number <code>8</code> and have <code>[9]</code>.</li>
+</ol>
+
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #ECBE7B;">vector</span><span style="color: #51afef;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #51afef;">&gt;</span> <span style="color: #c678dd;">maxNumber</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span> &amp;<span style="color: #dcaeea;">nums1</span>, <span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span> &amp;<span style="color: #dcaeea;">nums2</span>, <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">k</span><span style="color: #51afef;">)</span> <span style="color: #51afef;">{</span>
+    <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">n1</span> = nums1.size<span style="color: #c678dd;">()</span>, <span style="color: #dcaeea;">n2</span> = nums2.size<span style="color: #c678dd;">()</span>;
+    <span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span> <span style="color: #dcaeea;">best</span>;
+    <span style="color: #51afef;">for</span> <span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">k1</span> = max<span style="color: #98be65;">(</span>k - n2, <span style="color: #da8548; font-weight: bold;">0</span><span style="color: #98be65;">)</span>; k1 &lt;= min<span style="color: #98be65;">(</span>k, n1<span style="color: #98be65;">)</span>; ++k1<span style="color: #c678dd;">)</span>
+        best = max<span style="color: #c678dd;">(</span>best, maxNumber<span style="color: #98be65;">(</span>maxNumber<span style="color: #a9a1e1;">(</span>nums1, k1<span style="color: #a9a1e1;">)</span>,
+                                   maxNumber<span style="color: #a9a1e1;">(</span>nums2, k - k1<span style="color: #a9a1e1;">)</span><span style="color: #98be65;">)</span><span style="color: #c678dd;">)</span>;
+    <span style="color: #51afef;">return</span> best;
+<span style="color: #51afef;">}</span>
+
+<span style="color: #ECBE7B;">vector</span><span style="color: #51afef;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #51afef;">&gt;</span> <span style="color: #c678dd;">maxNumber</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span> <span style="color: #dcaeea;">nums</span>, <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">k</span><span style="color: #51afef;">)</span> <span style="color: #51afef;">{</span>
+    <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">drop</span> = nums.size<span style="color: #c678dd;">()</span> - k;
+    <span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span> <span style="color: #dcaeea;">out</span>;
+    <span style="color: #51afef;">for</span> <span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">num</span>: nums<span style="color: #c678dd;">)</span> <span style="color: #c678dd;">{</span>
+        <span style="color: #51afef;">while</span> <span style="color: #98be65;">(</span>drop &amp;&amp; out.size<span style="color: #a9a1e1;">()</span> &amp;&amp; out.back<span style="color: #a9a1e1;">()</span> &lt; num<span style="color: #98be65;">)</span> <span style="color: #98be65;">{</span>
+            out.pop_back<span style="color: #a9a1e1;">()</span>;
+            drop--;
+        <span style="color: #98be65;">}</span>
+        out.push_back<span style="color: #98be65;">(</span>num<span style="color: #98be65;">)</span>;
+    <span style="color: #c678dd;">}</span>
+    out.resize<span style="color: #c678dd;">(</span>k<span style="color: #c678dd;">)</span>;
+    <span style="color: #51afef;">return</span> out;
+<span style="color: #51afef;">}</span>
+
+<span style="color: #ECBE7B;">vector</span><span style="color: #51afef;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #51afef;">&gt;</span> <span style="color: #c678dd;">maxNumber</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span> <span style="color: #dcaeea;">nums1</span>, <span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span> <span style="color: #dcaeea;">nums2</span><span style="color: #51afef;">)</span> <span style="color: #51afef;">{</span>
+    <span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span> <span style="color: #dcaeea;">out</span>;
+    <span style="color: #51afef;">while</span> <span style="color: #c678dd;">(</span>nums1.size<span style="color: #98be65;">()</span> + nums2.size<span style="color: #98be65;">()</span><span style="color: #c678dd;">)</span> <span style="color: #c678dd;">{</span>
+        <span style="color: #ECBE7B;">vector</span><span style="color: #98be65;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #98be65;">&gt;</span> &amp;<span style="color: #dcaeea;">now</span> = nums1 &gt; nums2 ? nums1 : nums2;
+        out.push_back<span style="color: #98be65;">(</span>now<span style="color: #a9a1e1;">[</span><span style="color: #da8548; font-weight: bold;">0</span><span style="color: #a9a1e1;">]</span><span style="color: #98be65;">)</span>;
+        now.erase<span style="color: #98be65;">(</span>now.begin<span style="color: #a9a1e1;">()</span><span style="color: #98be65;">)</span>;
+    <span style="color: #c678dd;">}</span>
+    <span style="color: #51afef;">return</span> out;
+<span style="color: #51afef;">}</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Boban Joksimoski</p>
+<p class="date">Created: 2023-05-02 Tue 19:50</p>
+</div>
+</body>
+</html>

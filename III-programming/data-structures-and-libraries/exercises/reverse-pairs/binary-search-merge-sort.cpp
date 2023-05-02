@@ -1,7 +1,15 @@
+#include<iostream>
+#include<vector>
+
+using std::vector;
+using std::cout;
+using std::cin;
+
 class Solution {
 public:
-    int inversions=0;
-    int find_index_where_just_greater(int left,int right,vector<int>&arr,int target)
+    int inversions=0; //counts the inversions
+
+    int find_index_where_just_greater(int left,int right, vector<int> &arr ,int target)
     {
         while(left<=right)
         {
@@ -19,6 +27,7 @@ public:
         }
         return (left-1);
     }
+
     void merge(vector<int>&arr,int l,int m,int r)
     {
         vector<int>Arr(r-l+1);
@@ -80,3 +89,6 @@ public:
         return inversions;
     }
 };
+
+
+

@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2023-04-30 Sun 18:40 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Programming exercises</title>
+<meta name="author" content="Boban Joksimoski" />
+<meta name="generator" content="Org Mode" />
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/readtheorg.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/js/readtheorg.js"></script>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">Programming exercises</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orgc47fe64">1. Reverse Pairs</a>
+<ul>
+<li><a href="#org83a7598">1.1. Examples:</a>
+<ul>
+<li><a href="#org3e332d1">1.1.1. Example 1:</a></li>
+<li><a href="#org2dc03dd">1.1.2. Example 2:</a></li>
+</ul>
+</li>
+<li><a href="#org385d6bd">1.2. Constraints:</a></li>
+<li><a href="#orgaf54ceb">1.3. Solution ideas</a></li>
+<li><a href="#org17f9198">1.4. Solution</a>
+<ul>
+<li><a href="#orgb7f3c0a">1.4.1. Using Divide and Conquer and Merge sort</a></li>
+<li><a href="#org640cae0">1.4.2. Using segment tree</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgc47fe64" class="outline-2">
+<h2 id="orgc47fe64"><span class="section-number-2">1.</span> Reverse Pairs</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Given an integer array <code>nums</code>, return the number of <i>reverse pairs</i> in the array.
+</p>
+
+<p>
+A <i>reverse pair</i> is a pair \((i, j)\) where:
+</p>
+<ul class="org-ul">
+<li>\(0 <= i < j < nums.length\) and</li>
+<li>\(nums[i] > 2 * nums[j]\).</li>
+</ul>
+
+<p>
+Please note that \[ i < j \] is a strict requirement.
+</p>
+</div>
+
+<div id="outline-container-org83a7598" class="outline-3">
+<h3 id="org83a7598"><span class="section-number-3">1.1.</span> Examples:</h3>
+<div class="outline-text-3" id="text-1-1">
+</div>
+<div id="outline-container-org3e332d1" class="outline-4">
+<h4 id="org3e332d1"><span class="section-number-4">1.1.1.</span> Example 1:</h4>
+<div class="outline-text-4" id="text-1-1-1">
+<pre class="example" id="orgb266edd">
+Input: nums = [1,3,2,3,1]
+
+Output: 2
+</pre>
+<dl class="org-dl">
+<dt>Explanation</dt><dd><p>
+The reverse pairs are:
+</p>
+<pre class="example" id="orgb6967be">
+  (1, 4) --&gt; nums[1] = 3, nums[4] = 1, 3 &gt; 2 * 1
+  (3, 4) --&gt; nums[3] = 3, nums[4] = 1, 3 &gt; 2 * 1
+</pre></dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org2dc03dd" class="outline-4">
+<h4 id="org2dc03dd"><span class="section-number-4">1.1.2.</span> Example 2:</h4>
+<div class="outline-text-4" id="text-1-1-2">
+<pre class="example" id="org28b47b6">
+Input: nums = [2,4,3,5,1]
+Output: 3
+</pre>
+<dl class="org-dl">
+<dt>Explanation</dt><dd><p>
+The reverse pairs are:
+</p>
+<pre class="example" id="orgca37a98">
+  (1, 4) --&gt; nums[1] = 4, nums[4] = 1, 4 &gt; 2 * 1
+  (2, 4) --&gt; nums[2] = 3, nums[4] = 1, 3 &gt; 2 * 1
+  (3, 4) --&gt; nums[3] = 5, nums[4] = 1, 5 &gt; 2 * 1
+</pre></dd>
+</dl>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org385d6bd" class="outline-3">
+<h3 id="org385d6bd"><span class="section-number-3">1.2.</span> Constraints:</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>\(1 <= ~nums.length~ <= 5 * 10^4\)</li>
+<li>\(-2^{31} <= ~nums[i]~ <= 2^{31} - 1\)</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgaf54ceb" class="outline-3">
+<h3 id="orgaf54ceb"><span class="section-number-3">1.3.</span> Solution ideas</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+Different ways to handle
+</p>
+</div>
+</div>
+
+<div id="outline-container-org17f9198" class="outline-3">
+<h3 id="org17f9198"><span class="section-number-3">1.4.</span> Solution</h3>
+<div class="outline-text-3" id="text-1-4">
+</div>
+<div id="outline-container-orgb7f3c0a" class="outline-4">
+<h4 id="orgb7f3c0a"><span class="section-number-4">1.4.1.</span> Using Divide and Conquer and Merge sort</h4>
+<div class="outline-text-4" id="text-1-4-1">
+<div class="org-src-container">
+<pre class="src src-cpp"><span style="color: #51afef; font-weight: bold;">#include</span><span style="color: #51afef;">&lt;</span><span style="color: #98be65;">iostream</span><span style="color: #51afef;">&gt;</span>
+<span style="color: #51afef; font-weight: bold;">#include</span><span style="color: #51afef;">&lt;</span><span style="color: #98be65;">vector</span><span style="color: #51afef;">&gt;</span>
+
+<span style="color: #51afef;">using</span> <span style="color: #a9a1e1;">std</span>::<span style="color: #a9a1e1;">vector</span>;
+<span style="color: #51afef;">using</span> <span style="color: #a9a1e1;">std</span>::<span style="color: #a9a1e1;">cout</span>;
+<span style="color: #51afef;">using</span> <span style="color: #a9a1e1;">std</span>::<span style="color: #a9a1e1;">cin</span>;
+
+<span style="color: #51afef;">class</span> <span style="color: #ECBE7B;">Solution</span> <span style="color: #51afef;">{</span>
+<span style="color: #51afef;">public</span>:
+    <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">inversions</span>=<span style="color: #da8548; font-weight: bold;">0</span>; <span style="color: #5B6268;">//</span><span style="color: #5B6268;">counts the inversions</span>
+
+    <span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">find_index_where_just_greater</span><span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">left</span>,<span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">right</span>, <span style="color: #ECBE7B;">vector</span><span style="color: #98be65;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #98be65;">&gt;</span> &amp;<span style="color: #dcaeea;">arr</span> ,<span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">target</span><span style="color: #c678dd;">)</span>
+    <span style="color: #c678dd;">{</span>
+        <span style="color: #51afef;">while</span><span style="color: #98be65;">(</span>left&lt;=right<span style="color: #98be65;">)</span>
+        <span style="color: #98be65;">{</span>
+            <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">mid</span>=<span style="color: #a9a1e1;">(</span>left+right<span style="color: #a9a1e1;">)</span>/<span style="color: #da8548; font-weight: bold;">2</span>;
+            <span style="color: #ECBE7B;">long</span> <span style="color: #ECBE7B;">long</span> <span style="color: #dcaeea;">x</span>=arr<span style="color: #a9a1e1;">[</span>mid<span style="color: #a9a1e1;">]</span>;
+            x*=<span style="color: #da8548; font-weight: bold;">2</span>;
+            <span style="color: #51afef;">if</span><span style="color: #a9a1e1;">(</span>x&gt;=target<span style="color: #a9a1e1;">)</span>
+            <span style="color: #a9a1e1;">{</span>
+                right=mid-<span style="color: #da8548; font-weight: bold;">1</span>;
+            <span style="color: #a9a1e1;">}</span>
+            <span style="color: #51afef;">else</span>
+            <span style="color: #a9a1e1;">{</span>
+                left=mid+<span style="color: #da8548; font-weight: bold;">1</span>;
+            <span style="color: #a9a1e1;">}</span>
+        <span style="color: #98be65;">}</span>
+        <span style="color: #51afef;">return</span> <span style="color: #98be65;">(</span>left-<span style="color: #da8548; font-weight: bold;">1</span><span style="color: #98be65;">)</span>;
+    <span style="color: #c678dd;">}</span>
+
+    <span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">merge</span><span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">vector</span><span style="color: #98be65;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #98be65;">&gt;</span>&amp;<span style="color: #dcaeea;">arr</span>,<span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">l</span>,<span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">m</span>,<span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">r</span><span style="color: #c678dd;">)</span>
+    <span style="color: #c678dd;">{</span>
+        <span style="color: #ECBE7B;">vector</span><span style="color: #98be65;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #98be65;">&gt;</span><span style="color: #dcaeea;">Arr</span><span style="color: #98be65;">(</span>r-l+<span style="color: #da8548; font-weight: bold;">1</span><span style="color: #98be65;">)</span>;
+        <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">ptr1</span>=l,<span style="color: #dcaeea;">ptr2</span>=m+<span style="color: #da8548; font-weight: bold;">1</span>,<span style="color: #dcaeea;">ptr3</span>=<span style="color: #da8548; font-weight: bold;">0</span>;
+        <span style="color: #51afef;">while</span><span style="color: #98be65;">(</span>ptr3&lt;=<span style="color: #a9a1e1;">(</span>r-l<span style="color: #a9a1e1;">)</span><span style="color: #98be65;">)</span>
+        <span style="color: #98be65;">{</span>
+            <span style="color: #51afef;">if</span><span style="color: #a9a1e1;">(</span>ptr1==<span style="color: #51afef;">(</span>m+<span style="color: #da8548; font-weight: bold;">1</span><span style="color: #51afef;">)</span><span style="color: #a9a1e1;">)</span>
+            <span style="color: #a9a1e1;">{</span>
+                Arr<span style="color: #51afef;">[</span>ptr3<span style="color: #51afef;">]</span>=arr<span style="color: #51afef;">[</span>ptr2<span style="color: #51afef;">]</span>;
+                ptr2++;
+                ptr3++;
+                <span style="color: #51afef;">continue</span>;
+            <span style="color: #a9a1e1;">}</span>
+            <span style="color: #51afef;">if</span><span style="color: #a9a1e1;">(</span>ptr2==<span style="color: #51afef;">(</span>r+<span style="color: #da8548; font-weight: bold;">1</span><span style="color: #51afef;">)</span><span style="color: #a9a1e1;">)</span>
+            <span style="color: #a9a1e1;">{</span>
+                <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">idx</span>=find_index_where_just_greater<span style="color: #51afef;">(</span>m+<span style="color: #da8548; font-weight: bold;">1</span>,r,arr,<span style="color: #ECBE7B;">arr</span><span style="color: #c678dd;">[</span>ptr1<span style="color: #c678dd;">]</span><span style="color: #51afef;">)</span>;
+                inversions+=idx-m;
+                Arr<span style="color: #51afef;">[</span>ptr3<span style="color: #51afef;">]</span>=arr<span style="color: #51afef;">[</span>ptr1<span style="color: #51afef;">]</span>;
+                ptr1++;
+                ptr3++;
+                <span style="color: #51afef;">continue</span>;
+            <span style="color: #a9a1e1;">}</span>
+            <span style="color: #51afef;">if</span><span style="color: #a9a1e1;">(</span>arr<span style="color: #51afef;">[</span>ptr1<span style="color: #51afef;">]</span>&lt;=arr<span style="color: #51afef;">[</span>ptr2<span style="color: #51afef;">]</span><span style="color: #a9a1e1;">)</span>
+            <span style="color: #a9a1e1;">{</span>
+                <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">idx</span>=find_index_where_just_greater<span style="color: #51afef;">(</span>m+<span style="color: #da8548; font-weight: bold;">1</span>,r,<span style="color: #ECBE7B;">arr</span>,<span style="color: #ECBE7B;">arr</span><span style="color: #c678dd;">[</span>ptr1<span style="color: #c678dd;">]</span><span style="color: #51afef;">)</span>;
+                inversions+=idx-m;
+                Arr<span style="color: #51afef;">[</span>ptr3<span style="color: #51afef;">]</span>=arr<span style="color: #51afef;">[</span>ptr1<span style="color: #51afef;">]</span>;
+                ptr1++;
+                ptr3++;
+            <span style="color: #a9a1e1;">}</span>
+            <span style="color: #51afef;">else</span>
+            <span style="color: #a9a1e1;">{</span>
+                Arr<span style="color: #51afef;">[</span>ptr3<span style="color: #51afef;">]</span>=arr<span style="color: #51afef;">[</span>ptr2<span style="color: #51afef;">]</span>;
+                ptr2++;
+                ptr3++;
+            <span style="color: #a9a1e1;">}</span>
+        <span style="color: #98be65;">}</span>
+        <span style="color: #51afef;">for</span><span style="color: #98be65;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">i</span>=l;i&lt;=r;i++<span style="color: #98be65;">)</span>
+        <span style="color: #98be65;">{</span>
+            arr<span style="color: #a9a1e1;">[</span>i<span style="color: #a9a1e1;">]</span>=Arr<span style="color: #a9a1e1;">[</span>i-l<span style="color: #a9a1e1;">]</span>;
+        <span style="color: #98be65;">}</span>
+        <span style="color: #51afef;">return</span>;
+    <span style="color: #c678dd;">}</span>
+    <span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">mergeSort</span><span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">vector</span><span style="color: #98be65;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #98be65;">&gt;</span>&amp;<span style="color: #dcaeea;">arr</span>,<span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">l</span>,<span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">r</span><span style="color: #c678dd;">)</span>
+    <span style="color: #c678dd;">{</span>
+        <span style="color: #51afef;">if</span><span style="color: #98be65;">(</span>l==r<span style="color: #98be65;">)</span>
+        <span style="color: #98be65;">{</span>
+            <span style="color: #51afef;">return</span>;
+        <span style="color: #98be65;">}</span>
+        <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">mid</span>=<span style="color: #98be65;">(</span>l+r<span style="color: #98be65;">)</span>/<span style="color: #da8548; font-weight: bold;">2</span>;
+        mergeSort<span style="color: #98be65;">(</span><span style="color: #ECBE7B;">arr</span>,l,mid<span style="color: #98be65;">)</span>;
+        mergeSort<span style="color: #98be65;">(</span><span style="color: #ECBE7B;">arr</span>,mid+<span style="color: #da8548; font-weight: bold;">1</span>,r<span style="color: #98be65;">)</span>;
+        merge<span style="color: #98be65;">(</span><span style="color: #ECBE7B;">arr</span>,l,mid,r<span style="color: #98be65;">)</span>;
+        <span style="color: #51afef;">return</span>;
+    <span style="color: #c678dd;">}</span>
+    <span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">reversePairs</span><span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">vector</span><span style="color: #98be65;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #98be65;">&gt;</span>&amp;<span style="color: #dcaeea;">nums</span><span style="color: #c678dd;">)</span>
+    <span style="color: #c678dd;">{</span>
+        mergeSort<span style="color: #98be65;">(</span>nums,<span style="color: #da8548; font-weight: bold;">0</span>,nums.size<span style="color: #a9a1e1;">()</span>-<span style="color: #da8548; font-weight: bold;">1</span><span style="color: #98be65;">)</span>;
+        <span style="color: #51afef;">return</span> inversions;
+    <span style="color: #c678dd;">}</span>
+<span style="color: #51afef;">}</span>;
+
+
+<span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">main</span><span style="color: #51afef;">()</span> <span style="color: #51afef;">{</span>
+    <span style="color: #ECBE7B;">vector</span> <span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span> <span style="color: #dcaeea;">array</span>;
+
+    cout&lt;&lt; <span style="color: #98be65;">"Enter the numbers, press q stop entering"</span>;
+    <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">num</span>;
+    <span style="color: #51afef;">while</span><span style="color: #c678dd;">(</span><span style="color: #da8548; font-weight: bold;">1</span><span style="color: #c678dd;">){</span>
+        cin &gt;&gt; num;
+        array.push_back<span style="color: #98be65;">(</span>num<span style="color: #98be65;">)</span>;
+    <span style="color: #c678dd;">}</span>
+<span style="color: #51afef;">}</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org640cae0" class="outline-4">
+<h4 id="org640cae0"><span class="section-number-4">1.4.2.</span> Using segment tree</h4>
+<div class="outline-text-4" id="text-1-4-2">
+<div class="org-src-container">
+<pre class="src src-cpp"><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">seg</span><span style="color: #51afef;">[</span><span style="color: #da8548; font-weight: bold;">1000006</span><span style="color: #51afef;">]</span>;
+<span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">update</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">ind</span>, <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">st</span>, <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">en</span>, <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">index</span><span style="color: #51afef;">)</span> <span style="color: #51afef;">{</span>
+    <span style="color: #51afef;">if</span><span style="color: #c678dd;">(</span>st == en<span style="color: #c678dd;">)</span> <span style="color: #c678dd;">{</span>
+        seg<span style="color: #98be65;">[</span>ind<span style="color: #98be65;">]</span>++;
+        <span style="color: #51afef;">return</span>;
+    <span style="color: #c678dd;">}</span>
+    <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">mid</span> = <span style="color: #c678dd;">(</span>st + en<span style="color: #c678dd;">)</span> &gt;&gt; <span style="color: #da8548; font-weight: bold;">1</span>;
+    <span style="color: #51afef;">if</span><span style="color: #c678dd;">(</span>index &lt;= mid<span style="color: #c678dd;">)</span> <span style="color: #c678dd;">{</span>
+        update<span style="color: #98be65;">(</span><span style="color: #da8548; font-weight: bold;">2</span> * ind + <span style="color: #da8548; font-weight: bold;">1</span>, st, mid, index<span style="color: #98be65;">)</span>;
+    <span style="color: #c678dd;">}</span>
+    <span style="color: #51afef;">else</span> <span style="color: #c678dd;">{</span>
+        update<span style="color: #98be65;">(</span><span style="color: #da8548; font-weight: bold;">2</span> * ind + <span style="color: #da8548; font-weight: bold;">2</span>, mid + <span style="color: #da8548; font-weight: bold;">1</span>, en, index<span style="color: #98be65;">)</span>;
+    <span style="color: #c678dd;">}</span>
+    seg<span style="color: #c678dd;">[</span>ind<span style="color: #c678dd;">]</span> = seg<span style="color: #c678dd;">[</span><span style="color: #da8548; font-weight: bold;">2</span> * ind + <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #c678dd;">]</span> + seg<span style="color: #c678dd;">[</span><span style="color: #da8548; font-weight: bold;">2</span> * ind + <span style="color: #da8548; font-weight: bold;">2</span><span style="color: #c678dd;">]</span>;
+<span style="color: #51afef;">}</span>
+<span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">query</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">ind</span>, <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">st</span>, <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">en</span>, <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">l</span>, <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">r</span><span style="color: #51afef;">)</span> <span style="color: #51afef;">{</span>
+    <span style="color: #51afef;">if</span><span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">en</span> <span style="color: #98be65;">&lt;</span> l || st <span style="color: #98be65;">&gt;</span> <span style="color: #dcaeea;">r</span> || st &gt; en<span style="color: #c678dd;">)</span> <span style="color: #c678dd;">{</span>
+        <span style="color: #51afef;">return</span> <span style="color: #da8548; font-weight: bold;">0</span>;
+    <span style="color: #c678dd;">}</span>
+    <span style="color: #51afef;">if</span><span style="color: #c678dd;">(</span>l &lt;= st &amp;&amp; en &lt;= r<span style="color: #c678dd;">)</span> <span style="color: #c678dd;">{</span>
+        <span style="color: #51afef;">return</span> seg<span style="color: #98be65;">[</span>ind<span style="color: #98be65;">]</span>;
+    <span style="color: #c678dd;">}</span>
+    <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">mid</span> = <span style="color: #c678dd;">(</span>st + en<span style="color: #c678dd;">)</span> &gt;&gt; <span style="color: #da8548; font-weight: bold;">1</span>;
+    <span style="color: #51afef;">return</span> query<span style="color: #c678dd;">(</span><span style="color: #da8548; font-weight: bold;">2</span> * ind + <span style="color: #da8548; font-weight: bold;">1</span>, st, mid, l, r<span style="color: #c678dd;">)</span> + query<span style="color: #c678dd;">(</span><span style="color: #da8548; font-weight: bold;">2</span> * ind + <span style="color: #da8548; font-weight: bold;">2</span>, mid + <span style="color: #da8548; font-weight: bold;">1</span>, en, l, r<span style="color: #c678dd;">)</span>;
+<span style="color: #51afef;">}</span>
+<span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">reversePairs</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span>&amp; <span style="color: #dcaeea;">nums</span><span style="color: #51afef;">)</span> <span style="color: #51afef;">{</span>
+    <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">n</span> = nums.size<span style="color: #c678dd;">()</span>;
+    <span style="color: #ECBE7B;">set</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">long</span> <span style="color: #ECBE7B;">long</span><span style="color: #c678dd;">&gt;</span> <span style="color: #dcaeea;">st</span><span style="color: #c678dd;">(</span>nums.begin<span style="color: #98be65;">()</span>, nums.end<span style="color: #98be65;">()</span><span style="color: #c678dd;">)</span>;
+    <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">cnt</span> = <span style="color: #da8548; font-weight: bold;">0</span>;
+    <span style="color: #ECBE7B;">unordered_map</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span>, <span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span> <span style="color: #dcaeea;">mp</span>;
+    <span style="color: #51afef;">for</span><span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">i</span> : st<span style="color: #c678dd;">)</span> <span style="color: #c678dd;">{</span>
+        mp<span style="color: #98be65;">[</span>i<span style="color: #98be65;">]</span> = cnt++;
+    <span style="color: #c678dd;">}</span>
+    <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">ans</span> = <span style="color: #da8548; font-weight: bold;">0</span>;
+    <span style="color: #51afef;">for</span><span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">i</span> = <span style="color: #da8548; font-weight: bold;">0</span>; i &lt; n; i++<span style="color: #c678dd;">)</span> <span style="color: #c678dd;">{</span>
+        <span style="color: #ECBE7B;">long</span> <span style="color: #ECBE7B;">long</span> <span style="color: #dcaeea;">rq</span> = nums<span style="color: #98be65;">[</span>i<span style="color: #98be65;">]</span> * <span style="color: #a9a1e1;">2</span><span style="color: #51afef;">ll</span> + <span style="color: #da8548; font-weight: bold;">1</span>;
+        <span style="color: #51afef;">if</span><span style="color: #98be65;">(</span>st.find<span style="color: #a9a1e1;">(</span>rq<span style="color: #a9a1e1;">)</span> != st.end<span style="color: #a9a1e1;">()</span><span style="color: #98be65;">)</span> <span style="color: #98be65;">{</span>
+            <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">l</span> = mp<span style="color: #a9a1e1;">[</span>rq<span style="color: #a9a1e1;">]</span>, <span style="color: #dcaeea;">r</span> = n - <span style="color: #da8548; font-weight: bold;">1</span>;
+            ans += query<span style="color: #a9a1e1;">(</span><span style="color: #da8548; font-weight: bold;">0</span>, <span style="color: #da8548; font-weight: bold;">0</span>, n - <span style="color: #da8548; font-weight: bold;">1</span>, l, r<span style="color: #a9a1e1;">)</span>;
+        <span style="color: #98be65;">}</span>
+        <span style="color: #51afef;">else</span> <span style="color: #98be65;">{</span>
+            <span style="color: #51afef;">auto</span> <span style="color: #dcaeea;">it</span> = st.lower_bound<span style="color: #a9a1e1;">(</span>rq<span style="color: #a9a1e1;">)</span>;
+            <span style="color: #51afef;">if</span><span style="color: #a9a1e1;">(</span>it != st.end<span style="color: #51afef;">()</span><span style="color: #a9a1e1;">)</span> <span style="color: #a9a1e1;">{</span>
+                <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">l</span> = mp<span style="color: #51afef;">[</span>*it<span style="color: #51afef;">]</span>, <span style="color: #dcaeea;">r</span> = n - <span style="color: #da8548; font-weight: bold;">1</span>;
+                ans += query<span style="color: #51afef;">(</span><span style="color: #da8548; font-weight: bold;">0</span>, <span style="color: #da8548; font-weight: bold;">0</span>, n - <span style="color: #da8548; font-weight: bold;">1</span>, l, r<span style="color: #51afef;">)</span>;
+            <span style="color: #a9a1e1;">}</span>
+        <span style="color: #98be65;">}</span>
+        update<span style="color: #98be65;">(</span><span style="color: #da8548; font-weight: bold;">0</span>, <span style="color: #da8548; font-weight: bold;">0</span>, n - <span style="color: #da8548; font-weight: bold;">1</span>, mp<span style="color: #a9a1e1;">[</span>nums<span style="color: #51afef;">[</span>i<span style="color: #51afef;">]</span><span style="color: #a9a1e1;">]</span><span style="color: #98be65;">)</span>;
+    <span style="color: #c678dd;">}</span>
+    <span style="color: #51afef;">return</span> ans;
+<span style="color: #51afef;">}</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Boban Joksimoski</p>
+<p class="date">Created: 2023-04-30 Sun 18:40</p>
+</div>
+</body>
+</html>

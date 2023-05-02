@@ -1,0 +1,473 @@
+% Created 2023-05-02 Tue 19:59
+% Intended LaTeX compiler: pdflatex
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\date{}
+\title{Programming exercises \#2}
+\hypersetup{
+ pdfauthor={Boban Joksimoski},
+ pdftitle={Programming exercises \#2},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 28.1 (Org mode 9.6.1)}, 
+ pdflang={English}}
+\usepackage{biblatex}
+
+\begin{document}
+
+\maketitle
+\setcounter{tocdepth}{1}
+\tableofcontents
+
+
+
+\section{Fractional Knapsack}
+\label{sec:org3934e0f}
+\subsection{Problem}
+\label{sec:org4a143b4}
+Given the weights and profits of \texttt{N} items, in the form of \texttt{\{profit, weight\}}
+put these items in a knapsack of capacity \texttt{W} to get the maximum total profit in the knapsack.
+
+In Fractional Knapsack, we can break items for maximizing the total value of the knapsack.
+
+\subsection{Input}
+\label{sec:org7af01b2}
+\begin{verbatim}
+Input: arr[] = {{60, 10}, {100, 20}, {120, 30}}, W = 50
+Output: 240
+
+Explanation: By taking items of weight 10 and 20 kg and 2/3 fraction of 30 kg.
+
+Hence total price will be 60+100+(2/3)(120) = 240
+
+Input:  arr[] = {{500, 30}}, W = 10
+Output: 166.667
+\end{verbatim}
+
+\subsection{Naive Approach}
+\label{sec:orgafa708a}
+Try all possible subsets with all different fractions.
+
+Time Complexity: \(O(2^N)\)
+Auxiliary Space: \(O(N)\)
+
+\subsection{Greedy approach}
+\label{sec:org5d9c487}
+The basic idea of the greedy approach is to calculate the ratio \texttt{profit/weight} for each item and sort the item on the basis of this ratio.
+Then take the item with the highest ratio and add them as much as we can (can be the whole element or a fraction of it).
+
+This will always give the maximum profit because, in each step it adds an element such that this is the maximum possible profit for that much weight.
+
+\subsubsection{Example}
+\label{sec:orgc5cc5d9}
+\begin{verbatim}
+arr[] = {{100, 20}, {60, 10}, {120, 30}}, W = 50.
+
+Sorting: Initially sort the array based on the profit/weight ratio. The sorted array will be {{60, 10}, {100, 20}, {120, 30}}.
+
+Iteration:
+- For i = 0, weight = 10 which is less than W. So add this element in the knapsack. profit = 60 and remaining W = 50 – 10 = 40.
+- For i = 1, weight = 20 which is less than W. So add this element too. profit = 60 + 100 = 160 and remaining W = 40 – 20 = 20.
+- For i = 2, weight = 30 is greater than W. So add 20/30 fraction = 2/3 fraction of the element. Therefore profit = 2/3 * 120 + 160 = 80 + 160 = 240 and remaining W becomes 0.
+
+So the final profit becomes 240 for W = 50.
+\end{verbatim}
+
+\subsection{Example solution}
+\label{sec:orgb18d731}
+\begin{verbatim}
+
+// C++ program to solve fractional Knapsack Problem
+
+#include <bits/stdc++.h>
+using namespace std;
+
+// Structure for an item which stores weight and
+// corresponding value of Item
+struct Item {
+    int profit, weight;
+
+    // Constructor
+    Item(int profit, int weight)
+    {
+        this->profit = profit;
+        this->weight = weight;
+    }
+};
+
+// Comparison function to sort Item
+// according to profit/weight ratio
+static bool cmp(struct Item a, struct Item b)
+{
+    double r1 = (double)a.profit / (double)a.weight;
+    double r2 = (double)b.profit / (double)b.weight;
+    return r1 > r2;
+}
+
+// Main greedy function to solve problem
+double fractionalKnapsack(int W, struct Item arr[], int N)
+{
+    // Sorting Item on basis of ratio
+    sort(arr, arr + N, cmp);
+
+    double finalvalue = 0.0;
+
+    // Looping through all items
+    for (int i = 0; i < N; i++) {
+
+        // If adding Item won't overflow,
+        // add it completely
+        if (arr[i].weight <= W) {
+            W -= arr[i].weight;
+            finalvalue += arr[i].profit;
+        }
+
+        // If we can't add current Item,
+        // add fractional part of it
+        else {
+            finalvalue
+                += arr[i].profit
+                   * ((double)W / (double)arr[i].weight);
+            break;
+        }
+    }
+
+    // Returning final value
+    return finalvalue;
+}
+
+// Driver code
+int main()
+{
+    int W = 50;
+    Item arr[] = { { 60, 10 }, { 100, 20 }, { 120, 30 } };
+    int N = sizeof(arr) / sizeof(arr[0]);
+
+    // Function call
+    cout << fractionalKnapsack(W, arr, N);
+    return 0;
+}
+\end{verbatim}
+
+\section{Longest Palindrome}
+\label{sec:org1a668d3}
+Given a string \texttt{s} which consists of lowercase or uppercase letters, return the length of the longest palindrome that can be built with those letters.
+
+Letters are case sensitive, for example, \texttt{"Aa"} is not considered a palindrome here.
+
+\subsection{Examples}
+\label{sec:org1233770}
+\subsubsection{Example 1}
+\label{sec:org276da0c}
+\begin{verbatim}
+Input: s = "abccccdd"
+Output: 7
+\end{verbatim}
+Explanation: One longest palindrome that can be built is \texttt{"dccaccd"}, whose length is 7.
+\subsubsection{Example 2}
+\label{sec:orgfd85603}
+\begin{verbatim}
+Input: s = "a"
+Output: 1
+\end{verbatim}
+Explanation: The longest palindrome that can be built is \texttt{"a"}, whose length is 1.
+
+\subsection{Constraints:}
+\label{sec:orgeb600ab}
+\begin{itemize}
+\item \(1 \le s.length \le 2000\)
+\item \texttt{s} consists of lowercase and/or uppercase English letters only.
+\end{itemize}
+
+\subsection{Solution}
+\label{sec:orgdc7157b}
+\subsubsection{Greedy approach using hashmaps}
+\label{sec:org27c1938}
+To get a palindrome from a group of characters, the group of characters should have some constraints:
+
+\begin{enumerate}
+\item Every letter must appear \textbf{even} number of times like \texttt{"aabb"} or \texttt{"baba"} in any order it doesn't matter, what matters is that we have \textbf{2 a} and \textbf{2 b} which are even numbers and at the end it can be converted to a palindrome in our case \texttt{"abba"} or \texttt{"baab"}. The exception is that \textbf{one letter may appear an odd number of times} like \texttt{"abcba"} where we have \texttt{1 c} but it's not a problem as long as it's only one letter that appears an odd number of times.
+\item If there is only one letter type then it must appear an odd number of times like \texttt{"a"} or \texttt{"aaa"} or \texttt{"aaaaa"} etc..
+\end{enumerate}
+
+\begin{enumerate}
+\item Algorithm:
+\label{sec:org143f1ef}
+\begin{enumerate}
+\item Get the number of times each letter appears (letter frequency).
+\item Get how many characters appear an odd number of times.
+\item Return your the number of all characters -- the number of characters that appear an odd number of times.
+\end{enumerate}
+
+\begin{verbatim}
+int longestPalindrome_array(string s) {
+    //Get every character frequency in an array
+    vector<int> freqCount(128); // working with the lower ASCII subset
+    for (char c : s)
+        freqCount[c]++;
+
+    /* Get how many characters have an odd frequency.*/
+    /* because of the exception that
+one character may have odd frequency, we will set oddCount to -1 */
+    int oddCount = -1;
+    for (int v : freqCount) {
+        if (v % 2) oddCount++;
+    }
+    /* Return your the number of all characters -
+the number of characters that appear an odd number of times. */
+    // if there is no letter with odd frequency return full length
+    return (oddCount > 0) ? s.length() - oddCount: s.length();
+}
+\end{verbatim}
+
+Alternative solution using \texttt{unordered\_map}:
+
+\begin{verbatim}
+int longestPalindrome_umap(string s) {
+    std::unordered_map<char,int> mp;
+    for(auto&i:s) mp[i]++;
+
+    int evenLen=0, longestPalindrome=0 , oddLen=0;
+    bool visited=0;
+    for(auto&it:mp){
+        int freq = it.second ;
+
+        //take all freq if even number of times
+        if(!(freq&1)){
+            evenLen+=freq;
+        }
+        else if(freq&1){
+            //a->3,b->5,c->7 --> take c (7) all and rest freq-1 times i.e a->2 and b->4 , take max one time and left one freq-1 times
+            visited=1;
+            oddLen+=freq-1;
+        }
+    }
+
+    longestPalindrome = evenLen;
+
+    if(visited){
+        longestPalindrome+=oddLen+1; //+1 bcs max freq was taken freq-1 times above so make it freq times
+    }
+
+    return longestPalindrome;
+
+}
+\end{verbatim}
+\end{enumerate}
+
+\section{Maximum Subarray}
+\label{sec:orgca113dc}
+Given an integer array \texttt{nums}, find the  subarray with the largest sum, and return its sum.
+
+\subsection{Examples}
+\label{sec:org10e54e6}
+\begin{verbatim}
+Input: nums = [-2,1,-3,4,-1,2,1,-5,4]
+Output: 6
+\end{verbatim}
+
+Explanation: The subarray [4,-1,2,1] has the largest sum 6.
+
+\begin{verbatim}
+Input: nums = [1]
+Output: 1
+\end{verbatim}
+
+Explanation: The subarray [1] has the largest sum 1.
+
+\begin{verbatim}
+Input: nums = [5,4,-1,7,8]
+Output: 23
+\end{verbatim}
+Explanation: The subarray [5,4,-1,7,8] has the largest sum 23.
+
+\subsection{Constraints:}
+\label{sec:org0c526b5}
+\begin{itemize}
+\item \(1 <= nums.length <= 10^5\)
+\item \(-10^4 <= nums[i] <= 10^4\)
+\end{itemize}
+
+\subsection{Solutions}
+\label{sec:org6287c90}
+\subsubsection{Brute force}
+\label{sec:org0f15b0e}
+We can start with brute-force by trying out every possible sub-array in \(nums\) and choosing the one with maximum sum.
+
+\begin{verbatim}
+int maxSubArray_bf(vector<int> &nums) {
+    int n = size(nums), ans = INT_MIN;
+    for (int i = 0; i < n; i++)
+        for (int j = i, curSum = 0; j < n; j++)
+            curSum += nums[j],
+                    ans = max(ans, curSum);
+    return ans;
+}
+\end{verbatim}
+
+
+\begin{description}
+\item[{Time Complexity}] \(O(N^2)\), where \(N\) is the number of elements in \texttt{nums}. There are \(N*(N+1)/2\) total sub-arrays and trying out each one takes time of \(O(N^2)\)
+\item[{Space Complexity}] \(O(1)\)
+\end{description}
+
+\subsubsection{Divide \& conquer}
+\label{sec:orgbdbecdb}
+We can solve this using divide and conquer strategy. This is the follow-up question asked in this question. This involves modelling the problem by observing that the maximum subarray sum is such that it lies somewhere:
+\begin{itemize}
+\item entirely in the left-half of array \texttt{[L, mid-1]}, OR
+\item entirely in the right-half of array \texttt{[mid+1, R]}, OR
+\item in array consisting of mid element along with some part of left-half and some part of right-half such that these form contiguous subarray - \texttt{[L', R'] = [L', mid-1] + [mid] + [mid+1,R']}, where \texttt{L' >= L} and \texttt{R' <= R}.
+\end{itemize}
+
+With the above observation, we can recursively divide the array into sub-problems on the left and right halves and then combine these results on the way back up to find the maximum subarray sum.
+
+
+\begin{verbatim}
+int maxSubArray_dq(vector<int> &nums) {
+    return maxSubArray_dq(nums, 0, size(nums) - 1);
+}
+
+int maxSubArray_dq(vector<int> &A, int L, int R) {
+    if (L > R) return INT_MIN;
+    int mid = (L + R) / 2, leftSum = 0, rightSum = 0;
+    // leftSum = max subarray sum in [L, mid-1] and starting from mid-1
+    for (int i = mid - 1, curSum = 0; i >= L; i--)
+        curSum += A[i],
+                leftSum = max(leftSum, curSum);
+    // rightSum = max subarray sum in [mid+1, R] and starting from mid+1
+    for (int i = mid + 1, curSum = 0; i <= R; i++)
+        curSum += A[i],
+                rightSum = max(rightSum, curSum);
+    // return max of 3 cases
+    return max({maxSubArray_dq(A, L, mid - 1), maxSubArray_dq(A, mid + 1, R), leftSum + A[mid] + rightSum});
+}
+\end{verbatim}
+
+\begin{description}
+\item[{Time Complexity}] \(O(NlogN)\), the recurrence relation can be written as \(T(N) = 2T(N/2) + O(N)\) since we are recurring for left and right half \((2T(N/2))\) and also calculating maximal subarray including mid element which takes \(O(N)\) to calculate. Solving this recurrence using master theorem, we can get the time complexity as \(O(NlogN)\)
+\item[{Space Complexity}] \(O(logN)\), required by recursive stack
+\end{description}
+
+We can further optimize the previous solution. The \(O(N)\) term in the recurrence relation of previous solution was due to computation of max sum subarray involving \(nums[mid]\) in each recursion.
+
+But we can reduce that term to \(O(1)\) if we precompute it. This can be done by precomputing two arrays \(pre\) and \(suf\) where pre[i] will denote maximum sum subarray ending at \(i\) and \(suf[i]\) denotes the maximum subarray starting at \(i\).
+
+\begin{verbatim}
+vector<int> pre, suf; //Global vectors
+
+int maxSubArray_dq1(vector<int> &nums) {
+    pre = suf = nums;
+    for (int i = 1; i < size(nums); i++) pre[i] += max(0, pre[i - 1]);
+    for (int i = size(nums) - 2; ~i; i--) suf[i] += max(0, suf[i + 1]);
+    return maxSubArray_dq1(nums, 0, size(nums) - 1);
+}
+
+int maxSubArray_dq1(vector<int> &A, int L, int R) {
+    if (L == R) return A[L];
+    int mid = (L + R) / 2;
+    return max({maxSubArray_dq1(A, L, mid), maxSubArray_dq1(A, mid + 1, R), pre[mid] + suf[mid + 1]});
+}
+\end{verbatim}
+
+\begin{description}
+\item[{Time Complexity}] \(O(N)\), the recurrence relation can be written as \(T(N) = 2T(N/2) + O(1)\) since we are recurring for left and right half \((2T(N/2))\) and calculating maximal subarray including mid element in \(O(1)\). Solving this recurrence using master theorem, we can get the time complexity as \(O(N)\)
+\item[{Space Complexity}] \(O(N)\), required by \texttt{suf} and \texttt{pre}.
+\end{description}
+
+\section{Create Maximum Number}
+\label{sec:orgd19bb53}
+You are given two integer arrays \texttt{nums1} and \texttt{nums2} of lengths \texttt{m} and \texttt{n} respectively. \texttt{nums1} and \texttt{nums2} represent the digits of two numbers. You are also given an integer \texttt{k}.
+
+Create the maximum number of length \texttt{k <= m + n} from digits of the two numbers. The relative order of the digits from the same array must be preserved.
+
+Return an array of the \texttt{k} digits representing the answer.
+
+\subsection{Examples}
+\label{sec:org59c3dc2}
+
+\begin{verbatim}
+Input: nums1 = [3,4,6,5], nums2 = [9,1,2,5,8,3], k = 5
+Output: [9,8,6,5,3]
+\end{verbatim}
+
+\begin{verbatim}
+Input: nums1 = [6,7], nums2 = [6,0,4], k = 5
+Output: [6,7,6,0,4]
+\end{verbatim}
+
+\begin{verbatim}
+Input: nums1 = [3,9], nums2 = [8,9], k = 3
+Output: [9,8,9]
+\end{verbatim}
+
+
+\subsection{Constraints:}
+\label{sec:orgb50ad52}
+\begin{itemize}
+\item \(m == nums1.length\)
+\item \(n == nums2.length\)
+\item \(1 \le m, n \le 500\)
+\item \(0 \le nums1[i], nums2[i] \le 9\)
+\item \(1 \le k \le m + n\)
+\end{itemize}
+
+
+\subsection{Solution}
+\label{sec:org3c89928}
+\subsubsection{Greedy approach}
+\label{sec:org437b043}
+To create max number of length \texttt{k} from two arrays, you need to create max number of length \texttt{i} from array one and max number of length \texttt{k-i} from array two, then combine them together. After trying all possible \texttt{i}, you will get the max number created from two arrays.
+
+Optimization steps:
+\begin{enumerate}
+\item Suppose \texttt{nums1 = [3, 4, 6, 5]}, \texttt{nums2 = [9, 1, 2, 5, 8, 3]}, the maximum number you can create from \texttt{nums1} is \texttt{[6, 5]} with length \texttt{2}. For \texttt{nums2}, it's \texttt{[9, 8, 3]} with length 3. Merging the two sequence, we have \texttt{[9, 8, 6, 5, 3]}, which is the max number we can create from two arrays without length constraint. If the required length \(k \le 5\), we can simply trim the result to required length from front. For instance, if \(k = 3\), then \texttt{[9, 8, 6]} is the result.
+\item Suppose we need to create max number with \texttt{length 2} from \texttt{num = [4, 5, 3, 2, 1, 6, 0, 8]}. The simple way is to use a stack, first we push \texttt{4} and have \texttt{stack [4]}, then comes \texttt{5 > 4}, we pop \texttt{4} and push \texttt{5}, stack becomes \texttt{[5]}, \texttt{3 < 5}, we push \texttt{3}, stack becomes \texttt{[5, 3]}. Now we have the required length 2, but we need to keep going through the array in case a larger number comes, \(2 < 3\), we discard it instead of pushing it because the stack already grows to required size \texttt{2}. \texttt{1 < 3}, we discard it. \texttt{6 > 3}, we pop \texttt{3}, since \texttt{6 > 5} and there are still elements left, we can continue to pop \texttt{5} and push \texttt{6}, the stack becomes \texttt{[6]}, since \texttt{0 < 6}, we push \texttt{0}, the stack becomes \texttt{[6, 0]}, the stack grows to required length again. Since \texttt{8 > 0}, we pop \texttt{0}, although \(8 > 6\), we can't continue to pop 6 since there is only one number, which is \texttt{8}, left, if we pop \texttt{6} and push \texttt{8}, we can't get to length 2, so we push \texttt{8} directly, the stack becomes \texttt{[6, 8]}.
+\item In the basic idea, we mentioned trying all possible lengths \texttt{i}. If we create max number for different \texttt{i} from scratch each time, that would be a waste of time. Suppose \texttt{num = [4, 9, 3, 2, 1, 8, 7, 6]}, we need to create max number with length from \texttt{1} to \texttt{8}. For \texttt{i==8}, result is the original array. For \texttt{i==7}, we need to drop 1 number from array, since \texttt{9 > 4}, we drop \texttt{4}, the result is \texttt{[9, 3, 2, 1, 8, 7, 6]}. For \texttt{i==6}, we need to drop \texttt{1} more number, \texttt{3 < 9}, skip, \texttt{2 < 3}, skip, \texttt{1 < 2}, skip, \texttt{8 > 1}, we drop \texttt{1}, the result is \texttt{[9, 3, 2, 8, 7, 6]}. For \texttt{i==5}, we need to drop \texttt{1} more, but this time, we needn't check from beginning, during last scan, we already know \texttt{[9, 3, 2]} is monotonically non-increasing, so we check \texttt{8} directly, since \texttt{8 > 2}, we drop \texttt{2}, the result is \texttt{[9, 3, 8, 7, 6]}. For \texttt{i==4}, we start with \texttt{8}, \texttt{8 > 3}, we drop \texttt{3}, the result is \texttt{[9, 8, 7, 6]}. For \texttt{i==3}, we start with \texttt{8}, \texttt{8 < 9}, skip, \texttt{7 < 8}, skip, \texttt{6 < 7}, skip, by now, we've got maximum number we can create from \texttt{num} without length constraint. So from now on, we can drop a number from the end each time. The result is \texttt{[9, 8, 7]}, For \texttt{i==2}, we drop last number \texttt{7} and have \texttt{[9, 8]}. For \texttt{i==1}, we drop last number \texttt{8} and have \texttt{[9]}.
+\end{enumerate}
+
+\begin{verbatim}
+vector<int> maxNumber(vector<int> &nums1, vector<int> &nums2, int k) {
+    int n1 = nums1.size(), n2 = nums2.size();
+    vector<int> best;
+    for (int k1 = max(k - n2, 0); k1 <= min(k, n1); ++k1)
+        best = max(best, maxNumber(maxNumber(nums1, k1),
+                                   maxNumber(nums2, k - k1)));
+    return best;
+}
+
+vector<int> maxNumber(vector<int> nums, int k) {
+    int drop = nums.size() - k;
+    vector<int> out;
+    for (int num: nums) {
+        while (drop && out.size() && out.back() < num) {
+            out.pop_back();
+            drop--;
+        }
+        out.push_back(num);
+    }
+    out.resize(k);
+    return out;
+}
+
+vector<int> maxNumber(vector<int> nums1, vector<int> nums2) {
+    vector<int> out;
+    while (nums1.size() + nums2.size()) {
+        vector<int> &now = nums1 > nums2 ? nums1 : nums2;
+        out.push_back(now[0]);
+        now.erase(now.begin());
+    }
+    return out;
+}
+\end{verbatim}
+\end{document}
