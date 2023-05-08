@@ -28,8 +28,10 @@ public:
         return (left-1);
     }
 
+    // Do the merge
     void merge(vector<int>&arr,int l,int m,int r)
     {
+        // Create a new array
         vector<int>Arr(r-l+1);
         int ptr1=l,ptr2=m+1,ptr3=0;
         while(ptr3<=(r-l))
@@ -73,6 +75,7 @@ public:
     }
     void mergeSort(vector<int>&arr,int l,int r)
     {
+
         if(l==r)
         {
             return;
@@ -85,6 +88,7 @@ public:
     }
     int reversePairs(vector<int>&nums)
     {
+        // Call the merge sort on the array
         mergeSort(nums,0,nums.size()-1);
         return inversions;
     }

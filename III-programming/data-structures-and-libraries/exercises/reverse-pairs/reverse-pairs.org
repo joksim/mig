@@ -2,7 +2,6 @@
 
 #+TITLE: Programming exercises
 
-* Reverse Pairs
 Given an integer array ~nums~, return the number of /reverse pairs/ in the array.
 
 A /reverse pair/ is a pair $(i, j)$ where:
@@ -11,8 +10,8 @@ A /reverse pair/ is a pair $(i, j)$ where:
 
 Please note that \[ i < j \] is a strict requirement.
 
-** Examples:
-*** Example 1:
+* Examples:
+** Example 1:
 #+begin_example
 Input: nums = [1,3,2,3,1]
 
@@ -24,7 +23,7 @@ Output: 2
   (3, 4) --> nums[3] = 3, nums[4] = 1, 3 > 2 * 1
   #+end_example
 
-*** Example 2:
+** Example 2:
 #+begin_example
 Input: nums = [2,4,3,5,1]
 Output: 3
@@ -36,20 +35,106 @@ Output: 3
   (3, 4) --> nums[3] = 5, nums[4] = 1, 5 > 2 * 1
   #+end_example
 
-** Constraints:
+* Constraints:
 - $1 <= ~nums.length~ <= 5 * 10^4$
 - $-2^{31} <= ~nums[i]~ <= 2^{31} - 1$
 
-** Starter code
+* Starter code
+#+begin_src cpp
+#include <iostream>
+#include <vector>
+#include <string>
 
-** Solution ideas
+using std::cin, std::cout;
+using std::vector;
+using std::string;
+
+int main() {
+    vector <int> nums;
+    char choice;
+    int number;
+    while (true)
+    {
+        cin >> choice; // note: it's important to discard whitespace
+
+
+        if (choice == 'q' || choice == 'Q')
+            break;
+
+        cin.putback(choice);
+
+        if (!(cin >> number))
+            break; // note: exit on error
+
+        nums.push_back(number);
+    }
+    for (auto n : nums)
+        cout << n << " ";
+
+}
+#+end_src
+
+* Solution ideas
 Different ways to handle
 
-** Solution
-*** Brute force algorithm
+* Solution
+** Brute force algorithm
+#+begin_src cpp
+int reversePairCount = 0;
+for(int i=0; i<nums.size(); i++) {
+	for(int j=i+1; j<nums.size(); j++) {
+		if( nums[i] > 2*nums[j]) reversePairCount++;
+	}
+}
+return reversePairCount;
+#+end_src
 
-*** Using Divide and Conquer and Merge sort
-#+INCLUDE: ./binary-search-merge-sort.cpp src cpp
+- Time complexity: $O(N^2)$
+- Space complexity: $O(1)$
+Where $N$ is the size of array ~nums~.
 
-*** Using segment tree
+As the size of size of array ~nums~ can be max $5*10^4$, this brute force approach will unpractial
+
+** Using Divide and Conquer and Merge sort
+This problem can be solved very easily using merge sort.
+Let’s consider the common top-down approach of merge sort.
+
+Assume, there’re 2 functions.
+- ~_mergeSort~ :: Divides the array.
+- ~_merge~ :: Compares elements of 2 sub-array, then merge them into 1 array.
+
+For this problem, we’ll modify the ~_merge~ function to get the required output.
+
+#+begin_src cpp
+void _merge(int ar[], int low, int mid, int high) {
+    int leftInd=low, rightInd=mid+1, temp[high-low+1], tempInd = 0;
+
+    while(leftInd<=mid && rightInd<=high) {
+        if(ar[leftInd] <= ar[rightInd]) temp[tempInd++] = ar[leftInd++];
+        else temp[tempInd++] = ar[rightInd++];
+    }
+
+    while(leftInd <= mid) temp[tempInd++] = ar[leftInd++];
+
+    while(rightInd<=high) temp[tempInd++] = ar[rightInd++];
+
+    for(int i=0; i<tempInd; i++) ar[low++] = temp[i];
+}
+#+end_src
+
+This is a sample code of typical ~_merge~ function. Here we check which part between 2 sub-array has the smaller element. Then we keep it into the additional array (in the code ~temp~).
+
+For this problem, instead of checking whether current value of left sub-array is less than or equal to current value of right sub-array, we’ll check whether current value of left sub-array is greater than double of current value of right sub-array.
+That means, current value of left sub-array > 2 * current value of right sub-array.
+This is the main idea for solving the problem.
+
+
+#+INCLUDE: ./merge-sort.cpp src cpp
+
+
+
+
+# #+INCLUDE: ./binary-search-merge-sort.cpp src cpp
+
+** Using segment tree
 #+INCLUDE: ./segment-tree.cpp src cpp

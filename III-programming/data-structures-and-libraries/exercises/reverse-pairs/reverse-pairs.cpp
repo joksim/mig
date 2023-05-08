@@ -8,8 +8,6 @@ using std::cin, std::cout;
 using std::vector;
 using std::string;
 
-
-
 int main() {
     vector <int> nums;
     char choice;
@@ -31,4 +29,5 @@ int main() {
     }
     for (auto n : nums)
         cout << n << " ";
+
 }
