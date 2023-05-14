@@ -1,0 +1,730 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2023-05-15 Mon 00:52 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>&lrm;</title>
+<meta name="author" content="Boban Joksimoski" />
+<meta name="generator" content="Org Mode" />
+<style>
+  #content { max-width: 60em; margin: auto; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    padding: 3px;
+    color: #555;
+    background-color: #f2f2f299;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { }
+</style>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+</head>
+<body>
+<div id="content" class="content">
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org71797e8">1. Implement <code>Diff</code> utility</a>
+<ul>
+<li><a href="#org7eb3da5">1.1. Examples</a>
+<ul>
+<li><a href="#orgeada4c7">1.1.1. Example 1</a></li>
+<li><a href="#orgcaf9f2d">1.1.2. Example 2</a></li>
+<li><a href="#org071e269">1.1.3. Explanation:</a></li>
+</ul>
+</li>
+<li><a href="#orgbf5458c">1.2. Approach</a>
+<ul>
+<li><a href="#org0b13349">1.2.1. Longest Common Subsequence problem</a></li>
+</ul>
+</li>
+<li><a href="#org6f66865">1.3. Example Solution</a>
+<ul>
+<li><a href="#org0dd868a">1.3.1. Metrics</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org71797e8" class="outline-2">
+<h2 id="org71797e8"><span class="section-number-2">1.</span> Implement <code>Diff</code> utility</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Implement your <a href="https://en.wikipedia.org/wiki/Diff">diff utility</a>, i.e., given two similar strings, efficiently list out all differences between them.
+</p>
+
+<p>
+The diff utility is a data comparison tool that calculates and displays the differences between the two texts. It tries to determine the smallest set of deletions and insertions and create one text from the other. Diff is <b>line-oriented</b> rather than <b>character-oriented</b>, unlike <a href="https://en.wikipedia.org/wiki/Edit_distance">edit distance</a>.
+</p>
+</div>
+
+<div id="outline-container-org7eb3da5" class="outline-3">
+<h3 id="org7eb3da5"><span class="section-number-3">1.1.</span> Examples</h3>
+<div class="outline-text-3" id="text-1-1">
+</div>
+<div id="outline-container-orgeada4c7" class="outline-4">
+<h4 id="orgeada4c7"><span class="section-number-4">1.1.1.</span> Example 1</h4>
+<div class="outline-text-4" id="text-1-1-1">
+<pre class="example" id="org177b5fb">
+string X = "XMJYAUZ"
+string Y = "XMJAATZ"
+</pre>
+
+
+<pre class="example" id="org472a775">
+X M J -Y A -U +A +T Z
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgcaf9f2d" class="outline-4">
+<h4 id="orgcaf9f2d"><span class="section-number-4">1.1.2.</span> Example 2</h4>
+<div class="outline-text-4" id="text-1-1-2">
+<pre class="example" id="org839d8c0">
+string X = "ABCDFGHJQZ";
+string Y = "ABCDEFGIJKRXYZ";
+</pre>
+
+
+<pre class="example" id="orgd6fdae9">
+A B C D +E F G -H +I J -Q +K +R +X +Y Z
+</pre>
+</div>
+</div>
+
+
+<div id="outline-container-org071e269" class="outline-4">
+<h4 id="org071e269"><span class="section-number-4">1.1.3.</span> Explanation:</h4>
+<div class="outline-text-4" id="text-1-1-3">
+<ul class="org-ul">
+<li><b><code>'-'</code></b> indicates that character is <b>deleted</b> from <code>Y</code> but it was present in <code>X</code>.</li>
+<li><b><code>'+'</code></b> indicates that character is <b>inserted</b> in <code>Y</code> but it was not present in <code>X</code>.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgbf5458c" class="outline-3">
+<h3 id="orgbf5458c"><span class="section-number-3">1.2.</span> Approach</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+We can use the <code>Longest Common Subsequence (LCS)</code> to solve this problem. The idea is to find the longest sequence of characters present in both original sequences in the same order. From the longest common subsequence, it is only a small step to get the diff-like output:
+</p>
+
+<ul class="org-ul">
+<li>If a character is absent in the subsequence but present in the first original sequence, it must have been deleted (indicated by the - marks).</li>
+<li>If it is absent in the subsequence but present in the second original sequence, it must have been inserted (indicated by the + marks).</li>
+</ul>
+</div>
+
+
+<div id="outline-container-org0b13349" class="outline-4">
+<h4 id="org0b13349"><span class="section-number-4">1.2.1.</span> Longest Common Subsequence problem</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<p>
+Let two sequences be defined as follows: \(X=(x_{1}x_{2}\cdots x_{m})\) and \(Y=(y_{1}y_{2}\cdots y_{n})\). The prefixes of \(X\) are \(X_{0}, X_{1}, X_{2},\dots, X_{m}\); the prefixes of \(Y\) are \(Y_{0},Y_{1},Y_{2},\dots ,Y_{n}\). Let \(LCS(X_{i}, Y_{j})\) represent the set of longest common subsequence of prefixes \(X_{i}\) and \(Y_{j}\). This set of sequences is given by the following:
+</p>
+
+\begin{equation}
+  LCS(X_{i},Y_{j}) =
+   \begin{cases}
+     \epsilon,  &{\mbox{if }}i=0{\mbox{ or }}j=0\\
+     LCS(X_{i-1},Y_{j-1}){\hat {}}x_{i}&{\mbox{if }}i,j>0{\mbox{ and }}x_{i}=y_{j}\\
+     \operatorname {\max } \{{\mathit {LCS}}(X_{i},Y_{j-1}),{\mathit {LCS}}(X_{i-1},Y_{j})\}&{\mbox{if }}i,j>0{\mbox{ and }}x_{i}\neq y_{j}.\end{cases}
+\end{equation}
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org6f66865" class="outline-3">
+<h3 id="org6f66865"><span class="section-number-3">1.3.</span> Example Solution</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+Let see a solution to the <a href="https://en.wikipedia.org/wiki/Longest_common_subsequence">LCS problem</a>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #5B6268;">// </span><span style="color: #5B6268;">Function to fill the lookup table by finding the length of LCS of substring</span>
+<span style="color: #ECBE7B;">vector</span><span style="color: #51afef;">&lt;</span><span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span><span style="color: #51afef;">&gt;</span> <span style="color: #c678dd;">findLCS</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">string</span> <span style="color: #dcaeea;">X</span>, <span style="color: #ECBE7B;">string</span> <span style="color: #dcaeea;">Y</span>, <span style="color: #ECBE7B;">uint</span> <span style="color: #dcaeea;">m</span>, <span style="color: #ECBE7B;">uint</span> <span style="color: #dcaeea;">n</span><span style="color: #51afef;">)</span>
+<span style="color: #51afef;">{</span>
+    <span style="color: #5B6268;">// </span><span style="color: #5B6268;">lookup[i][-j] stores the length of LCS of substring X[0&#8230;i-1] and Y[0&#8230;j-1]</span>
+    <span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">vector</span><span style="color: #98be65;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #98be65;">&gt;</span><span style="color: #c678dd;">&gt;</span> <span style="color: #dcaeea;">lookup</span><span style="color: #c678dd;">(</span>m + <span style="color: #da8548; font-weight: bold;">1</span>, vector<span style="color: #98be65;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #98be65;">&gt;(</span>n + <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #98be65;">)</span><span style="color: #c678dd;">)</span>;
+
+    <span style="color: #5B6268;">// </span><span style="color: #5B6268;">first column -of the lookup table will be all 0</span>
+    <span style="color: #51afef;">for</span> <span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">i</span> = <span style="color: #da8548; font-weight: bold;">0</span>; i &lt;= m; i++<span style="color: #c678dd;">)</span> <span style="color: #c678dd;">{</span>
+        lookup<span style="color: #98be65;">[</span>i<span style="color: #98be65;">][</span><span style="color: #da8548; font-weight: bold;">0</span><span style="color: #98be65;">]</span> = <span style="color: #da8548; font-weight: bold;">0</span>;
+    <span style="color: #c678dd;">}</span>
+
+    <span style="color: #5B6268;">// </span><span style="color: #5B6268;">first row of the lookup table will be all 0</span>
+    <span style="color: #51afef;">for</span> <span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">j</span> = <span style="color: #da8548; font-weight: bold;">0</span>; j &lt;= n; j++<span style="color: #c678dd;">)</span> <span style="color: #c678dd;">{</span>
+        lookup<span style="color: #98be65;">[</span><span style="color: #da8548; font-weight: bold;">0</span><span style="color: #98be65;">][</span>j<span style="color: #98be65;">]</span> = <span style="color: #da8548; font-weight: bold;">0</span>;
+    <span style="color: #c678dd;">}</span>
+
+    <span style="color: #5B6268;">// </span><span style="color: #5B6268;">fill the lookup table in a bottom-up manner</span>
+    <span style="color: #51afef;">for</span> <span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">i</span> = <span style="color: #da8548; font-weight: bold;">1</span>; i &lt;= m; i++<span style="color: #c678dd;">)</span>
+    <span style="color: #c678dd;">{</span>
+        <span style="color: #51afef;">for</span> <span style="color: #98be65;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">j</span> = <span style="color: #da8548; font-weight: bold;">1</span>; j &lt;= n; j++<span style="color: #98be65;">)</span>
+        <span style="color: #98be65;">{</span>
+            <span style="color: #5B6268;">// </span><span style="color: #5B6268;">if current character of `X` and `Y` matches</span>
+            <span style="color: #51afef;">if</span> <span style="color: #a9a1e1;">(</span>X<span style="color: #51afef;">[</span>i - <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #51afef;">]</span> == Y<span style="color: #51afef;">[</span>j - <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #51afef;">]</span><span style="color: #a9a1e1;">)</span> <span style="color: #a9a1e1;">{</span>
+                lookup<span style="color: #51afef;">[</span>i<span style="color: #51afef;">][</span>j<span style="color: #51afef;">]</span> = lookup<span style="color: #51afef;">[</span>i - <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #51afef;">][</span>j - <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #51afef;">]</span> + <span style="color: #da8548; font-weight: bold;">1</span>;
+            <span style="color: #a9a1e1;">}</span>
+                <span style="color: #5B6268;">// </span><span style="color: #5B6268;">otherwise, if the current character of `X` and `Y` don't match</span>
+            <span style="color: #51afef;">else</span> <span style="color: #a9a1e1;">{</span>
+                lookup<span style="color: #51afef;">[</span>i<span style="color: #51afef;">][</span>j<span style="color: #51afef;">]</span> = max<span style="color: #51afef;">(</span>lookup<span style="color: #c678dd;">[</span>i - <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #c678dd;">][</span>j<span style="color: #c678dd;">]</span>, lookup<span style="color: #c678dd;">[</span>i<span style="color: #c678dd;">][</span>j - <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #c678dd;">]</span><span style="color: #51afef;">)</span>;
+            <span style="color: #a9a1e1;">}</span>
+        <span style="color: #98be65;">}</span>
+    <span style="color: #c678dd;">}</span>
+
+    <span style="color: #51afef;">return</span> lookup;
+<span style="color: #51afef;">}</span>
+</pre>
+</div>
+
+<p>
+This will generate the following lookup table for our example:
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-right">&#xa0;</th>
+<th scope="col" class="org-right">A</th>
+<th scope="col" class="org-right">B</th>
+<th scope="col" class="org-right">C</th>
+<th scope="col" class="org-right">D</th>
+<th scope="col" class="org-right">E</th>
+<th scope="col" class="org-right">F</th>
+<th scope="col" class="org-right">G</th>
+<th scope="col" class="org-right">I</th>
+<th scope="col" class="org-right">J</th>
+<th scope="col" class="org-right">K</th>
+<th scope="col" class="org-right">R</th>
+<th scope="col" class="org-right">X</th>
+<th scope="col" class="org-right">Y</th>
+<th scope="col" class="org-right">Z</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">A</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+</tr>
+
+<tr>
+<td class="org-left">B</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-left">C</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">2</td>
+<td class="org-right">3</td>
+<td class="org-right">3</td>
+<td class="org-right">3</td>
+<td class="org-right">3</td>
+<td class="org-right">3</td>
+<td class="org-right">3</td>
+<td class="org-right">3</td>
+<td class="org-right">3</td>
+<td class="org-right">3</td>
+<td class="org-right">3</td>
+<td class="org-right">3</td>
+<td class="org-right">3</td>
+</tr>
+
+<tr>
+<td class="org-left">D</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">2</td>
+<td class="org-right">3</td>
+<td class="org-right">4</td>
+<td class="org-right">4</td>
+<td class="org-right">4</td>
+<td class="org-right">4</td>
+<td class="org-right">4</td>
+<td class="org-right">4</td>
+<td class="org-right">4</td>
+<td class="org-right">4</td>
+<td class="org-right">4</td>
+<td class="org-right">4</td>
+<td class="org-right">4</td>
+</tr>
+
+<tr>
+<td class="org-left">F</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">2</td>
+<td class="org-right">3</td>
+<td class="org-right">4</td>
+<td class="org-right">4</td>
+<td class="org-right">5</td>
+<td class="org-right">5</td>
+<td class="org-right">5</td>
+<td class="org-right">5</td>
+<td class="org-right">5</td>
+<td class="org-right">5</td>
+<td class="org-right">5</td>
+<td class="org-right">5</td>
+<td class="org-right">5</td>
+</tr>
+
+<tr>
+<td class="org-left">G</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">2</td>
+<td class="org-right">3</td>
+<td class="org-right">4</td>
+<td class="org-right">4</td>
+<td class="org-right">5</td>
+<td class="org-right">6</td>
+<td class="org-right">6</td>
+<td class="org-right">6</td>
+<td class="org-right">6</td>
+<td class="org-right">6</td>
+<td class="org-right">6</td>
+<td class="org-right">6</td>
+<td class="org-right">6</td>
+</tr>
+
+<tr>
+<td class="org-left">H</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">2</td>
+<td class="org-right">3</td>
+<td class="org-right">4</td>
+<td class="org-right">4</td>
+<td class="org-right">5</td>
+<td class="org-right">6</td>
+<td class="org-right">6</td>
+<td class="org-right">6</td>
+<td class="org-right">6</td>
+<td class="org-right">6</td>
+<td class="org-right">6</td>
+<td class="org-right">6</td>
+<td class="org-right">6</td>
+</tr>
+
+<tr>
+<td class="org-left">J</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">2</td>
+<td class="org-right">3</td>
+<td class="org-right">4</td>
+<td class="org-right">4</td>
+<td class="org-right">5</td>
+<td class="org-right">6</td>
+<td class="org-right">6</td>
+<td class="org-right">7</td>
+<td class="org-right">7</td>
+<td class="org-right">7</td>
+<td class="org-right">7</td>
+<td class="org-right">7</td>
+<td class="org-right">7</td>
+</tr>
+
+<tr>
+<td class="org-left">Q</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">2</td>
+<td class="org-right">3</td>
+<td class="org-right">4</td>
+<td class="org-right">4</td>
+<td class="org-right">5</td>
+<td class="org-right">6</td>
+<td class="org-right">6</td>
+<td class="org-right">7</td>
+<td class="org-right">7</td>
+<td class="org-right">7</td>
+<td class="org-right">7</td>
+<td class="org-right">7</td>
+<td class="org-right">7</td>
+</tr>
+
+<tr>
+<td class="org-left">Z</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">2</td>
+<td class="org-right">3</td>
+<td class="org-right">4</td>
+<td class="org-right">4</td>
+<td class="org-right">5</td>
+<td class="org-right">6</td>
+<td class="org-right">6</td>
+<td class="org-right">7</td>
+<td class="org-right">7</td>
+<td class="org-right">7</td>
+<td class="org-right">7</td>
+<td class="org-right">7</td>
+<td class="org-right">8</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+Each character of the second string (<code>Y</code>) is represented by the columns, while every character from \(X\) is represented in the rows. Also note that the <i>0-th</i> row and column do not represent a character in the strings.
+</p>
+
+<p>
+After generation of the lookup table, we search for the differences by iterating the <code>lookup</code> table from the bottom-right corner (something like a <i>backtrack</i>).
+</p>
+
+<ol class="org-ol">
+<li>If we find identical character (<code>X[i]</code> == <code>Y[j]</code>) we <b>recursively</b> repeat the search by using the upper-left neighbor element as the new starting point.</li>
+<li>If the current character of <code>Y</code> is not present in <code>X</code>, then we found a character that needs to be added and search <b>recursively</b> starting from the left neighbor.</li>
+<li>If the current character of <code>X</code> is not present in <code>Y</code>, we found a char that needs to be deleted and we should continue to search <b>recursively</b> starting from the top neighbor.</li>
+</ol>
+
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #5B6268;">// </span><span style="color: #5B6268;">Function to display the differences between two strings</span>
+<span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">diff</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">string</span> <span style="color: #dcaeea;">X</span>, <span style="color: #ECBE7B;">string</span> <span style="color: #dcaeea;">Y</span>, <span style="color: #ECBE7B;">uint</span> <span style="color: #dcaeea;">m</span>, <span style="color: #ECBE7B;">uint</span> <span style="color: #dcaeea;">n</span>, <span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">vector</span><span style="color: #98be65;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #98be65;">&gt;</span><span style="color: #c678dd;">&gt;</span> &amp;<span style="color: #dcaeea;">lookup</span><span style="color: #51afef;">)</span>
+<span style="color: #51afef;">{</span>
+    <span style="color: #5B6268;">// </span><span style="color: #5B6268;">if the last character of `X` and `Y` matches</span>
+    <span style="color: #51afef;">if</span> <span style="color: #c678dd;">(</span>m &gt; <span style="color: #da8548; font-weight: bold;">0</span> &amp;&amp; n &gt; <span style="color: #da8548; font-weight: bold;">0</span> &amp;&amp; X<span style="color: #98be65;">[</span>m - <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #98be65;">]</span> == Y<span style="color: #98be65;">[</span>n - <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #98be65;">]</span><span style="color: #c678dd;">)</span>
+    <span style="color: #c678dd;">{</span>
+        diff<span style="color: #98be65;">(</span>X, Y, m - <span style="color: #da8548; font-weight: bold;">1</span>, n - <span style="color: #da8548; font-weight: bold;">1</span>, lookup<span style="color: #98be65;">)</span>;
+        cout &lt;&lt; <span style="color: #98be65;">" "</span> &lt;&lt; X<span style="color: #98be65;">[</span>m - <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #98be65;">]</span>;
+    <span style="color: #c678dd;">}</span>
+
+    <span style="color: #5B6268;">// </span><span style="color: #5B6268;">if the current character of `Y` is not present in `X`</span>
+    <span style="color: #51afef;">else</span> <span style="color: #51afef;">if</span> <span style="color: #c678dd;">(</span>n &gt; <span style="color: #da8548; font-weight: bold;">0</span> &amp;&amp; <span style="color: #98be65;">(</span>m == <span style="color: #da8548; font-weight: bold;">0</span> || lookup<span style="color: #a9a1e1;">[</span>m<span style="color: #a9a1e1;">][</span>n - <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #a9a1e1;">]</span> &gt;= lookup<span style="color: #a9a1e1;">[</span>m - <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #a9a1e1;">][</span>n<span style="color: #a9a1e1;">]</span><span style="color: #98be65;">)</span><span style="color: #c678dd;">)</span>
+    <span style="color: #c678dd;">{</span>
+        diff<span style="color: #98be65;">(</span>X, Y, m, n - <span style="color: #da8548; font-weight: bold;">1</span>, lookup<span style="color: #98be65;">)</span>;
+        cout &lt;&lt; <span style="color: #98be65;">" +"</span> &lt;&lt; Y<span style="color: #98be65;">[</span>n - <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #98be65;">]</span>;
+    <span style="color: #c678dd;">}</span>
+
+    <span style="color: #5B6268;">// </span><span style="color: #5B6268;">if the current character of `X` is not present in `Y`</span>
+    <span style="color: #51afef;">else</span> <span style="color: #51afef;">if</span> <span style="color: #c678dd;">(</span>m &gt; <span style="color: #da8548; font-weight: bold;">0</span> &amp;&amp; <span style="color: #98be65;">(</span>n == <span style="color: #da8548; font-weight: bold;">0</span> || lookup<span style="color: #a9a1e1;">[</span>m<span style="color: #a9a1e1;">][</span>n - <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #a9a1e1;">]</span> &lt; lookup<span style="color: #a9a1e1;">[</span>m - <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #a9a1e1;">][</span>n<span style="color: #a9a1e1;">]</span><span style="color: #98be65;">)</span><span style="color: #c678dd;">)</span>
+    <span style="color: #c678dd;">{</span>
+        diff<span style="color: #98be65;">(</span>X, Y, m - <span style="color: #da8548; font-weight: bold;">1</span>, n, lookup<span style="color: #98be65;">)</span>;
+        cout &lt;&lt; <span style="color: #98be65;">" -"</span> &lt;&lt; X<span style="color: #98be65;">[</span>m - <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #98be65;">]</span>;
+    <span style="color: #c678dd;">}</span>
+<span style="color: #51afef;">}</span>
+</pre>
+</div>
+
+<p>
+Link to the full working example:
+</p>
+</div>
+
+<div id="outline-container-org0dd868a" class="outline-4">
+<h4 id="org0dd868a"><span class="section-number-4">1.3.1.</span> Metrics</h4>
+<div class="outline-text-4" id="text-1-3-1">
+<dl class="org-dl">
+<dt>Time complexity</dt><dd>\(O(m*n)\)</dd>
+<dt>Space complexity</dt><dd>\(O(m*n)\) extra space, where \(m\) is the length of the first string and \(n\) is the length of the second string.</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Boban Joksimoski</p>
+<p class="date">Created: 2023-05-15 Mon 00:52</p>
+</div>
+</body>
+</html>

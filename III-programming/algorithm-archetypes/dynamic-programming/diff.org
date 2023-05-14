@@ -1,0 +1,92 @@
+* Implement ~Diff~ utility
+Implement your [[https://en.wikipedia.org/wiki/Diff][diff utility]], i.e., given two similar strings, efficiently list out all differences between them.
+
+The diff utility is a data comparison tool that calculates and displays the differences between the two texts. It tries to determine the smallest set of deletions and insertions and create one text from the other. Diff is *line-oriented* rather than *character-oriented*, unlike [[https://en.wikipedia.org/wiki/Edit_distance][edit distance]].
+
+** Examples
+*** Example 1
+#+CAPTION: Input
+#+begin_example
+string X = "XMJYAUZ"
+string Y = "XMJAATZ"
+#+end_example
+
+
+#+CAPTION: Output
+#+begin_example
+X M J -Y A -U +A +T Z
+#+end_example
+
+*** Example 2
+#+CAPTION: Input
+#+begin_example
+string X = "ABCDFGHJQZ";
+string Y = "ABCDEFGIJKRXYZ";
+#+end_example
+
+
+#+CAPTION: Output
+#+begin_example
+A B C D +E F G -H +I J -Q +K +R +X +Y Z
+#+end_example
+
+
+*** Explanation:
++ *~'-'~* indicates that character is *deleted* from ~Y~ but it was present in ~X~.
++ *~'+'~* indicates that character is *inserted* in ~Y~ but it was not present in ~X~.
+
+** Approach
+We can use the ~Longest Common Subsequence (LCS)~ to solve this problem. The idea is to find the longest sequence of characters present in both original sequences in the same order. From the longest common subsequence, it is only a small step to get the diff-like output:
+
+- If a character is absent in the subsequence but present in the first original sequence, it must have been deleted (indicated by the - marks).
+- If it is absent in the subsequence but present in the second original sequence, it must have been inserted (indicated by the + marks).
+
+
+*** Longest Common Subsequence problem
+Let two sequences be defined as follows: $X=(x_{1}x_{2}\cdots x_{m})$ and $Y=(y_{1}y_{2}\cdots y_{n})$. The prefixes of $X$ are $X_{0}, X_{1}, X_{2},\dots, X_{m}$; the prefixes of $Y$ are $Y_{0},Y_{1},Y_{2},\dots ,Y_{n}$. Let $LCS(X_{i}, Y_{j})$ represent the set of longest common subsequence of prefixes $X_{i}$ and $Y_{j}$. This set of sequences is given by the following:
+
+\begin{equation}
+  LCS(X_{i},Y_{j}) =
+   \begin{cases}
+     \epsilon,  &{\mbox{if }}i=0{\mbox{ or }}j=0\\
+     LCS(X_{i-1},Y_{j-1}){\hat {}}x_{i}&{\mbox{if }}i,j>0{\mbox{ and }}x_{i}=y_{j}\\
+     \operatorname {\max } \{{\mathit {LCS}}(X_{i},Y_{j-1}),{\mathit {LCS}}(X_{i-1},Y_{j})\}&{\mbox{if }}i,j>0{\mbox{ and }}x_{i}\neq y_{j}.\end{cases}
+\end{equation}
+
+
+** Example Solution
+Let see a solution to the [[https://en.wikipedia.org/wiki/Longest_common_subsequence][LCS problem]].
+
+#+INCLUDE: "./diff.cpp" src c++ :lines "31-65"
+
+This will generate the following lookup table for our example:
+|   |   | A | B | C | D | E | F | G | I | J | K | R | X | Y | Z |
+|---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---|
+|   | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| A | 0 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+| B | 0 | 1 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 |
+| C | 0 | 1 | 2 | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 3 |
+| D | 0 | 1 | 2 | 3 | 4 | 4 | 4 | 4 | 4 | 4 | 4 | 4 | 4 | 4 | 4 |
+| F | 0 | 1 | 2 | 3 | 4 | 4 | 5 | 5 | 5 | 5 | 5 | 5 | 5 | 5 | 5 |
+| G | 0 | 1 | 2 | 3 | 4 | 4 | 5 | 6 | 6 | 6 | 6 | 6 | 6 | 6 | 6 |
+| H | 0 | 1 | 2 | 3 | 4 | 4 | 5 | 6 | 6 | 6 | 6 | 6 | 6 | 6 | 6 |
+| J | 0 | 1 | 2 | 3 | 4 | 4 | 5 | 6 | 6 | 7 | 7 | 7 | 7 | 7 | 7 |
+| Q | 0 | 1 | 2 | 3 | 4 | 4 | 5 | 6 | 6 | 7 | 7 | 7 | 7 | 7 | 7 |
+| Z | 0 | 1 | 2 | 3 | 4 | 4 | 5 | 6 | 6 | 7 | 7 | 7 | 7 | 7 | 8 |
+|---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---|
+
+Each character of the second string (~Y~) is represented by the columns, while every character from $X$ is represented in the rows. Also note that the /0-th/ row and column do not represent a character in the strings.
+
+After generation of the lookup table, we search for the differences by iterating the ~lookup~ table from the bottom-right corner (something like a /backtrack/).
+
+1. If we find identical character (~X[i]~ == ~Y[j]~) we *recursively* repeat the search by using the upper-left neighbor element as the new starting point.
+2. If the current character of ~Y~ is not present in ~X~, then we found a character that needs to be added and search *recursively* starting from the left neighbor.
+3. If the current character of ~X~ is not present in ~Y~, we found a char that needs to be deleted and we should continue to search *recursively* starting from the top neighbor.
+
+#+INCLUDE: "./diff.cpp" src c++ :lines "6-30"
+
+Link to the full working example
+
+*** Metrics
+- Time complexity :: $O(m*n)$
+- Space complexity :: $O(m*n)$ extra space, where $m$ is the length of the first string and $n$ is the length of the second string.
