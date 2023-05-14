@@ -59,4 +59,23 @@ But we can reduce that term to $O(1)$ if we precompute it. This can be done by p
 - Time Complexity :: $O(N)$, the recurrence relation can be written as $T(N) = 2T(N/2) + O(1)$ since we are recurring for left and right half $(2T(N/2))$ and calculating maximal subarray including mid element in $O(1)$. Solving this recurrence using master theorem, we can get the time complexity as $O(N)$
 - Space Complexity :: $O(N)$, required by ~suf~ and ~pre~.
 
-** TODO Dynamic Programming :noexport:
+*** Dynamic Programming - Top-down (Memoization)
+We can observe a lot of repeated calculations if we draw out the recursive tree for above solution.
+#+begin_example
+                                   f(0, False)                       🔽 => repeated calculations
+                                 /             \
+                       f(1, False)              f(1, True)
+                      /          \       🔽          \      🔽
+             f(2, False)      f(2, True)           f(2, True)
+          /            \  🔽       \   🔽           \  🔽
+   f(3, False)   f(3,True)     f(3, True)           f(3, True)
+   /        \            \           \                  \
+ ...        ...          ...         ...                ...
+#+end_example
+These redundant calculations can be eliminated if we store the results for a given state and reuse them later whenever required rather than recalculating them over and over again.
+
+Thus, we can use /memoization/ technique here to make our solution more efficient. Here, we use a ~dp~ array where ~dp[mustPick][i]~ denotes the maximum sum subarray starting from ~i~ and ~mustPick~ denotes whether the current element must be picked compulsorily or not.
+
+#+INCLUDE: "./maximum-subarray.cpp" src cpp :lines
+
+** Dynamic Programming approaches

@@ -137,4 +137,6 @@ This is the main idea for solving the problem.
 # #+INCLUDE: ./binary-search-merge-sort.cpp src cpp
 
 ** Using segment tree
+Instead of using divide and conquer
+
 #+INCLUDE: ./segment-tree.cpp src cpp

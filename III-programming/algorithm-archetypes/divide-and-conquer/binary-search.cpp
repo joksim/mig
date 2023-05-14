@@ -2,7 +2,6 @@
 #include <iostream>
 
 /**
- *
  * @return
  */
 bool stl_binary_search(){
