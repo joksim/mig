@@ -1,3 +1,3 @@
-set(CMAKE_CXX_STANDARD 17)
-
-add_executable(diff diff.cpp)
+add_subdirectory(diff)
+add_subdirectory(maximize-value-expression)
+add_subdirectory(word-break)

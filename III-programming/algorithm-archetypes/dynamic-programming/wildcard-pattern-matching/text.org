@@ -1,0 +1,67 @@
+* Wildcard Pattern Matching
+Given a string and a pattern containing wildcard characters, i.e., ~'*'~ and ~'?'~, where ~'?'~ can match to any single character in the string and ~'*'~ can match to any number of characters including zero characters, design an efficient algorithm to check if the pattern matches with the complete string or not.
+
+** Examples
+*** Example 1
+#+CAPTION: Input
+#+begin_example
+string = "xyxzzxy"
+pattern = "x***y"
+#+end_example
+
+#+CAPTION: Output
+#+begin_example
+Match
+#+end_example
+
+*** Example 2
+#+CAPTION: Input
+#+begin_example
+string = "xyxzzxy"
+pattern = "x***x"
+#+end_example
+
+#+CAPTION: Output
+#+begin_example
+No Match
+#+end_example
+
+*** Example 3
+#+CAPTION: Input
+#+begin_example
+string = "xyxzzxy"
+pattern = "x***x?"
+#+end_example
+
+#+CAPTION: Output
+#+begin_example
+Match
+#+end_example
+
+*** Example 4
+#+CAPTION: Input
+#+begin_example
+string = "xyxzzxy"
+pattern = "*"
+#+end_example
+
+#+CAPTION: Output
+#+begin_example
+Match
+#+end_example
+
+** Approach
+
+The idea is to use dynamic programming to solve this problem. If we carefully analyze the problem, we can see that it can easily be further divided into subproblems.
+
+Let’s take the top-bottom approach to solve this problem.
+
+For a given ~pattern[0...m]~ and ~word[0...n]~,
+- If ~pattern[m] == '*'~, if ~*~ matches the current character in the input string, move to the next character in the string; otherwise, ignore $*$ and move to the next character in the pattern.
+- If ~pattern[m] == '?'~, ignore current characters of both string and pattern and check if $pattern[0...m-1]$ matches $word[0...n-1]$.
+- If the current character in the pattern is not a wildcard character, it should match the current character in the input string.
+
+Special care has to be taken to handle base conditions:
+- If both the input string and pattern reach their end, return ~true~.
+- If the only pattern reaches its end, return ~false~.
+- If only the input string reaches its end, return ~true~ only if the remaining characters in the pattern are all ~*~.

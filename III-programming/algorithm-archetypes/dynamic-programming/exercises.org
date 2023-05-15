@@ -1,0 +1,19 @@
+#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup
+
+#+TITLE: Dynamic Programming - exercises
+
+#+OPTIONS: author:nil
+#+OPTIONS: toc:1
+#+OPTIONS: date:nil
+
+
+#+INCLUDE: ./../exercises/maximum-subarray/maximum-subarray.org :lines "1-30"
+#+INCLUDE: ./../exercises/maximum-subarray/maximum-subarray.org :lines "62-" :minlevel 3
+
+#+INCLUDE: ./maximize-value-expression/maximize-value-expression.org
+
+#+INCLUDE: ./diff/diff.org
+
+#+INCLUDE: ./word-break/word-break.org
+
+#+INCLUDE: ./wildcard-pattern-matching/text.org

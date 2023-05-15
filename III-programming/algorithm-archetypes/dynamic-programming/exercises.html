@@ -1,0 +1,1277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2023-05-15 Mon 10:28 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Dynamic Programming - exercises</title>
+<meta name="generator" content="Org Mode" />
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/readtheorg.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/js/readtheorg.js"></script>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">Dynamic Programming - exercises</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org6e6baba">1. Maximum Subarray</a></li>
+<li><a href="#orgec876c7">2. Maximize value of expression</a></li>
+<li><a href="#org85853f0">3. Implement <code>Diff</code> utility</a></li>
+<li><a href="#orgb067304">4. Word Break</a></li>
+<li><a href="#orgf7b5099">5. Wildcard Pattern Matching</a></li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-org6e6baba" class="outline-2">
+<h2 id="org6e6baba"><span class="section-number-2">1.</span> Maximum Subarray</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Given an integer array <code>nums</code>, find the  subarray with the largest sum, and return its sum.
+</p>
+</div>
+
+<div id="outline-container-org13642e9" class="outline-3">
+<h3 id="org13642e9"><span class="section-number-3">1.1.</span> Examples</h3>
+<div class="outline-text-3" id="text-1-1">
+<pre class="example" id="org4545485">
+Input: nums = [-2,1,-3,4,-1,2,1,-5,4]
+Output: 6
+</pre>
+
+<p>
+Explanation: The subarray [4,-1,2,1] has the largest sum 6.
+</p>
+
+<pre class="example" id="org72f673f">
+Input: nums = [1]
+Output: 1
+</pre>
+
+<p>
+Explanation: The subarray [1] has the largest sum 1.
+</p>
+
+<pre class="example" id="org44d99c7">
+Input: nums = [5,4,-1,7,8]
+Output: 23
+</pre>
+<p>
+Explanation: The subarray [5,4,-1,7,8] has the largest sum 23.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf062858" class="outline-3">
+<h3 id="orgf062858"><span class="section-number-3">1.2.</span> Constraints:</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>\(1 <= nums.length <= 10^5\)</li>
+<li>\(-10^4 <= nums[i] <= 10^4\)</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgd9dfcd7" class="outline-3">
+<h3 id="orgd9dfcd7"><span class="section-number-3">1.3.</span> Solutions</h3>
+<div class="outline-text-3" id="text-1-3">
+</div>
+<div id="outline-container-org7fd7eb5" class="outline-4">
+<h4 id="org7fd7eb5"><span class="section-number-4">1.3.1.</span> Recursive Approach Dynamic Programming - Top-down (Memoization)</h4>
+<div class="outline-text-4" id="text-1-3-1">
+<p>
+We can devise a recursive approach to solve the problem.
+Here we can state the approach as:
+</p>
+<ul class="org-ul">
+<li>At each index \(i\), we can either pick that element or not pick it.</li>
+<li>If we pick current element, then all future element must also be picked since our array needs to be contiguous.</li>
+<li>If we had picked any elements till now, we can either end further recursion at any time by returning sum formed till now or we can choose current element and recurse further. This denotes two choices of either
+choosing the subarray formed from 1st picked element till now or expanding the subarray by choosing current element respectively.</li>
+</ul>
+
+<p>
+In the code below, we will use <code>mustPick</code> to denote whether we must compulsorily pick current element. When <code>mustPick</code> is true, we must either return <code>0</code> or pick current element and recurse further. If <code>pickCur</code> is false, we have both choices of not picking current element and moving on to next element, or picking the current one.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">maxSubArray_recursive</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span>&amp; <span style="color: #dcaeea;">nums</span><span style="color: #51afef;">)</span> <span style="color: #51afef;">{</span>
+    <span style="color: #51afef;">return</span> solve<span style="color: #c678dd;">(</span>nums, <span style="color: #da8548; font-weight: bold;">0</span>, <span style="color: #a9a1e1;">false</span><span style="color: #c678dd;">)</span>;
+<span style="color: #51afef;">}</span>
+<span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">solve</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span>&amp; <span style="color: #dcaeea;">A</span>, <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">i</span>, <span style="color: #ECBE7B;">bool</span> <span style="color: #dcaeea;">mustPick</span><span style="color: #51afef;">)</span> <span style="color: #51afef;">{</span>
+    <span style="color: #5B6268;">// </span><span style="color: #5B6268;">Our subarray must contain atleast 1 element.</span>
+  <span style="color: #5B6268;">// </span><span style="color: #5B6268;">If mustPick is false at end means no element</span>
+  <span style="color: #5B6268;">//    </span><span style="color: #5B6268;">is picked and this is not valid case</span>
+  <span style="color: #51afef;">if</span><span style="color: #c678dd;">(</span>i &gt;= size<span style="color: #98be65;">(</span>A<span style="color: #98be65;">)</span><span style="color: #c678dd;">)</span> <span style="color: #51afef;">return</span> mustPick ? <span style="color: #da8548; font-weight: bold;">0</span> : -<span style="color: #da8548; font-weight: bold;">1e5</span>;
+
+  <span style="color: #51afef;">if</span><span style="color: #c678dd;">(</span>mustPick<span style="color: #c678dd;">)</span>
+    <span style="color: #5B6268;">// </span><span style="color: #5B6268;">either stop here or choose current element and recurse</span>
+    <span style="color: #51afef;">return</span> max<span style="color: #c678dd;">(</span><span style="color: #da8548; font-weight: bold;">0</span>, A<span style="color: #98be65;">[</span>i<span style="color: #98be65;">]</span> + solve<span style="color: #98be65;">(</span>A, i+<span style="color: #da8548; font-weight: bold;">1</span>, <span style="color: #a9a1e1;">true</span><span style="color: #98be65;">)</span><span style="color: #c678dd;">)</span>;
+
+  <span style="color: #5B6268;">// </span><span style="color: #5B6268;">try both choosing current element or not choosing</span>
+  <span style="color: #51afef;">return</span> max<span style="color: #c678dd;">(</span>solve<span style="color: #98be65;">(</span>A, i+<span style="color: #da8548; font-weight: bold;">1</span>, <span style="color: #a9a1e1;">false</span><span style="color: #98be65;">)</span>, A<span style="color: #98be65;">[</span>i<span style="color: #98be65;">]</span> + solve<span style="color: #98be65;">(</span>A, i+<span style="color: #da8548; font-weight: bold;">1</span>, <span style="color: #a9a1e1;">true</span><span style="color: #98be65;">)</span><span style="color: #c678dd;">)</span>;
+<span style="color: #51afef;">}</span>
+</pre>
+</div>
+
+<dl class="org-dl">
+<dt>Time Complexity</dt><dd>\(O(N^2)\), we are basically considering every subarray sum and choosing maximum of it.</dd>
+<dt>Space Complexity</dt><dd>\(O(N)\), for recursive space</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org4ed1bc6" class="outline-4">
+<h4 id="org4ed1bc6"><span class="section-number-4">1.3.2.</span> Dynamic Programming - Top-down (Memoization)</h4>
+<div class="outline-text-4" id="text-1-3-2">
+<p>
+We can observe a lot of repeated calculations if we draw out the recursive tree for above solution.
+</p>
+<pre class="example" id="org42d10e4">
+                                   f(0, False)                       🔽 =&gt; repeated calculations
+                                 /             \
+                       f(1, False)              f(1, True)
+                      /          \       🔽          \      🔽
+             f(2, False)      f(2, True)           f(2, True)
+          /            \  🔽       \   🔽           \  🔽
+   f(3, False)   f(3,True)     f(3, True)           f(3, True)
+   /        \            \           \                  \
+ ...        ...          ...         ...                ...
+</pre>
+<p>
+These redundant calculations can be eliminated if we store the results for a given state and reuse them later whenever required rather than recalculating them over and over again.
+</p>
+
+<p>
+Thus, we can use <i>memoization</i> technique here to make our solution more efficient. Here, we use a <code>dp</code> array where <code>dp[mustPick][i]</code> denotes the maximum sum subarray starting from <code>i</code> and <code>mustPick</code> denotes whether the current element must be picked compulsorily or not.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-cpp"><span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">solve</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span> &amp;<span style="color: #dcaeea;">A</span>, <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">i</span>, <span style="color: #ECBE7B;">bool</span> <span style="color: #dcaeea;">mustPick</span>, <span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">vector</span><span style="color: #98be65;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #98be65;">&gt;</span><span style="color: #c678dd;">&gt;</span> &amp;<span style="color: #dcaeea;">dp</span><span style="color: #51afef;">)</span> <span style="color: #51afef;">{</span>
+    <span style="color: #51afef;">if</span> <span style="color: #c678dd;">(</span>i &gt;= size<span style="color: #98be65;">(</span>A<span style="color: #98be65;">)</span><span style="color: #c678dd;">)</span> <span style="color: #51afef;">return</span> mustPick ? <span style="color: #da8548; font-weight: bold;">0</span> : -<span style="color: #da8548; font-weight: bold;">1e5</span>;
+    <span style="color: #51afef;">if</span> <span style="color: #c678dd;">(</span>dp<span style="color: #98be65;">[</span>mustPick<span style="color: #98be65;">][</span>i<span style="color: #98be65;">]</span> != -<span style="color: #da8548; font-weight: bold;">1</span><span style="color: #c678dd;">)</span> <span style="color: #51afef;">return</span> dp<span style="color: #c678dd;">[</span>mustPick<span style="color: #c678dd;">][</span>i<span style="color: #c678dd;">]</span>;
+    <span style="color: #51afef;">if</span> <span style="color: #c678dd;">(</span>mustPick<span style="color: #c678dd;">)</span>
+        <span style="color: #51afef;">return</span> dp<span style="color: #c678dd;">[</span>mustPick<span style="color: #c678dd;">][</span>i<span style="color: #c678dd;">]</span> = max<span style="color: #c678dd;">(</span><span style="color: #da8548; font-weight: bold;">0</span>, A<span style="color: #98be65;">[</span>i<span style="color: #98be65;">]</span> + solve<span style="color: #98be65;">(</span>A, i + <span style="color: #da8548; font-weight: bold;">1</span>, <span style="color: #a9a1e1;">true</span>, dp<span style="color: #98be65;">)</span><span style="color: #c678dd;">)</span>;
+    <span style="color: #51afef;">return</span> dp<span style="color: #c678dd;">[</span>mustPick<span style="color: #c678dd;">][</span>i<span style="color: #c678dd;">]</span> = max<span style="color: #c678dd;">(</span>solve<span style="color: #98be65;">(</span>A, i + <span style="color: #da8548; font-weight: bold;">1</span>, <span style="color: #a9a1e1;">false</span>, dp<span style="color: #98be65;">)</span>, A<span style="color: #98be65;">[</span>i<span style="color: #98be65;">]</span> + solve<span style="color: #98be65;">(</span>A, i + <span style="color: #da8548; font-weight: bold;">1</span>, <span style="color: #a9a1e1;">true</span>, dp<span style="color: #98be65;">)</span><span style="color: #c678dd;">)</span>;
+<span style="color: #51afef;">}</span>
+
+<span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">maxSubArray_dp_memo</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span> &amp;<span style="color: #dcaeea;">nums</span><span style="color: #51afef;">)</span> <span style="color: #51afef;">{</span>
+    <span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">vector</span><span style="color: #98be65;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #98be65;">&gt;</span><span style="color: #c678dd;">&gt;</span> <span style="color: #dcaeea;">dp</span><span style="color: #c678dd;">(</span><span style="color: #da8548; font-weight: bold;">2</span>, vector<span style="color: #98be65;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #98be65;">&gt;(</span><span style="color: #ECBE7B;">size</span><span style="color: #a9a1e1;">(</span><span style="color: #dcaeea;">nums</span><span style="color: #a9a1e1;">)</span>, -<span style="color: #da8548; font-weight: bold;">1</span><span style="color: #98be65;">)</span><span style="color: #c678dd;">)</span>;
+    <span style="color: #51afef;">return</span> solve<span style="color: #c678dd;">(</span>nums, <span style="color: #da8548; font-weight: bold;">0</span>, <span style="color: #a9a1e1;">false</span>, dp<span style="color: #c678dd;">)</span>;
+<span style="color: #51afef;">}</span>
+</pre>
+</div>
+
+<dl class="org-dl">
+<dt>Time Complexity</dt><dd>\(O(N)\), we are calculating each state of the dp just once and memoizing the result. Thus, we are calculating results for \(2*N\) states and returning them directly in future recursive calls.</dd>
+<dt>Space Complexity</dt><dd>\(O(N)\), for recursive space.</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-orgbc2f64c" class="outline-4">
+<h4 id="orgbc2f64c"><span class="section-number-4">1.3.3.</span> Dynamic programming - Bottom-up (Tabulation)</h4>
+<div class="outline-text-4" id="text-1-3-3">
+<p>
+We can employ similar logic in iterative version as well. Here, we again use <code>dp</code> array and use <i>bottom-up</i> approach. Here <code>dp[1][i]</code> denotes maximum subarray sum ending at <code>i</code> (including <code>nums[i]</code>) and <code>dp[0][i]</code> denotes maximum subarray sum up to <code>i</code> (may or may not include <code>nums[i]</code>).
+</p>
+
+<p>
+At each index, we update <code>dp[1][i]</code> as <code>max</code> between either only choosing current element - <code>nums[i]</code> or extending from previous subarray and choosing current element as well - <code>dp[1][i-1] + nums[i]</code>.
+</p>
+
+<p>
+Similarly, <code>dp[0][1]</code> can be updated as max between maximum sum subarray found till last index - <code>dp[0][i-1]</code> or max subarray sum found ending at current index <code>dp[1][i]</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-cpp"><span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">maxSubArray_dp_tab</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span>&amp; <span style="color: #dcaeea;">nums</span><span style="color: #51afef;">)</span> <span style="color: #51afef;">{</span>
+    <span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">vector</span><span style="color: #98be65;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #98be65;">&gt;</span><span style="color: #c678dd;">&gt;</span> <span style="color: #dcaeea;">dp</span><span style="color: #c678dd;">(</span><span style="color: #da8548; font-weight: bold;">2</span>, vector<span style="color: #98be65;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #98be65;">&gt;(</span><span style="color: #dcaeea;">size</span><span style="color: #a9a1e1;">(</span>nums<span style="color: #a9a1e1;">)</span><span style="color: #98be65;">)</span><span style="color: #c678dd;">)</span>;
+    dp<span style="color: #c678dd;">[</span><span style="color: #da8548; font-weight: bold;">0</span><span style="color: #c678dd;">][</span><span style="color: #da8548; font-weight: bold;">0</span><span style="color: #c678dd;">]</span> = dp<span style="color: #c678dd;">[</span><span style="color: #da8548; font-weight: bold;">1</span><span style="color: #c678dd;">][</span><span style="color: #da8548; font-weight: bold;">0</span><span style="color: #c678dd;">]</span> = nums<span style="color: #c678dd;">[</span><span style="color: #da8548; font-weight: bold;">0</span><span style="color: #c678dd;">]</span>;
+    <span style="color: #51afef;">for</span><span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">i</span> = <span style="color: #da8548; font-weight: bold;">1</span>; i &lt; size<span style="color: #98be65;">(</span>nums<span style="color: #98be65;">)</span>; i++<span style="color: #c678dd;">)</span> <span style="color: #c678dd;">{</span>
+        dp<span style="color: #98be65;">[</span><span style="color: #da8548; font-weight: bold;">1</span><span style="color: #98be65;">][</span>i<span style="color: #98be65;">]</span> = max<span style="color: #98be65;">(</span>nums<span style="color: #a9a1e1;">[</span>i<span style="color: #a9a1e1;">]</span>, nums<span style="color: #a9a1e1;">[</span>i<span style="color: #a9a1e1;">]</span> + dp<span style="color: #a9a1e1;">[</span><span style="color: #da8548; font-weight: bold;">1</span><span style="color: #a9a1e1;">][</span>i-<span style="color: #da8548; font-weight: bold;">1</span><span style="color: #a9a1e1;">]</span><span style="color: #98be65;">)</span>;
+        dp<span style="color: #98be65;">[</span><span style="color: #da8548; font-weight: bold;">0</span><span style="color: #98be65;">][</span>i<span style="color: #98be65;">]</span> = max<span style="color: #98be65;">(</span>dp<span style="color: #a9a1e1;">[</span><span style="color: #da8548; font-weight: bold;">0</span><span style="color: #a9a1e1;">][</span>i-<span style="color: #da8548; font-weight: bold;">1</span><span style="color: #a9a1e1;">]</span>, dp<span style="color: #a9a1e1;">[</span><span style="color: #da8548; font-weight: bold;">1</span><span style="color: #a9a1e1;">][</span>i<span style="color: #a9a1e1;">]</span><span style="color: #98be65;">)</span>;
+    <span style="color: #c678dd;">}</span>
+    <span style="color: #51afef;">return</span> dp<span style="color: #c678dd;">[</span><span style="color: #da8548; font-weight: bold;">0</span><span style="color: #c678dd;">]</span>.back<span style="color: #c678dd;">()</span>;
+<span style="color: #51afef;">}</span>
+</pre>
+</div>
+
+<p>
+We can actually do away with just 1 row as well. We denoted <code>dp[1][i]</code> as the maximum subarray sum ending at <code>i</code>. We can just store that row and calculate the overall maximum subarray sum at the end by choosing the maximum of all max subarray sum ending at <code>i</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-cpp"><span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">maxSubArray_dp_tab_v2</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span>&amp; <span style="color: #dcaeea;">nums</span><span style="color: #51afef;">)</span> <span style="color: #51afef;">{</span>
+    <span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span> <span style="color: #dcaeea;">dp</span><span style="color: #c678dd;">(</span>nums<span style="color: #c678dd;">)</span>;
+    <span style="color: #51afef;">for</span><span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">i</span> = <span style="color: #da8548; font-weight: bold;">1</span>; i &lt; size<span style="color: #98be65;">(</span>nums<span style="color: #98be65;">)</span>; i++<span style="color: #c678dd;">)</span>
+        dp<span style="color: #c678dd;">[</span>i<span style="color: #c678dd;">]</span> = max<span style="color: #c678dd;">(</span>nums<span style="color: #98be65;">[</span>i<span style="color: #98be65;">]</span>, nums<span style="color: #98be65;">[</span>i<span style="color: #98be65;">]</span> + dp<span style="color: #98be65;">[</span>i-<span style="color: #da8548; font-weight: bold;">1</span><span style="color: #98be65;">]</span><span style="color: #c678dd;">)</span>;
+    <span style="color: #51afef;">return</span> *max_element<span style="color: #c678dd;">(</span>begin<span style="color: #98be65;">(</span>dp<span style="color: #98be65;">)</span>, end<span style="color: #98be65;">(</span>dp<span style="color: #98be65;">)</span><span style="color: #c678dd;">)</span>;
+<span style="color: #51afef;">}</span>
+</pre>
+</div>
+
+<dl class="org-dl">
+<dt>Time Complexity</dt><dd>\(O(N)\), we are just iterating over the nums array once to compute the <code>dp</code> array and once more over the <code>dp</code> at the end to find maximum subarray sum. Thus overall time complexity is \(O(N) + O(N) = O(N)\)</dd>
+<dt>Space Complexity</dt><dd>\(O(N)\), for maintaining <code>dp</code>.</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org96cd07d" class="outline-4">
+<h4 id="org96cd07d"><span class="section-number-4">1.3.4.</span> Kadane&rsquo;s algorithm</h4>
+<div class="outline-text-4" id="text-1-3-4">
+<p>
+We can observe that in the previous approach, <code>dp[i]</code> only depended on <code>dp[i-1]</code>. So do we really need to maintain the whole <code>dp</code> array of <code>N</code> elements?
+One might see the last line of previous solution and say that we needed all elements of <code>dp</code> at the end to find the maximum sum subarray. But we can simply optimize that by storing the max at each iteration instead of separately calculating it at the end.
+</p>
+
+<p>
+Thus, we only need to maintain <code>curMax</code> which is the maximum subarray sum ending at <code>i</code> and <code>maxTillNow</code> which is the maximum sum we have seen till now. And this way of solving this problem is what we popularly know as <i>Kadane&rsquo;s Algorithm</i>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-cpp"><span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">maxSubArray_kadane</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span>&amp; <span style="color: #dcaeea;">nums</span><span style="color: #51afef;">)</span> <span style="color: #51afef;">{</span>
+    <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">curMax</span> = <span style="color: #da8548; font-weight: bold;">0</span>, <span style="color: #dcaeea;">maxTillNow</span> = <span style="color: #a9a1e1;">INT_MIN</span>;
+    <span style="color: #51afef;">for</span><span style="color: #c678dd;">(</span><span style="color: #51afef;">auto</span> <span style="color: #dcaeea;">c</span> : nums<span style="color: #c678dd;">)</span>
+        curMax = max<span style="color: #c678dd;">(</span>c, curMax + c<span style="color: #c678dd;">)</span>,
+        maxTillNow = max<span style="color: #c678dd;">(</span>maxTillNow, curMax<span style="color: #c678dd;">)</span>;
+    <span style="color: #51afef;">return</span> maxTillNow;
+<span style="color: #51afef;">}</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgec876c7" class="outline-2">
+<h2 id="orgec876c7"><span class="section-number-2">2.</span> Maximize value of expression</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Given an array \(A\), maximize value of expression \((A[s] - A[r] + A[q] - A[p])\), where \(p\), \(q\), \(r\), and \(s\) are indices of the array and \(s > r > q > p\).
+</p>
+</div>
+
+<div id="outline-container-org6745847" class="outline-3">
+<h3 id="org6745847"><span class="section-number-3">2.1.</span> Examples</h3>
+<div class="outline-text-3" id="text-2-1">
+</div>
+<div id="outline-container-org05bb0d3" class="outline-4">
+<h4 id="org05bb0d3"><span class="section-number-4">2.1.1.</span> Example 1</h4>
+<div class="outline-text-4" id="text-2-1-1">
+<pre class="example" id="org91aee05">
+A[] = [3, 9, 10, 1, 30, 40]
+</pre>
+
+
+<pre class="example" id="org1b3b63d">
+46
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org83ffcee" class="outline-4">
+<h4 id="org83ffcee"><span class="section-number-4">2.1.2.</span> Explanation:</h4>
+<div class="outline-text-4" id="text-2-1-2">
+<ul class="org-ul">
+<li>The expression \((40 – 1 + 10 – 3)\) will result in the maximum value.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc9537da" class="outline-3">
+<h3 id="orgc9537da"><span class="section-number-3">2.2.</span> Approach</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+A <i>naive</i> solution would be to generate all combinations of such numbers. The time complexity of this solution would be \(O(n^4)\), where <code>n</code> is the size of the input.
+</p>
+
+<p>
+We can use dynamic programming to solve this problem. The idea is to create four lookup tables, <code>first[]</code>, <code>second[]</code>, <code>third[]</code>, and <code>fourth[]</code>, where:
+</p>
+
+<dl class="org-dl">
+<dt>first[]</dt><dd>stores the maximum value of <code>A[s]</code>.</dd>
+<dt>second[]</dt><dd>stores the maximum value of <code>A[s] - A[r]</code>.</dd>
+<dt>third[]</dt><dd>stores the maximum value of <code>A[s] - A[r] + A[q]</code>.</dd>
+<dt>fourth[]</dt><dd>stores the maximum value of <code>A[s] - A[r] + A[q] - A[p]</code>.</dd>
+</dl>
+
+<p>
+The maximum value would then be present in index <code>0</code> of <code>fourth[]</code>
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgea262f4" class="outline-3">
+<h3 id="orgea262f4"><span class="section-number-3">2.3.</span> Example Solution</h3>
+<div class="outline-text-3" id="text-2-3">
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #51afef;">&lt;</span><span style="color: #98be65;">climits</span><span style="color: #51afef;">&gt;</span>
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #51afef;">&lt;</span><span style="color: #98be65;">iostream</span><span style="color: #51afef;">&gt;</span>
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #51afef;">&lt;</span><span style="color: #98be65;">vector</span><span style="color: #51afef;">&gt;</span>
+<span style="color: #51afef;">using</span> <span style="color: #51afef;">namespace</span> <span style="color: #a9a1e1;">std</span>;
+
+<span style="color: #5B6268;">// </span><span style="color: #5B6268;">Function to print an array</span>
+<span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">printArray</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span> <span style="color: #51afef;">const</span> &amp;<span style="color: #dcaeea;">A</span><span style="color: #51afef;">)</span> <span style="color: #51afef;">{</span>
+  <span style="color: #51afef;">for</span> <span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">i</span> : A<span style="color: #c678dd;">)</span> <span style="color: #c678dd;">{</span>
+    cout &lt;&lt; i &lt;&lt; <span style="color: #98be65;">" "</span>;
+  <span style="color: #c678dd;">}</span>
+  cout &lt;&lt; endl;
+<span style="color: #51afef;">}</span>
+
+<span style="color: #5B6268;">// </span><span style="color: #5B6268;">Function to find the maximum value of the expression</span>
+<span style="color: #5B6268;">// </span><span style="color: #5B6268;">(A[s] - A[r] + A[q] - A[p]), where s &gt; r &gt; q &gt; p</span>
+<span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">maximizeExpression</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span> <span style="color: #51afef;">const</span> &amp;<span style="color: #dcaeea;">A</span><span style="color: #51afef;">)</span> <span style="color: #51afef;">{</span>
+  <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">n</span> = A.size<span style="color: #c678dd;">()</span>;
+
+  <span style="color: #5B6268;">// </span><span style="color: #5B6268;">input should have at least 4 elements</span>
+  <span style="color: #51afef;">if</span> <span style="color: #c678dd;">(</span>n &lt; <span style="color: #da8548; font-weight: bold;">4</span><span style="color: #c678dd;">)</span> <span style="color: #c678dd;">{</span>
+    exit<span style="color: #98be65;">(</span>-<span style="color: #da8548; font-weight: bold;">1</span><span style="color: #98be65;">)</span>;
+  <span style="color: #c678dd;">}</span>
+
+  <span style="color: #5B6268;">// </span><span style="color: #5B6268;">create 4 lookup tables and initialize them to `INT_MIN`</span>
+  <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">first</span><span style="color: #c678dd;">[</span>n + <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #c678dd;">]</span>, <span style="color: #dcaeea;">second</span><span style="color: #c678dd;">[</span>n<span style="color: #c678dd;">]</span>, <span style="color: #dcaeea;">third</span><span style="color: #c678dd;">[</span>n - <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #c678dd;">]</span>, <span style="color: #dcaeea;">fourth</span><span style="color: #c678dd;">[</span>n - <span style="color: #da8548; font-weight: bold;">2</span><span style="color: #c678dd;">]</span>;
+
+  <span style="color: #51afef;">for</span> <span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">i</span> = <span style="color: #da8548; font-weight: bold;">0</span>; i &lt;= n - <span style="color: #da8548; font-weight: bold;">3</span>; i++<span style="color: #c678dd;">)</span> <span style="color: #c678dd;">{</span>
+    first<span style="color: #98be65;">[</span>i<span style="color: #98be65;">]</span> = second<span style="color: #98be65;">[</span>i<span style="color: #98be65;">]</span> = third<span style="color: #98be65;">[</span>i<span style="color: #98be65;">]</span> = fourth<span style="color: #98be65;">[</span>i<span style="color: #98be65;">]</span> = <span style="color: #a9a1e1;">INT_MIN</span>;
+  <span style="color: #c678dd;">}</span>
+
+  first<span style="color: #c678dd;">[</span>n - <span style="color: #da8548; font-weight: bold;">2</span><span style="color: #c678dd;">]</span> = second<span style="color: #c678dd;">[</span>n - <span style="color: #da8548; font-weight: bold;">2</span><span style="color: #c678dd;">]</span> = third<span style="color: #c678dd;">[</span>n - <span style="color: #da8548; font-weight: bold;">2</span><span style="color: #c678dd;">]</span> = <span style="color: #a9a1e1;">INT_MIN</span>;
+  first<span style="color: #c678dd;">[</span>n - <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #c678dd;">]</span> = second<span style="color: #c678dd;">[</span>n - <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #c678dd;">]</span> = first<span style="color: #c678dd;">[</span>n<span style="color: #c678dd;">]</span> = <span style="color: #a9a1e1;">INT_MIN</span>;
+
+  <span style="color: #5B6268;">// </span><span style="color: #5B6268;">`first[]` stores the maximum value of `A[l]`</span>
+  <span style="color: #51afef;">for</span> <span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">i</span> = n - <span style="color: #da8548; font-weight: bold;">1</span>; i &gt;= <span style="color: #da8548; font-weight: bold;">0</span>; i--<span style="color: #c678dd;">)</span> <span style="color: #c678dd;">{</span>
+    first<span style="color: #98be65;">[</span>i<span style="color: #98be65;">]</span> = max<span style="color: #98be65;">(</span>first<span style="color: #a9a1e1;">[</span>i + <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #a9a1e1;">]</span>, A<span style="color: #a9a1e1;">[</span>i<span style="color: #a9a1e1;">]</span><span style="color: #98be65;">)</span>;
+  <span style="color: #c678dd;">}</span>
+
+  <span style="color: #5B6268;">// </span><span style="color: #5B6268;">`second[]` stores the maximum value of `A[l] - A[k]`</span>
+  <span style="color: #51afef;">for</span> <span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">i</span> = n - <span style="color: #da8548; font-weight: bold;">2</span>; i &gt;= <span style="color: #da8548; font-weight: bold;">0</span>; i--<span style="color: #c678dd;">)</span> <span style="color: #c678dd;">{</span>
+    second<span style="color: #98be65;">[</span>i<span style="color: #98be65;">]</span> = max<span style="color: #98be65;">(</span>second<span style="color: #a9a1e1;">[</span>i + <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #a9a1e1;">]</span>, first<span style="color: #a9a1e1;">[</span>i + <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #a9a1e1;">]</span> - A<span style="color: #a9a1e1;">[</span>i<span style="color: #a9a1e1;">]</span><span style="color: #98be65;">)</span>;
+  <span style="color: #c678dd;">}</span>
+
+  <span style="color: #5B6268;">// </span><span style="color: #5B6268;">`third[]` stores the maximum value of `A[l] - A[k] + A[j]`</span>
+  <span style="color: #51afef;">for</span> <span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">i</span> = n - <span style="color: #da8548; font-weight: bold;">3</span>; i &gt;= <span style="color: #da8548; font-weight: bold;">0</span>; i--<span style="color: #c678dd;">)</span> <span style="color: #c678dd;">{</span>
+    third<span style="color: #98be65;">[</span>i<span style="color: #98be65;">]</span> = max<span style="color: #98be65;">(</span>third<span style="color: #a9a1e1;">[</span>i + <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #a9a1e1;">]</span>, second<span style="color: #a9a1e1;">[</span>i + <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #a9a1e1;">]</span> + A<span style="color: #a9a1e1;">[</span>i<span style="color: #a9a1e1;">]</span><span style="color: #98be65;">)</span>;
+  <span style="color: #c678dd;">}</span>
+
+  <span style="color: #5B6268;">// </span><span style="color: #5B6268;">`fourth[]` stores the maximum value of `A[l] - A[k] + A[j] - A[i]`</span>
+  <span style="color: #51afef;">for</span> <span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">i</span> = n - <span style="color: #da8548; font-weight: bold;">4</span>; i &gt;= <span style="color: #da8548; font-weight: bold;">0</span>; i--<span style="color: #c678dd;">)</span> <span style="color: #c678dd;">{</span>
+    fourth<span style="color: #98be65;">[</span>i<span style="color: #98be65;">]</span> = max<span style="color: #98be65;">(</span>fourth<span style="color: #a9a1e1;">[</span>i + <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #a9a1e1;">]</span>, third<span style="color: #a9a1e1;">[</span>i + <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #a9a1e1;">]</span> - A<span style="color: #a9a1e1;">[</span>i<span style="color: #a9a1e1;">]</span><span style="color: #98be65;">)</span>;
+  <span style="color: #c678dd;">}</span>
+
+  <span style="color: #5B6268;">// </span><span style="color: #5B6268;">maximum value would be present at `fourth[0]`</span>
+  <span style="color: #51afef;">return</span> fourth<span style="color: #c678dd;">[</span><span style="color: #da8548; font-weight: bold;">0</span><span style="color: #c678dd;">]</span>;
+<span style="color: #51afef;">}</span>
+
+<span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">main</span><span style="color: #51afef;">()</span> <span style="color: #51afef;">{</span>
+  <span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span> <span style="color: #dcaeea;">A</span> = <span style="color: #c678dd;">{</span><span style="color: #da8548; font-weight: bold;">3</span>, <span style="color: #da8548; font-weight: bold;">9</span>, <span style="color: #da8548; font-weight: bold;">10</span>, <span style="color: #da8548; font-weight: bold;">1</span>, <span style="color: #da8548; font-weight: bold;">30</span>, <span style="color: #da8548; font-weight: bold;">40</span><span style="color: #c678dd;">}</span>;
+
+  cout &lt;&lt; maximizeExpression<span style="color: #c678dd;">(</span>A<span style="color: #c678dd;">)</span>;
+
+  <span style="color: #51afef;">return</span> <span style="color: #da8548; font-weight: bold;">0</span>;
+<span style="color: #51afef;">}</span>
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org25ca4e7" class="outline-4">
+<h4 id="org25ca4e7"><span class="section-number-4">2.3.1.</span> Metrics</h4>
+<div class="outline-text-4" id="text-2-3-1">
+<dl class="org-dl">
+<dt>Time complexity</dt><dd>\(O(n)\)</dd>
+<dt>Space complexity</dt><dd>\(O(n)\) extra space.</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org85853f0" class="outline-2">
+<h2 id="org85853f0"><span class="section-number-2">3.</span> Implement <code>Diff</code> utility</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Implement your <a href="https://en.wikipedia.org/wiki/Diff">diff utility</a>, i.e., given two similar strings, efficiently list out all differences between them.
+</p>
+
+<p>
+The diff utility is a data comparison tool that calculates and displays the differences between the two texts. It tries to determine the smallest set of deletions and insertions and create one text from the other. Diff is <b>line-oriented</b> rather than <b>character-oriented</b>, unlike <a href="https://en.wikipedia.org/wiki/Edit_distance">edit distance</a>.
+</p>
+</div>
+
+<div id="outline-container-orgd99163c" class="outline-3">
+<h3 id="orgd99163c"><span class="section-number-3">3.1.</span> Examples</h3>
+<div class="outline-text-3" id="text-3-1">
+</div>
+<div id="outline-container-org0a79818" class="outline-4">
+<h4 id="org0a79818"><span class="section-number-4">3.1.1.</span> Example 1</h4>
+<div class="outline-text-4" id="text-3-1-1">
+<pre class="example" id="org173aa18">
+string X = "XMJYAUZ"
+string Y = "XMJAATZ"
+</pre>
+
+
+<pre class="example" id="orge6ed3b4">
+X M J -Y A -U +A +T Z
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgb3eda64" class="outline-4">
+<h4 id="orgb3eda64"><span class="section-number-4">3.1.2.</span> Example 2</h4>
+<div class="outline-text-4" id="text-3-1-2">
+<pre class="example" id="org807f6d3">
+string X = "ABCDFGHJQZ";
+string Y = "ABCDEFGIJKRXYZ";
+</pre>
+
+
+<pre class="example" id="org8e6d8d9">
+A B C D +E F G -H +I J -Q +K +R +X +Y Z
+</pre>
+</div>
+</div>
+
+
+<div id="outline-container-org971543f" class="outline-4">
+<h4 id="org971543f"><span class="section-number-4">3.1.3.</span> Explanation:</h4>
+<div class="outline-text-4" id="text-3-1-3">
+<ul class="org-ul">
+<li><b><code>'-'</code></b> indicates that character is <b>deleted</b> from <code>Y</code> but it was present in <code>X</code>.</li>
+<li><b><code>'+'</code></b> indicates that character is <b>inserted</b> in <code>Y</code> but it was not present in <code>X</code>.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org44faa5f" class="outline-3">
+<h3 id="org44faa5f"><span class="section-number-3">3.2.</span> Approach</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+We can use the <code>Longest Common Subsequence (LCS)</code> to solve this problem. The idea is to find the longest sequence of characters present in both original sequences in the same order. From the longest common subsequence, it is only a small step to get the diff-like output:
+</p>
+
+<ul class="org-ul">
+<li>If a character is absent in the subsequence but present in the first original sequence, it must have been deleted (indicated by the - marks).</li>
+<li>If it is absent in the subsequence but present in the second original sequence, it must have been inserted (indicated by the + marks).</li>
+</ul>
+</div>
+
+
+<div id="outline-container-org9fb4b9c" class="outline-4">
+<h4 id="org9fb4b9c"><span class="section-number-4">3.2.1.</span> Longest Common Subsequence problem</h4>
+<div class="outline-text-4" id="text-3-2-1">
+<p>
+Let two sequences be defined as follows: \(X=(x_{1}x_{2}\cdots x_{m})\) and \(Y=(y_{1}y_{2}\cdots y_{n})\). The prefixes of \(X\) are \(X_{0}, X_{1}, X_{2},\dots, X_{m}\); the prefixes of \(Y\) are \(Y_{0},Y_{1},Y_{2},\dots ,Y_{n}\). Let \(LCS(X_{i}, Y_{j})\) represent the set of longest common subsequence of prefixes \(X_{i}\) and \(Y_{j}\). This set of sequences is given by the following:
+</p>
+
+\begin{equation}
+  LCS(X_{i},Y_{j}) =
+   \begin{cases}
+     \epsilon,  &{\mbox{if }}i=0{\mbox{ or }}j=0\\
+     LCS(X_{i-1},Y_{j-1}){\hat {}}x_{i}&{\mbox{if }}i,j>0{\mbox{ and }}x_{i}=y_{j}\\
+     \operatorname {\max } \{{\mathit {LCS}}(X_{i},Y_{j-1}),{\mathit {LCS}}(X_{i-1},Y_{j})\}&{\mbox{if }}i,j>0{\mbox{ and }}x_{i}\neq y_{j}.\end{cases}
+\end{equation}
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org94cef45" class="outline-3">
+<h3 id="org94cef45"><span class="section-number-3">3.3.</span> Example Solution</h3>
+<div class="outline-text-3" id="text-3-3">
+<p>
+Let see a solution to the <a href="https://en.wikipedia.org/wiki/Longest_common_subsequence">LCS problem</a>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #5B6268;">// </span><span style="color: #5B6268;">Function to fill the lookup table by finding the length of LCS of substring</span>
+<span style="color: #ECBE7B;">vector</span><span style="color: #51afef;">&lt;</span><span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span><span style="color: #51afef;">&gt;</span> <span style="color: #c678dd;">findLCS</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">string</span> <span style="color: #dcaeea;">X</span>, <span style="color: #ECBE7B;">string</span> <span style="color: #dcaeea;">Y</span>, <span style="color: #ECBE7B;">uint</span> <span style="color: #dcaeea;">m</span>, <span style="color: #ECBE7B;">uint</span> <span style="color: #dcaeea;">n</span><span style="color: #51afef;">)</span>
+<span style="color: #51afef;">{</span>
+    <span style="color: #5B6268;">// </span><span style="color: #5B6268;">lookup[i][-j] stores the length of LCS of substring X[0&#8230;i-1] and Y[0&#8230;j-1]</span>
+    <span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">vector</span><span style="color: #98be65;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #98be65;">&gt;</span><span style="color: #c678dd;">&gt;</span> <span style="color: #dcaeea;">lookup</span><span style="color: #c678dd;">(</span>m + <span style="color: #da8548; font-weight: bold;">1</span>, vector<span style="color: #98be65;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #98be65;">&gt;(</span>n + <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #98be65;">)</span><span style="color: #c678dd;">)</span>;
+
+    <span style="color: #5B6268;">// </span><span style="color: #5B6268;">first column -of the lookup table will be all 0</span>
+    <span style="color: #51afef;">for</span> <span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">i</span> = <span style="color: #da8548; font-weight: bold;">0</span>; i &lt;= m; i++<span style="color: #c678dd;">)</span> <span style="color: #c678dd;">{</span>
+        lookup<span style="color: #98be65;">[</span>i<span style="color: #98be65;">][</span><span style="color: #da8548; font-weight: bold;">0</span><span style="color: #98be65;">]</span> = <span style="color: #da8548; font-weight: bold;">0</span>;
+    <span style="color: #c678dd;">}</span>
+
+    <span style="color: #5B6268;">// </span><span style="color: #5B6268;">first row of the lookup table will be all 0</span>
+    <span style="color: #51afef;">for</span> <span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">j</span> = <span style="color: #da8548; font-weight: bold;">0</span>; j &lt;= n; j++<span style="color: #c678dd;">)</span> <span style="color: #c678dd;">{</span>
+        lookup<span style="color: #98be65;">[</span><span style="color: #da8548; font-weight: bold;">0</span><span style="color: #98be65;">][</span>j<span style="color: #98be65;">]</span> = <span style="color: #da8548; font-weight: bold;">0</span>;
+    <span style="color: #c678dd;">}</span>
+
+    <span style="color: #5B6268;">// </span><span style="color: #5B6268;">fill the lookup table in a bottom-up manner</span>
+    <span style="color: #51afef;">for</span> <span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">i</span> = <span style="color: #da8548; font-weight: bold;">1</span>; i &lt;= m; i++<span style="color: #c678dd;">)</span>
+    <span style="color: #c678dd;">{</span>
+        <span style="color: #51afef;">for</span> <span style="color: #98be65;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">j</span> = <span style="color: #da8548; font-weight: bold;">1</span>; j &lt;= n; j++<span style="color: #98be65;">)</span>
+        <span style="color: #98be65;">{</span>
+            <span style="color: #5B6268;">// </span><span style="color: #5B6268;">if current character of `X` and `Y` matches</span>
+            <span style="color: #51afef;">if</span> <span style="color: #a9a1e1;">(</span>X<span style="color: #51afef;">[</span>i - <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #51afef;">]</span> == Y<span style="color: #51afef;">[</span>j - <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #51afef;">]</span><span style="color: #a9a1e1;">)</span> <span style="color: #a9a1e1;">{</span>
+                lookup<span style="color: #51afef;">[</span>i<span style="color: #51afef;">][</span>j<span style="color: #51afef;">]</span> = lookup<span style="color: #51afef;">[</span>i - <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #51afef;">][</span>j - <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #51afef;">]</span> + <span style="color: #da8548; font-weight: bold;">1</span>;
+            <span style="color: #a9a1e1;">}</span>
+                <span style="color: #5B6268;">// </span><span style="color: #5B6268;">otherwise, if the current character of `X` and `Y` don't match</span>
+            <span style="color: #51afef;">else</span> <span style="color: #a9a1e1;">{</span>
+                lookup<span style="color: #51afef;">[</span>i<span style="color: #51afef;">][</span>j<span style="color: #51afef;">]</span> = max<span style="color: #51afef;">(</span>lookup<span style="color: #c678dd;">[</span>i - <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #c678dd;">][</span>j<span style="color: #c678dd;">]</span>, lookup<span style="color: #c678dd;">[</span>i<span style="color: #c678dd;">][</span>j - <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #c678dd;">]</span><span style="color: #51afef;">)</span>;
+            <span style="color: #a9a1e1;">}</span>
+        <span style="color: #98be65;">}</span>
+    <span style="color: #c678dd;">}</span>
+
+    <span style="color: #51afef;">return</span> lookup;
+<span style="color: #51afef;">}</span>
+</pre>
+</div>
+
+<p>
+This will generate the following lookup table for our example:
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-right">&#xa0;</th>
+<th scope="col" class="org-right">A</th>
+<th scope="col" class="org-right">B</th>
+<th scope="col" class="org-right">C</th>
+<th scope="col" class="org-right">D</th>
+<th scope="col" class="org-right">E</th>
+<th scope="col" class="org-right">F</th>
+<th scope="col" class="org-right">G</th>
+<th scope="col" class="org-right">I</th>
+<th scope="col" class="org-right">J</th>
+<th scope="col" class="org-right">K</th>
+<th scope="col" class="org-right">R</th>
+<th scope="col" class="org-right">X</th>
+<th scope="col" class="org-right">Y</th>
+<th scope="col" class="org-right">Z</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">A</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+</tr>
+
+<tr>
+<td class="org-left">B</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-left">C</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">2</td>
+<td class="org-right">3</td>
+<td class="org-right">3</td>
+<td class="org-right">3</td>
+<td class="org-right">3</td>
+<td class="org-right">3</td>
+<td class="org-right">3</td>
+<td class="org-right">3</td>
+<td class="org-right">3</td>
+<td class="org-right">3</td>
+<td class="org-right">3</td>
+<td class="org-right">3</td>
+<td class="org-right">3</td>
+</tr>
+
+<tr>
+<td class="org-left">D</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">2</td>
+<td class="org-right">3</td>
+<td class="org-right">4</td>
+<td class="org-right">4</td>
+<td class="org-right">4</td>
+<td class="org-right">4</td>
+<td class="org-right">4</td>
+<td class="org-right">4</td>
+<td class="org-right">4</td>
+<td class="org-right">4</td>
+<td class="org-right">4</td>
+<td class="org-right">4</td>
+<td class="org-right">4</td>
+</tr>
+
+<tr>
+<td class="org-left">F</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">2</td>
+<td class="org-right">3</td>
+<td class="org-right">4</td>
+<td class="org-right">4</td>
+<td class="org-right">5</td>
+<td class="org-right">5</td>
+<td class="org-right">5</td>
+<td class="org-right">5</td>
+<td class="org-right">5</td>
+<td class="org-right">5</td>
+<td class="org-right">5</td>
+<td class="org-right">5</td>
+<td class="org-right">5</td>
+</tr>
+
+<tr>
+<td class="org-left">G</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">2</td>
+<td class="org-right">3</td>
+<td class="org-right">4</td>
+<td class="org-right">4</td>
+<td class="org-right">5</td>
+<td class="org-right">6</td>
+<td class="org-right">6</td>
+<td class="org-right">6</td>
+<td class="org-right">6</td>
+<td class="org-right">6</td>
+<td class="org-right">6</td>
+<td class="org-right">6</td>
+<td class="org-right">6</td>
+</tr>
+
+<tr>
+<td class="org-left">H</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">2</td>
+<td class="org-right">3</td>
+<td class="org-right">4</td>
+<td class="org-right">4</td>
+<td class="org-right">5</td>
+<td class="org-right">6</td>
+<td class="org-right">6</td>
+<td class="org-right">6</td>
+<td class="org-right">6</td>
+<td class="org-right">6</td>
+<td class="org-right">6</td>
+<td class="org-right">6</td>
+<td class="org-right">6</td>
+</tr>
+
+<tr>
+<td class="org-left">J</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">2</td>
+<td class="org-right">3</td>
+<td class="org-right">4</td>
+<td class="org-right">4</td>
+<td class="org-right">5</td>
+<td class="org-right">6</td>
+<td class="org-right">6</td>
+<td class="org-right">7</td>
+<td class="org-right">7</td>
+<td class="org-right">7</td>
+<td class="org-right">7</td>
+<td class="org-right">7</td>
+<td class="org-right">7</td>
+</tr>
+
+<tr>
+<td class="org-left">Q</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">2</td>
+<td class="org-right">3</td>
+<td class="org-right">4</td>
+<td class="org-right">4</td>
+<td class="org-right">5</td>
+<td class="org-right">6</td>
+<td class="org-right">6</td>
+<td class="org-right">7</td>
+<td class="org-right">7</td>
+<td class="org-right">7</td>
+<td class="org-right">7</td>
+<td class="org-right">7</td>
+<td class="org-right">7</td>
+</tr>
+
+<tr>
+<td class="org-left">Z</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">2</td>
+<td class="org-right">3</td>
+<td class="org-right">4</td>
+<td class="org-right">4</td>
+<td class="org-right">5</td>
+<td class="org-right">6</td>
+<td class="org-right">6</td>
+<td class="org-right">7</td>
+<td class="org-right">7</td>
+<td class="org-right">7</td>
+<td class="org-right">7</td>
+<td class="org-right">7</td>
+<td class="org-right">8</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+Each character of the second string (<code>Y</code>) is represented by the columns, while every character from \(X\) is represented in the rows. Also note that the <i>0-th</i> row and column do not represent a character in the strings.
+</p>
+
+<p>
+After generation of the lookup table, we search for the differences by iterating the <code>lookup</code> table from the bottom-right corner (something like a <i>backtrack</i>).
+</p>
+
+<ol class="org-ol">
+<li>If we find identical character (<code>X[i]</code> == <code>Y[j]</code>) we <b>recursively</b> repeat the search by using the upper-left neighbor element as the new starting point.</li>
+<li>If the current character of <code>Y</code> is not present in <code>X</code>, then we found a character that needs to be added and search <b>recursively</b> starting from the left neighbor.</li>
+<li>If the current character of <code>X</code> is not present in <code>Y</code>, we found a char that needs to be deleted and we should continue to search <b>recursively</b> starting from the top neighbor.</li>
+</ol>
+
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #5B6268;">// </span><span style="color: #5B6268;">Function to display the differences between two strings</span>
+<span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">diff</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">string</span> <span style="color: #dcaeea;">X</span>, <span style="color: #ECBE7B;">string</span> <span style="color: #dcaeea;">Y</span>, <span style="color: #ECBE7B;">uint</span> <span style="color: #dcaeea;">m</span>, <span style="color: #ECBE7B;">uint</span> <span style="color: #dcaeea;">n</span>, <span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">vector</span><span style="color: #98be65;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #98be65;">&gt;</span><span style="color: #c678dd;">&gt;</span> &amp;<span style="color: #dcaeea;">lookup</span><span style="color: #51afef;">)</span>
+<span style="color: #51afef;">{</span>
+    <span style="color: #5B6268;">// </span><span style="color: #5B6268;">if the last character of `X` and `Y` matches</span>
+    <span style="color: #51afef;">if</span> <span style="color: #c678dd;">(</span>m &gt; <span style="color: #da8548; font-weight: bold;">0</span> &amp;&amp; n &gt; <span style="color: #da8548; font-weight: bold;">0</span> &amp;&amp; X<span style="color: #98be65;">[</span>m - <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #98be65;">]</span> == Y<span style="color: #98be65;">[</span>n - <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #98be65;">]</span><span style="color: #c678dd;">)</span>
+    <span style="color: #c678dd;">{</span>
+        diff<span style="color: #98be65;">(</span>X, Y, m - <span style="color: #da8548; font-weight: bold;">1</span>, n - <span style="color: #da8548; font-weight: bold;">1</span>, lookup<span style="color: #98be65;">)</span>;
+        cout &lt;&lt; <span style="color: #98be65;">" "</span> &lt;&lt; X<span style="color: #98be65;">[</span>m - <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #98be65;">]</span>;
+    <span style="color: #c678dd;">}</span>
+
+    <span style="color: #5B6268;">// </span><span style="color: #5B6268;">if the current character of `Y` is not present in `X`</span>
+    <span style="color: #51afef;">else</span> <span style="color: #51afef;">if</span> <span style="color: #c678dd;">(</span>n &gt; <span style="color: #da8548; font-weight: bold;">0</span> &amp;&amp; <span style="color: #98be65;">(</span>m == <span style="color: #da8548; font-weight: bold;">0</span> || lookup<span style="color: #a9a1e1;">[</span>m<span style="color: #a9a1e1;">][</span>n - <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #a9a1e1;">]</span> &gt;= lookup<span style="color: #a9a1e1;">[</span>m - <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #a9a1e1;">][</span>n<span style="color: #a9a1e1;">]</span><span style="color: #98be65;">)</span><span style="color: #c678dd;">)</span>
+    <span style="color: #c678dd;">{</span>
+        diff<span style="color: #98be65;">(</span>X, Y, m, n - <span style="color: #da8548; font-weight: bold;">1</span>, lookup<span style="color: #98be65;">)</span>;
+        cout &lt;&lt; <span style="color: #98be65;">" +"</span> &lt;&lt; Y<span style="color: #98be65;">[</span>n - <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #98be65;">]</span>;
+    <span style="color: #c678dd;">}</span>
+
+    <span style="color: #5B6268;">// </span><span style="color: #5B6268;">if the current character of `X` is not present in `Y`</span>
+    <span style="color: #51afef;">else</span> <span style="color: #51afef;">if</span> <span style="color: #c678dd;">(</span>m &gt; <span style="color: #da8548; font-weight: bold;">0</span> &amp;&amp; <span style="color: #98be65;">(</span>n == <span style="color: #da8548; font-weight: bold;">0</span> || lookup<span style="color: #a9a1e1;">[</span>m<span style="color: #a9a1e1;">][</span>n - <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #a9a1e1;">]</span> &lt; lookup<span style="color: #a9a1e1;">[</span>m - <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #a9a1e1;">][</span>n<span style="color: #a9a1e1;">]</span><span style="color: #98be65;">)</span><span style="color: #c678dd;">)</span>
+    <span style="color: #c678dd;">{</span>
+        diff<span style="color: #98be65;">(</span>X, Y, m - <span style="color: #da8548; font-weight: bold;">1</span>, n, lookup<span style="color: #98be65;">)</span>;
+        cout &lt;&lt; <span style="color: #98be65;">" -"</span> &lt;&lt; X<span style="color: #98be65;">[</span>m - <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #98be65;">]</span>;
+    <span style="color: #c678dd;">}</span>
+<span style="color: #51afef;">}</span>
+</pre>
+</div>
+
+<p>
+<a href="https://raw.githubusercontent.com/joksim/mig/main/III-programming/algorithm-archetypes/dynamic-programming/diff.cpp">Link to the full working example.</a>
+</p>
+</div>
+
+<div id="outline-container-org93e5619" class="outline-4">
+<h4 id="org93e5619"><span class="section-number-4">3.3.1.</span> Metrics</h4>
+<div class="outline-text-4" id="text-3-3-1">
+<dl class="org-dl">
+<dt>Time complexity</dt><dd>\(O(m*n)\)</dd>
+<dt>Space complexity</dt><dd>\(O(m*n)\) extra space, where \(m\) is the length of the first string and \(n\) is the length of the second string.</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb067304" class="outline-2">
+<h2 id="orgb067304"><span class="section-number-2">4.</span> Word Break</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+Given a string and a dictionary of words, determine if the string can be segmented into a space-separated sequence of one or more dictionary words.
+</p>
+</div>
+
+<div id="outline-container-org8753039" class="outline-3">
+<h3 id="org8753039"><span class="section-number-3">4.1.</span> Examples</h3>
+<div class="outline-text-3" id="text-4-1">
+</div>
+<div id="outline-container-orgce24dda" class="outline-4">
+<h4 id="orgce24dda"><span class="section-number-4">4.1.1.</span> Example 1</h4>
+<div class="outline-text-4" id="text-4-1-1">
+<pre class="example" id="org276176b">
+dict[] = { this, th, is, famous, Word, break, b, r, e, a, k, br, bre, brea, ak, problem };
+
+word = "Wordbreakproblem"
+</pre>
+
+
+<pre class="example" id="orgdb1d0a0">
+Word b r e a k problem
+Word b r e ak problem
+Word br e a k problem
+Word br e ak problem
+Word bre a k problem
+Word bre ak problem
+Word brea k problem
+Word break problem
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org45b87b2" class="outline-3">
+<h3 id="org45b87b2"><span class="section-number-3">4.2.</span> Approach</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+The idea is to use recursion to solve this problem. We consider all prefixes of the current string one by one and check if the current prefix is present in the dictionary or not. If the prefix is a valid word, add it to the output string and recur for the remaining string. The recursion word base case is when the string becomes empty, and we print the output string.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org1684d0b" class="outline-3">
+<h3 id="org1684d0b"><span class="section-number-3">4.3.</span> Example Solution</h3>
+<div class="outline-text-3" id="text-4-3">
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #51afef;">&lt;</span><span style="color: #98be65;">iostream</span><span style="color: #51afef;">&gt;</span>
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #51afef;">&lt;</span><span style="color: #98be65;">vector</span><span style="color: #51afef;">&gt;</span>
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #51afef;">&lt;</span><span style="color: #98be65;">algorithm</span><span style="color: #51afef;">&gt;</span>
+<span style="color: #51afef;">using</span> <span style="color: #51afef;">namespace</span> <span style="color: #a9a1e1;">std</span>;
+
+<span style="color: #5B6268;">// </span><span style="color: #5B6268;">Function to segment a given string into a space-separated</span>
+<span style="color: #5B6268;">// </span><span style="color: #5B6268;">sequence of one or more dictionary words</span>
+<span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">wordBreak</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">string</span><span style="color: #c678dd;">&gt;</span> <span style="color: #51afef;">const</span> &amp;<span style="color: #dcaeea;">dict</span>, <span style="color: #ECBE7B;">string</span> <span style="color: #dcaeea;">word</span>, <span style="color: #ECBE7B;">string</span> <span style="color: #dcaeea;">out</span><span style="color: #51afef;">)</span>
+<span style="color: #51afef;">{</span>
+    <span style="color: #5B6268;">// </span><span style="color: #5B6268;">if the end of the string is reached,</span>
+    <span style="color: #5B6268;">// </span><span style="color: #5B6268;">print the output string</span>
+
+    <span style="color: #51afef;">if</span> <span style="color: #c678dd;">(</span>word.size<span style="color: #98be65;">()</span> == <span style="color: #da8548; font-weight: bold;">0</span><span style="color: #c678dd;">)</span>
+    <span style="color: #c678dd;">{</span>
+        cout &lt;&lt; out &lt;&lt; endl;
+        <span style="color: #51afef;">return</span>;
+    <span style="color: #c678dd;">}</span>
+
+    <span style="color: #51afef;">for</span> <span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">i</span> = <span style="color: #da8548; font-weight: bold;">1</span>; i &lt;= word.size<span style="color: #98be65;">()</span>; i++<span style="color: #c678dd;">)</span>
+    <span style="color: #c678dd;">{</span>
+        <span style="color: #5B6268;">// </span><span style="color: #5B6268;">consider all prefixes of the current string</span>
+        <span style="color: #ECBE7B;">string</span> <span style="color: #dcaeea;">prefix</span> = word.substr<span style="color: #98be65;">(</span><span style="color: #da8548; font-weight: bold;">0</span>, i<span style="color: #98be65;">)</span>;
+
+        <span style="color: #5B6268;">// </span><span style="color: #5B6268;">if the prefix is present in the dictionary, add it to the</span>
+        <span style="color: #5B6268;">// </span><span style="color: #5B6268;">output string and recur for the remaining string</span>
+
+        <span style="color: #51afef;">if</span> <span style="color: #98be65;">(</span>find<span style="color: #a9a1e1;">(</span>dict.begin<span style="color: #51afef;">()</span>, dict.end<span style="color: #51afef;">()</span>, prefix<span style="color: #a9a1e1;">)</span> != dict.end<span style="color: #a9a1e1;">()</span><span style="color: #98be65;">)</span> <span style="color: #98be65;">{</span>
+            wordBreak<span style="color: #a9a1e1;">(</span>dict, word.substr<span style="color: #51afef;">(</span>i<span style="color: #51afef;">)</span>, out + <span style="color: #98be65;">" "</span> + prefix<span style="color: #a9a1e1;">)</span>;
+        <span style="color: #98be65;">}</span>
+    <span style="color: #c678dd;">}</span>
+<span style="color: #51afef;">}</span>
+
+<span style="color: #5B6268;">// </span><span style="color: #5B6268;">Word Break Problem Implementation in C++</span>
+<span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">main</span><span style="color: #51afef;">()</span>
+<span style="color: #51afef;">{</span>
+    <span style="color: #5B6268;">// </span><span style="color: #5B6268;">vector of strings to represent a dictionary</span>
+    <span style="color: #5B6268;">// </span><span style="color: #5B6268;">we can also use a Trie or a set to store a dictionary</span>
+
+    <span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">string</span><span style="color: #c678dd;">&gt;</span> <span style="color: #dcaeea;">dict</span> = <span style="color: #c678dd;">{</span> <span style="color: #98be65;">"this"</span>, <span style="color: #98be65;">"th"</span>, <span style="color: #98be65;">"is"</span>, <span style="color: #98be65;">"famous"</span>, <span style="color: #98be65;">"Word"</span>, <span style="color: #98be65;">"break"</span>,
+            <span style="color: #98be65;">"b"</span>, <span style="color: #98be65;">"r"</span>, <span style="color: #98be65;">"e"</span>, <span style="color: #98be65;">"a"</span>, <span style="color: #98be65;">"k"</span>, <span style="color: #98be65;">"br"</span>, <span style="color: #98be65;">"bre"</span>, <span style="color: #98be65;">"brea"</span>, <span style="color: #98be65;">"ak"</span>, <span style="color: #98be65;">"problem"</span> <span style="color: #c678dd;">}</span>;
+
+    <span style="color: #5B6268;">// </span><span style="color: #5B6268;">input string</span>
+    <span style="color: #ECBE7B;">string</span> <span style="color: #dcaeea;">word</span> = <span style="color: #98be65;">"Wordbreakproblem"</span>;
+
+    wordBreak<span style="color: #c678dd;">(</span>dict, word, <span style="color: #98be65;">""</span><span style="color: #c678dd;">)</span>;
+
+    <span style="color: #51afef;">return</span> <span style="color: #da8548; font-weight: bold;">0</span>;
+<span style="color: #51afef;">}</span>
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orge86e283" class="outline-4">
+<h4 id="orge86e283"><span class="section-number-4">4.3.1.</span> Metrics</h4>
+<div class="outline-text-4" id="text-4-3-1">
+<dl class="org-dl">
+<dt>Time complexity</dt><dd>\(?\)</dd>
+<dt>Space complexity</dt><dd>\(?\)</dd>
+</dl>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgfd54fe7" class="outline-3">
+<h3 id="orgfd54fe7"><span class="section-number-3">4.4.</span> Alternate version of the problem</h3>
+<div class="outline-text-3" id="text-4-4">
+<p>
+There is a very famous alternate version of the above problem in which we only have to determine if a string can be segmented into a space-separated sequence of one or more dictionary words or not, and not actually print all sequences.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #51afef;">&lt;</span><span style="color: #98be65;">iostream</span><span style="color: #51afef;">&gt;</span>
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #51afef;">&lt;</span><span style="color: #98be65;">vector</span><span style="color: #51afef;">&gt;</span>
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #51afef;">&lt;</span><span style="color: #98be65;">algorithm</span><span style="color: #51afef;">&gt;</span>
+<span style="color: #51afef;">using</span> <span style="color: #51afef;">namespace</span> <span style="color: #a9a1e1;">std</span>;
+
+<span style="color: #5B6268;">// </span><span style="color: #5B6268;">Function to determine if a string can be segmented into space-separated</span>
+<span style="color: #5B6268;">// </span><span style="color: #5B6268;">sequence of one or more dictionary words</span>
+<span style="color: #ECBE7B;">bool</span> <span style="color: #c678dd;">wordBreak</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">string</span><span style="color: #c678dd;">&gt;</span> <span style="color: #51afef;">const</span> &amp;<span style="color: #dcaeea;">dict</span>, <span style="color: #ECBE7B;">string</span> <span style="color: #dcaeea;">word</span><span style="color: #51afef;">)</span>
+<span style="color: #51afef;">{</span>
+    <span style="color: #5B6268;">// </span><span style="color: #5B6268;">return true if the end of the string is reached</span>
+    <span style="color: #51afef;">if</span> <span style="color: #c678dd;">(</span>word.size<span style="color: #98be65;">()</span> == <span style="color: #da8548; font-weight: bold;">0</span><span style="color: #c678dd;">)</span> <span style="color: #c678dd;">{</span>
+        <span style="color: #51afef;">return</span> <span style="color: #a9a1e1;">true</span>;
+    <span style="color: #c678dd;">}</span>
+
+    <span style="color: #51afef;">for</span> <span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">i</span> = <span style="color: #da8548; font-weight: bold;">1</span>; i &lt;= word.size<span style="color: #98be65;">()</span>; i++<span style="color: #c678dd;">)</span>
+    <span style="color: #c678dd;">{</span>
+        <span style="color: #5B6268;">// </span><span style="color: #5B6268;">consider all prefixes of the current string</span>
+        <span style="color: #ECBE7B;">string</span> <span style="color: #dcaeea;">prefix</span> = word.substr<span style="color: #98be65;">(</span><span style="color: #da8548; font-weight: bold;">0</span>, i<span style="color: #98be65;">)</span>;
+
+        <span style="color: #5B6268;">// </span><span style="color: #5B6268;">return true if the prefix is present in the dictionary and the remaining</span>
+        <span style="color: #5B6268;">// </span><span style="color: #5B6268;">string also forms a space-separated sequence of one or more</span>
+        <span style="color: #5B6268;">// </span><span style="color: #5B6268;">dictionary words</span>
+
+        <span style="color: #51afef;">if</span> <span style="color: #98be65;">(</span>find<span style="color: #a9a1e1;">(</span>dict.begin<span style="color: #51afef;">()</span>, dict.end<span style="color: #51afef;">()</span>, prefix<span style="color: #a9a1e1;">)</span> != dict.end<span style="color: #a9a1e1;">()</span> &amp;&amp;
+                wordBreak<span style="color: #a9a1e1;">(</span>dict, word.substr<span style="color: #51afef;">(</span>i<span style="color: #51afef;">)</span><span style="color: #a9a1e1;">)</span><span style="color: #98be65;">)</span> <span style="color: #98be65;">{</span>
+            <span style="color: #51afef;">return</span> <span style="color: #a9a1e1;">true</span>;
+        <span style="color: #98be65;">}</span>
+    <span style="color: #c678dd;">}</span>
+
+    <span style="color: #5B6268;">// </span><span style="color: #5B6268;">return false if the string can't be segmented</span>
+    <span style="color: #51afef;">return</span> <span style="color: #a9a1e1;">false</span>;
+<span style="color: #51afef;">}</span>
+
+<span style="color: #5B6268;">// </span><span style="color: #5B6268;">Word Break Problem Implementation in C++</span>
+<span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">main</span><span style="color: #51afef;">()</span>
+<span style="color: #51afef;">{</span>
+    <span style="color: #5B6268;">// </span><span style="color: #5B6268;">vector of strings to represent a dictionary</span>
+    <span style="color: #5B6268;">// </span><span style="color: #5B6268;">we can also use a Trie or a set to store a dictionary</span>
+
+    <span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">string</span><span style="color: #c678dd;">&gt;</span> <span style="color: #dcaeea;">dict</span> = <span style="color: #c678dd;">{</span> <span style="color: #98be65;">"this"</span>, <span style="color: #98be65;">"th"</span>, <span style="color: #98be65;">"is"</span>, <span style="color: #98be65;">"famous"</span>, <span style="color: #98be65;">"Word"</span>, <span style="color: #98be65;">"break"</span>,
+            <span style="color: #98be65;">"b"</span>, <span style="color: #98be65;">"r"</span>, <span style="color: #98be65;">"e"</span>, <span style="color: #98be65;">"a"</span>, <span style="color: #98be65;">"k"</span>, <span style="color: #98be65;">"br"</span>, <span style="color: #98be65;">"bre"</span>, <span style="color: #98be65;">"brea"</span>, <span style="color: #98be65;">"ak"</span>, <span style="color: #98be65;">"problem"</span> <span style="color: #c678dd;">}</span>;
+
+    <span style="color: #5B6268;">// </span><span style="color: #5B6268;">input string</span>
+    <span style="color: #ECBE7B;">string</span> <span style="color: #dcaeea;">word</span> = <span style="color: #98be65;">"Wordbreakproblem"</span>;
+
+    <span style="color: #51afef;">if</span> <span style="color: #c678dd;">(</span>wordBreak<span style="color: #98be65;">(</span>dict, word<span style="color: #98be65;">)</span><span style="color: #c678dd;">)</span> <span style="color: #c678dd;">{</span>
+        cout &lt;&lt; <span style="color: #98be65;">"The string can be segmented"</span>;
+    <span style="color: #c678dd;">}</span>
+    <span style="color: #51afef;">else</span> <span style="color: #c678dd;">{</span>
+        cout &lt;&lt; <span style="color: #98be65;">"The string can't be segmented"</span>;
+    <span style="color: #c678dd;">}</span>
+
+    <span style="color: #51afef;">return</span> <span style="color: #da8548; font-weight: bold;">0</span>;
+<span style="color: #51afef;">}</span>
+</pre>
+</div>
+
+<p>
+The time complexity of the above solution is exponential and occupies space in the call stack.
+</p>
+
+<p>
+The word-break problem has <b>optimal substructure</b>. We have seen that the problem can be broken down into smaller subproblem, which can further be broken down into yet smaller subproblem, and so on. The word-break problem also exhibits <b>overlapping subproblems</b>, so we will end up solving the same subproblem over and over again. If we draw the recursion tree, we can see that the same subproblems are getting computed repeatedly.
+</p>
+
+<p>
+The problems having optimal substructure and overlapping subproblem can be solved by dynamic programming, in which subproblem solutions are <b>memoized</b> rather than computed repeatedly.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #51afef;">&lt;</span><span style="color: #98be65;">iostream</span><span style="color: #51afef;">&gt;</span>
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #51afef;">&lt;</span><span style="color: #98be65;">string</span><span style="color: #51afef;">&gt;</span>
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #51afef;">&lt;</span><span style="color: #98be65;">unordered_set</span><span style="color: #51afef;">&gt;</span>
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #51afef;">&lt;</span><span style="color: #98be65;">algorithm</span><span style="color: #51afef;">&gt;</span>
+<span style="color: #51afef;">using</span> <span style="color: #51afef;">namespace</span> <span style="color: #a9a1e1;">std</span>;
+
+<span style="color: #5B6268;">// </span><span style="color: #5B6268;">Function to determine if a string can be segmented into space-separated</span>
+<span style="color: #5B6268;">// </span><span style="color: #5B6268;">sequence of one or more dictionary words</span>
+<span style="color: #ECBE7B;">bool</span> <span style="color: #c678dd;">wordBreak</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">unordered_set</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">string</span><span style="color: #c678dd;">&gt;</span> <span style="color: #51afef;">const</span> &amp;<span style="color: #dcaeea;">dict</span>, <span style="color: #ECBE7B;">string</span> <span style="color: #dcaeea;">word</span>, <span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span> &amp;<span style="color: #dcaeea;">lookup</span><span style="color: #51afef;">)</span>
+<span style="color: #51afef;">{</span>
+    <span style="color: #5B6268;">// </span><span style="color: #5B6268;">`n` stores length of the current substring</span>
+    <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">n</span> = word.size<span style="color: #c678dd;">()</span>;
+
+    <span style="color: #5B6268;">// </span><span style="color: #5B6268;">return true if the end of the string is reached</span>
+    <span style="color: #51afef;">if</span> <span style="color: #c678dd;">(</span>n == <span style="color: #da8548; font-weight: bold;">0</span><span style="color: #c678dd;">)</span> <span style="color: #c678dd;">{</span>
+        <span style="color: #51afef;">return</span> <span style="color: #a9a1e1;">true</span>;
+    <span style="color: #c678dd;">}</span>
+
+    <span style="color: #5B6268;">// </span><span style="color: #5B6268;">if the subproblem is seen for the first time</span>
+    <span style="color: #51afef;">if</span> <span style="color: #c678dd;">(</span>lookup<span style="color: #98be65;">[</span>n<span style="color: #98be65;">]</span> == -<span style="color: #da8548; font-weight: bold;">1</span><span style="color: #c678dd;">)</span>
+    <span style="color: #c678dd;">{</span>
+        <span style="color: #5B6268;">// </span><span style="color: #5B6268;">mark subproblem as seen (0 initially assuming string</span>
+        <span style="color: #5B6268;">// </span><span style="color: #5B6268;">can't be segmented)</span>
+        lookup<span style="color: #98be65;">[</span>n<span style="color: #98be65;">]</span> = <span style="color: #da8548; font-weight: bold;">0</span>;
+
+        <span style="color: #51afef;">for</span> <span style="color: #98be65;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">i</span> = <span style="color: #da8548; font-weight: bold;">1</span>; i &lt;= n; i++<span style="color: #98be65;">)</span>
+        <span style="color: #98be65;">{</span>
+            <span style="color: #5B6268;">// </span><span style="color: #5B6268;">consider all prefixes of the current string</span>
+            <span style="color: #ECBE7B;">string</span> <span style="color: #dcaeea;">prefix</span> = word.substr<span style="color: #a9a1e1;">(</span><span style="color: #da8548; font-weight: bold;">0</span>, i<span style="color: #a9a1e1;">)</span>;
+
+            <span style="color: #5B6268;">// </span><span style="color: #5B6268;">if the prefix is found in the dictionary, then recur for the suffix</span>
+            <span style="color: #51afef;">if</span> <span style="color: #a9a1e1;">(</span>find<span style="color: #51afef;">(</span>dict.begin<span style="color: #c678dd;">()</span>, dict.end<span style="color: #c678dd;">()</span>, prefix<span style="color: #51afef;">)</span> != dict.end<span style="color: #51afef;">()</span> &amp;&amp;
+                wordBreak<span style="color: #51afef;">(</span>dict, word.substr<span style="color: #c678dd;">(</span>i<span style="color: #c678dd;">)</span>, lookup<span style="color: #51afef;">)</span><span style="color: #a9a1e1;">)</span>
+            <span style="color: #a9a1e1;">{</span>
+                <span style="color: #5B6268;">// </span><span style="color: #5B6268;">return true if the string can be segmented</span>
+                <span style="color: #51afef;">return</span> lookup<span style="color: #51afef;">[</span>n<span style="color: #51afef;">]</span> = <span style="color: #da8548; font-weight: bold;">1</span>;
+            <span style="color: #a9a1e1;">}</span>
+        <span style="color: #98be65;">}</span>
+    <span style="color: #c678dd;">}</span>
+
+    <span style="color: #5B6268;">// </span><span style="color: #5B6268;">return solution to the current subproblem</span>
+    <span style="color: #51afef;">return</span> lookup<span style="color: #c678dd;">[</span>n<span style="color: #c678dd;">]</span>;
+<span style="color: #51afef;">}</span>
+
+<span style="color: #5B6268;">// </span><span style="color: #5B6268;">Word Break Problem Implementation in C++</span>
+<span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">main</span><span style="color: #51afef;">()</span>
+<span style="color: #51afef;">{</span>
+    <span style="color: #5B6268;">// </span><span style="color: #5B6268;">set of strings to represent a dictionary</span>
+    <span style="color: #5B6268;">// </span><span style="color: #5B6268;">we can also use a Trie or a vector to store a dictionary</span>
+    <span style="color: #ECBE7B;">unordered_set</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">string</span><span style="color: #c678dd;">&gt;</span> <span style="color: #dcaeea;">dict</span> = <span style="color: #c678dd;">{</span> <span style="color: #98be65;">"this"</span>, <span style="color: #98be65;">"th"</span>, <span style="color: #98be65;">"is"</span>, <span style="color: #98be65;">"famous"</span>, <span style="color: #98be65;">"Word"</span>, <span style="color: #98be65;">"break"</span>,
+            <span style="color: #98be65;">"b"</span>, <span style="color: #98be65;">"r"</span>, <span style="color: #98be65;">"e"</span>, <span style="color: #98be65;">"a"</span>, <span style="color: #98be65;">"k"</span>, <span style="color: #98be65;">"br"</span>, <span style="color: #98be65;">"bre"</span>, <span style="color: #98be65;">"brea"</span>, <span style="color: #98be65;">"ak"</span>, <span style="color: #98be65;">"problem"</span> <span style="color: #c678dd;">}</span>;
+
+    <span style="color: #5B6268;">// </span><span style="color: #5B6268;">input string</span>
+    <span style="color: #ECBE7B;">string</span> <span style="color: #dcaeea;">word</span> = <span style="color: #98be65;">"Wordbreakproblem"</span>;
+
+    <span style="color: #5B6268;">// </span><span style="color: #5B6268;">lookup array to store solutions to subproblems</span>
+    <span style="color: #5B6268;">// </span><span style="color: #5B6268;">lookup[i] stores if substring word[n-i&#8230;n) can be segmented or not</span>
+    <span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span> <span style="color: #dcaeea;">lookup</span><span style="color: #c678dd;">(</span>word.length<span style="color: #98be65;">()</span> + <span style="color: #da8548; font-weight: bold;">1</span>, -<span style="color: #da8548; font-weight: bold;">1</span><span style="color: #c678dd;">)</span>;
+
+    <span style="color: #51afef;">if</span> <span style="color: #c678dd;">(</span>wordBreak<span style="color: #98be65;">(</span>dict, word, lookup<span style="color: #98be65;">)</span><span style="color: #c678dd;">)</span> <span style="color: #c678dd;">{</span>
+        cout &lt;&lt; <span style="color: #98be65;">"The string can be segmented"</span>;
+    <span style="color: #c678dd;">}</span>
+    <span style="color: #51afef;">else</span> <span style="color: #c678dd;">{</span>
+        cout &lt;&lt; <span style="color: #98be65;">"The string can't be segmented"</span>;
+    <span style="color: #c678dd;">}</span>
+
+    <span style="color: #51afef;">return</span> <span style="color: #da8548; font-weight: bold;">0</span>;
+<span style="color: #51afef;">}</span>
+</pre>
+</div>
+</div>
+<div id="outline-container-org452cbc3" class="outline-4">
+<h4 id="org452cbc3"><span class="section-number-4">4.4.1.</span> Metrics</h4>
+<div class="outline-text-4" id="text-4-4-1">
+<dl class="org-dl">
+<dt>Time complexity</dt><dd>\(O(n^2)\)</dd>
+<dt>Space complexity</dt><dd>\(O(n)\)</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf7b5099" class="outline-2">
+<h2 id="orgf7b5099"><span class="section-number-2">5.</span> Wildcard Pattern Matching</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+Given a string and a pattern containing wildcard characters, i.e., <code>'*'</code> and <code>'?'</code>, where <code>'?'</code> can match to any single character in the string and <code>'*'</code> can match to any number of characters including zero characters, design an efficient algorithm to check if the pattern matches with the complete string or not.
+</p>
+</div>
+
+<div id="outline-container-orgf12234e" class="outline-3">
+<h3 id="orgf12234e"><span class="section-number-3">5.1.</span> Examples</h3>
+<div class="outline-text-3" id="text-5-1">
+</div>
+<div id="outline-container-org63f8583" class="outline-4">
+<h4 id="org63f8583"><span class="section-number-4">5.1.1.</span> Example 1</h4>
+<div class="outline-text-4" id="text-5-1-1">
+<pre class="example" id="org578806b">
+string = "xyxzzxy"
+pattern = "x***y"
+</pre>
+
+<pre class="example" id="orgf7f4484">
+Match
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgda4bc9b" class="outline-4">
+<h4 id="orgda4bc9b"><span class="section-number-4">5.1.2.</span> Example 2</h4>
+<div class="outline-text-4" id="text-5-1-2">
+<pre class="example" id="org5e3a016">
+string = "xyxzzxy"
+pattern = "x***x"
+</pre>
+
+<pre class="example" id="orgcb1765c">
+No Match
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orga38f54e" class="outline-4">
+<h4 id="orga38f54e"><span class="section-number-4">5.1.3.</span> Example 3</h4>
+<div class="outline-text-4" id="text-5-1-3">
+<pre class="example" id="orgb337538">
+string = "xyxzzxy"
+pattern = "x***x?"
+</pre>
+
+<pre class="example" id="orga6e4609">
+Match
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org3da512e" class="outline-4">
+<h4 id="org3da512e"><span class="section-number-4">5.1.4.</span> Example 4</h4>
+<div class="outline-text-4" id="text-5-1-4">
+<pre class="example" id="org88e5cc1">
+string = "xyxzzxy"
+pattern = "*"
+</pre>
+
+<pre class="example" id="org71e1622">
+Match
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2b3a5ac" class="outline-3">
+<h3 id="org2b3a5ac"><span class="section-number-3">5.2.</span> Approach</h3>
+<div class="outline-text-3" id="text-5-2">
+<p>
+The idea is to use dynamic programming to solve this problem. If we carefully analyze the problem, we can see that it can easily be further divided into subproblems.
+</p>
+
+<p>
+Let’s take the top-bottom approach to solve this problem.
+</p>
+
+<p>
+For a given <code>pattern[0...m]</code> and <code>word[0...n]</code>,
+</p>
+<ul class="org-ul">
+<li>If <code>pattern[m] == '*'</code>, if <code>*</code> matches the current character in the input string, move to the next character in the string; otherwise, ignore \(*\) and move to the next character in the pattern.</li>
+<li>If <code>pattern[m] == '?'</code>, ignore current characters of both string and pattern and check if \(pattern[0...m-1]\) matches \(word[0...n-1]\).</li>
+<li>If the current character in the pattern is not a wildcard character, it should match the current character in the input string.</li>
+</ul>
+
+<p>
+Special care has to be taken to handle base conditions:
+</p>
+<ul class="org-ul">
+<li>If both the input string and pattern reach their end, return <code>true</code>.</li>
+<li>If the only pattern reaches its end, return <code>false</code>.</li>
+<li>If only the input string reaches its end, return <code>true</code> only if the remaining characters in the pattern are all <code>*</code>.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Created: 2023-05-15 Mon 10:28</p>
+</div>
+</body>
+</html>

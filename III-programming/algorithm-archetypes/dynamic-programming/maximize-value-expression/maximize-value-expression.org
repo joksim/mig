@@ -1,0 +1,38 @@
+* Maximize value of expression
+Given an array $A$, maximize value of expression $(A[s] - A[r] + A[q] - A[p])$, where $p$, $q$, $r$, and $s$ are indices of the array and $s > r > q > p$.
+
+** Examples
+*** Example 1
+#+CAPTION: Input
+#+begin_example
+A[] = [3, 9, 10, 1, 30, 40]
+#+end_example
+
+
+#+CAPTION: Output
+#+begin_example
+46
+#+end_example
+
+*** Explanation:
++ The expression $(40 – 1 + 10 – 3)$ will result in the maximum value.
+
+** Approach
+A /naive/ solution would be to generate all combinations of such numbers. The time complexity of this solution would be $O(n^4)$, where ~n~ is the size of the input.
+
+We can use dynamic programming to solve this problem. The idea is to create four lookup tables, ~first[]~, ~second[]~, ~third[]~, and ~fourth[]~, where:
+
+- first[] :: stores the maximum value of ~A[s]~.
+- second[] :: stores the maximum value of ~A[s] - A[r]~.
+- third[] :: stores the maximum value of ~A[s] - A[r] + A[q]~.
+- fourth[] :: stores the maximum value of ~A[s] - A[r] + A[q] - A[p]~.
+
+The maximum value would then be present in index ~0~ of ~fourth[]~
+
+** Example Solution
+
+#+INCLUDE: "./maximize-value-expression.cpp" src c++
+
+*** Metrics
+- Time complexity :: $O(n)$
+- Space complexity :: $O(n)$ extra space.

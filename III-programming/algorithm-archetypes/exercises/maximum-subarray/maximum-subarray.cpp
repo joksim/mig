@@ -91,6 +91,37 @@ int maxSubArray_dp_memo(vector<int> &nums) {
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Dynamic programming with tabulation
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+int maxSubArray_dp_tab(vector<int>& nums) {
+    vector<vector<int>> dp(2, vector<int>(size(nums)));
+    dp[0][0] = dp[1][0] = nums[0];
+    for(int i = 1; i < size(nums); i++) {
+        dp[1][i] = max(nums[i], nums[i] + dp[1][i-1]);
+        dp[0][i] = max(dp[0][i-1], dp[1][i]);
+    }
+    return dp[0].back();
+}
+
+
+int maxSubArray_dp_tab_v2(vector<int>& nums) {
+    vector<int> dp(nums);
+    for(int i = 1; i < size(nums); i++)
+        dp[i] = max(nums[i], nums[i] + dp[i-1]);
+    return *max_element(begin(dp), end(dp));
+}
+
+
+int maxSubArray_kadane(vector<int>& nums) {
+    int curMax = 0, maxTillNow = INT_MIN;
+    for(auto c : nums)
+        curMax = max(c, curMax + c),
+        maxTillNow = max(maxTillNow, curMax);
+    return maxTillNow;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // MAIN
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 int main() {

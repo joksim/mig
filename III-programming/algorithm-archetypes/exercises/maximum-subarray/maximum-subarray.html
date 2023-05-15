@@ -1,0 +1,559 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2023-05-15 Mon 09:23 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>&lrm;</title>
+<meta name="author" content="Boban Joksimoski" />
+<meta name="generator" content="Org Mode" />
+<style>
+  #content { max-width: 60em; margin: auto; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    padding: 3px;
+    color: #555;
+    background-color: #f2f2f299;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { }
+</style>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+</head>
+<body>
+<div id="content" class="content">
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orgfd47bd4">1. Maximum Subarray</a>
+<ul>
+<li><a href="#org426c2a7">1.1. Examples</a></li>
+<li><a href="#org4debf05">1.2. Constraints:</a></li>
+<li><a href="#org347c23d">1.3. Solutions</a>
+<ul>
+<li><a href="#org02fd745">1.3.1. Brute force</a></li>
+<li><a href="#orgfdc001d">1.3.2. Divide &amp; conquer</a></li>
+<li><a href="#orgdb3a78a">1.3.3. Dynamic Programming - Top-down (Memoization)</a></li>
+<li><a href="#org0d79999">1.3.4. Dynamic programming - Bottom-up (Tabulation)</a></li>
+<li><a href="#org4928567">1.3.5. Kadane&rsquo;s algorithm</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgfd47bd4" class="outline-2">
+<h2 id="orgfd47bd4"><span class="section-number-2">1.</span> Maximum Subarray</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Given an integer array <code>nums</code>, find the  subarray with the largest sum, and return its sum.
+</p>
+</div>
+
+<div id="outline-container-org426c2a7" class="outline-3">
+<h3 id="org426c2a7"><span class="section-number-3">1.1.</span> Examples</h3>
+<div class="outline-text-3" id="text-1-1">
+<pre class="example" id="org56e9499">
+Input: nums = [-2,1,-3,4,-1,2,1,-5,4]
+Output: 6
+</pre>
+
+<p>
+Explanation: The subarray [4,-1,2,1] has the largest sum 6.
+</p>
+
+<pre class="example" id="org4c5175c">
+Input: nums = [1]
+Output: 1
+</pre>
+
+<p>
+Explanation: The subarray [1] has the largest sum 1.
+</p>
+
+<pre class="example" id="org7e8192f">
+Input: nums = [5,4,-1,7,8]
+Output: 23
+</pre>
+<p>
+Explanation: The subarray [5,4,-1,7,8] has the largest sum 23.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org4debf05" class="outline-3">
+<h3 id="org4debf05"><span class="section-number-3">1.2.</span> Constraints:</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>\(1 <= nums.length <= 10^5\)</li>
+<li>\(-10^4 <= nums[i] <= 10^4\)</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org347c23d" class="outline-3">
+<h3 id="org347c23d"><span class="section-number-3">1.3.</span> Solutions</h3>
+<div class="outline-text-3" id="text-1-3">
+</div>
+<div id="outline-container-org02fd745" class="outline-4">
+<h4 id="org02fd745"><span class="section-number-4">1.3.1.</span> Brute force</h4>
+<div class="outline-text-4" id="text-1-3-1">
+<p>
+We can start with brute-force by trying out every possible sub-array in \(nums\) and choosing the one with maximum sum.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">maxSubArray_bf</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span> &amp;<span style="color: #dcaeea;">nums</span><span style="color: #51afef;">)</span> <span style="color: #51afef;">{</span>
+    <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">n</span> = size<span style="color: #c678dd;">(</span>nums<span style="color: #c678dd;">)</span>, <span style="color: #dcaeea;">ans</span> = <span style="color: #a9a1e1;">INT_MIN</span>;
+    <span style="color: #51afef;">for</span> <span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">i</span> = <span style="color: #da8548; font-weight: bold;">0</span>; i &lt; n; i++<span style="color: #c678dd;">)</span>
+        <span style="color: #51afef;">for</span> <span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">j</span> = i, <span style="color: #dcaeea;">curSum</span> = <span style="color: #da8548; font-weight: bold;">0</span>; j &lt; n; j++<span style="color: #c678dd;">)</span>
+            curSum += nums<span style="color: #c678dd;">[</span>j<span style="color: #c678dd;">]</span>,
+                    ans = max<span style="color: #c678dd;">(</span>ans, curSum<span style="color: #c678dd;">)</span>;
+    <span style="color: #51afef;">return</span> ans;
+<span style="color: #51afef;">}</span>
+</pre>
+</div>
+
+
+<dl class="org-dl">
+<dt>Time Complexity</dt><dd>\(O(N^2)\), where \(N\) is the number of elements in <code>nums</code>. There are \(N*(N+1)/2\) total sub-arrays and trying out each one takes time of \(O(N^2)\)</dd>
+<dt>Space Complexity</dt><dd>\(O(1)\)</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-orgfdc001d" class="outline-4">
+<h4 id="orgfdc001d"><span class="section-number-4">1.3.2.</span> Divide &amp; conquer</h4>
+<div class="outline-text-4" id="text-1-3-2">
+<p>
+We can solve this using divide and conquer strategy. This is the follow-up question asked in this question. This involves modelling the problem by observing that the maximum subarray sum is such that it lies somewhere:
+</p>
+<ul class="org-ul">
+<li>entirely in the left-half of array <code>[L, mid-1]</code>, OR</li>
+<li>entirely in the right-half of array <code>[mid+1, R]</code>, OR</li>
+<li>in array consisting of mid element along with some part of left-half and some part of right-half such that these form contiguous subarray - <code>[L', R'] = [L', mid-1] + [mid] + [mid+1,R']</code>, where <code>L' &gt;= L</code> and <code>R' &lt;= R</code>.</li>
+</ul>
+
+<p>
+With the above observation, we can recursively divide the array into sub-problems on the left and right halves and then combine these results on the way back up to find the maximum subarray sum.
+</p>
+
+
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">maxSubArray_dq</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span> &amp;<span style="color: #dcaeea;">nums</span><span style="color: #51afef;">)</span> <span style="color: #51afef;">{</span>
+    <span style="color: #51afef;">return</span> maxSubArray_dq<span style="color: #c678dd;">(</span>nums, <span style="color: #da8548; font-weight: bold;">0</span>, size<span style="color: #98be65;">(</span>nums<span style="color: #98be65;">)</span> - <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #c678dd;">)</span>;
+<span style="color: #51afef;">}</span>
+
+<span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">maxSubArray_dq</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span> &amp;<span style="color: #dcaeea;">A</span>, <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">L</span>, <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">R</span><span style="color: #51afef;">)</span> <span style="color: #51afef;">{</span>
+    <span style="color: #51afef;">if</span> <span style="color: #c678dd;">(</span>L &gt; R<span style="color: #c678dd;">)</span> <span style="color: #51afef;">return</span> <span style="color: #a9a1e1;">INT_MIN</span>;
+    <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">mid</span> = <span style="color: #c678dd;">(</span>L + R<span style="color: #c678dd;">)</span> / <span style="color: #da8548; font-weight: bold;">2</span>, <span style="color: #dcaeea;">leftSum</span> = <span style="color: #da8548; font-weight: bold;">0</span>, <span style="color: #dcaeea;">rightSum</span> = <span style="color: #da8548; font-weight: bold;">0</span>;
+    <span style="color: #5B6268;">// </span><span style="color: #5B6268;">leftSum = max subarray sum in [L, mid-1] and starting from mid-1</span>
+    <span style="color: #51afef;">for</span> <span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">i</span> = mid - <span style="color: #da8548; font-weight: bold;">1</span>, <span style="color: #dcaeea;">curSum</span> = <span style="color: #da8548; font-weight: bold;">0</span>; i &gt;= L; i--<span style="color: #c678dd;">)</span>
+        curSum += A<span style="color: #c678dd;">[</span>i<span style="color: #c678dd;">]</span>,
+                leftSum = max<span style="color: #c678dd;">(</span>leftSum, curSum<span style="color: #c678dd;">)</span>;
+    <span style="color: #5B6268;">// </span><span style="color: #5B6268;">rightSum = max subarray sum in [mid+1, R] and starting from mid+1</span>
+    <span style="color: #51afef;">for</span> <span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">i</span> = mid + <span style="color: #da8548; font-weight: bold;">1</span>, <span style="color: #dcaeea;">curSum</span> = <span style="color: #da8548; font-weight: bold;">0</span>; i &lt;= R; i++<span style="color: #c678dd;">)</span>
+        curSum += A<span style="color: #c678dd;">[</span>i<span style="color: #c678dd;">]</span>,
+                rightSum = max<span style="color: #c678dd;">(</span>rightSum, curSum<span style="color: #c678dd;">)</span>;
+    <span style="color: #5B6268;">// </span><span style="color: #5B6268;">return max of 3 cases</span>
+    <span style="color: #51afef;">return</span> max<span style="color: #c678dd;">(</span><span style="color: #98be65;">{</span>maxSubArray_dq<span style="color: #a9a1e1;">(</span>A, L, mid - <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #a9a1e1;">)</span>, maxSubArray_dq<span style="color: #a9a1e1;">(</span>A, mid + <span style="color: #da8548; font-weight: bold;">1</span>, R<span style="color: #a9a1e1;">)</span>, leftSum + A<span style="color: #a9a1e1;">[</span>mid<span style="color: #a9a1e1;">]</span> + rightSum<span style="color: #98be65;">}</span><span style="color: #c678dd;">)</span>;
+<span style="color: #51afef;">}</span>
+</pre>
+</div>
+
+<dl class="org-dl">
+<dt>Time Complexity</dt><dd>\(O(NlogN)\), the recurrence relation can be written as \(T(N) = 2T(N/2) + O(N)\) since we are recurring for left and right half \((2T(N/2))\) and also calculating maximal subarray including mid element which takes \(O(N)\) to calculate. Solving this recurrence using master theorem, we can get the time complexity as \(O(NlogN)\)</dd>
+<dt>Space Complexity</dt><dd>\(O(logN)\), required by recursive stack</dd>
+</dl>
+
+<p>
+We can further optimize the previous solution. The \(O(N)\) term in the recurrence relation of previous solution was due to computation of max sum subarray involving \(nums[mid]\) in each recursion.
+</p>
+
+<p>
+But we can reduce that term to \(O(1)\) if we precompute it. This can be done by precomputing two arrays \(pre\) and \(suf\) where pre[i] will denote maximum sum subarray ending at \(i\) and \(suf[i]\) denotes the maximum subarray starting at \(i\).
+</p>
+
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #ECBE7B;">vector</span><span style="color: #51afef;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #51afef;">&gt;</span> <span style="color: #dcaeea;">pre</span>, <span style="color: #dcaeea;">suf</span>; <span style="color: #5B6268;">//</span><span style="color: #5B6268;">Global vectors</span>
+
+<span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">maxSubArray_dq1</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span> &amp;<span style="color: #dcaeea;">nums</span><span style="color: #51afef;">)</span> <span style="color: #51afef;">{</span>
+    pre = suf = nums;
+    <span style="color: #51afef;">for</span> <span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">i</span> = <span style="color: #da8548; font-weight: bold;">1</span>; i &lt; size<span style="color: #98be65;">(</span>nums<span style="color: #98be65;">)</span>; i++<span style="color: #c678dd;">)</span> pre<span style="color: #c678dd;">[</span>i<span style="color: #c678dd;">]</span> += max<span style="color: #c678dd;">(</span><span style="color: #da8548; font-weight: bold;">0</span>, pre<span style="color: #98be65;">[</span>i - <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #98be65;">]</span><span style="color: #c678dd;">)</span>;
+    <span style="color: #51afef;">for</span> <span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">i</span> = size<span style="color: #98be65;">(</span>nums<span style="color: #98be65;">)</span> - <span style="color: #da8548; font-weight: bold;">2</span>; ~i; i--<span style="color: #c678dd;">)</span> suf<span style="color: #c678dd;">[</span>i<span style="color: #c678dd;">]</span> += max<span style="color: #c678dd;">(</span><span style="color: #da8548; font-weight: bold;">0</span>, suf<span style="color: #98be65;">[</span>i + <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #98be65;">]</span><span style="color: #c678dd;">)</span>;
+    <span style="color: #51afef;">return</span> maxSubArray_dq1<span style="color: #c678dd;">(</span>nums, <span style="color: #da8548; font-weight: bold;">0</span>, size<span style="color: #98be65;">(</span>nums<span style="color: #98be65;">)</span> - <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #c678dd;">)</span>;
+<span style="color: #51afef;">}</span>
+
+<span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">maxSubArray_dq1</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span> &amp;<span style="color: #dcaeea;">A</span>, <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">L</span>, <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">R</span><span style="color: #51afef;">)</span> <span style="color: #51afef;">{</span>
+    <span style="color: #51afef;">if</span> <span style="color: #c678dd;">(</span>L == R<span style="color: #c678dd;">)</span> <span style="color: #51afef;">return</span> A<span style="color: #c678dd;">[</span>L<span style="color: #c678dd;">]</span>;
+    <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">mid</span> = <span style="color: #c678dd;">(</span>L + R<span style="color: #c678dd;">)</span> / <span style="color: #da8548; font-weight: bold;">2</span>;
+    <span style="color: #51afef;">return</span> max<span style="color: #c678dd;">(</span><span style="color: #98be65;">{</span>maxSubArray_dq1<span style="color: #a9a1e1;">(</span>A, L, mid<span style="color: #a9a1e1;">)</span>, maxSubArray_dq1<span style="color: #a9a1e1;">(</span>A, mid + <span style="color: #da8548; font-weight: bold;">1</span>, R<span style="color: #a9a1e1;">)</span>, pre<span style="color: #a9a1e1;">[</span>mid<span style="color: #a9a1e1;">]</span> + suf<span style="color: #a9a1e1;">[</span>mid + <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #a9a1e1;">]</span><span style="color: #98be65;">}</span><span style="color: #c678dd;">)</span>;
+<span style="color: #51afef;">}</span>
+</pre>
+</div>
+
+<dl class="org-dl">
+<dt>Time Complexity</dt><dd>\(O(N)\), the recurrence relation can be written as \(T(N) = 2T(N/2) + O(1)\) since we are recurring for left and right half \((2T(N/2))\) and calculating maximal subarray including mid element in \(O(1)\). Solving this recurrence using master theorem, we can get the time complexity as \(O(N)\)</dd>
+<dt>Space Complexity</dt><dd>\(O(N)\), required by <code>suf</code> and <code>pre</code>.</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-orgdb3a78a" class="outline-4">
+<h4 id="orgdb3a78a"><span class="section-number-4">1.3.3.</span> Dynamic Programming - Top-down (Memoization)</h4>
+<div class="outline-text-4" id="text-1-3-3">
+<p>
+With the Divide &amp; Conquer approach, there are a lot of calculations that are repeated in the recursive tree.
+</p>
+
+
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #ECBE7B;">vector</span><span style="color: #51afef;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #51afef;">&gt;</span> <span style="color: #dcaeea;">pre</span>, <span style="color: #dcaeea;">suf</span>; <span style="color: #5B6268;">//</span><span style="color: #5B6268;">Global vectors</span>
+
+<span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">maxSubArray_dq1</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span> &amp;<span style="color: #dcaeea;">nums</span><span style="color: #51afef;">)</span> <span style="color: #51afef;">{</span>
+    pre = suf = nums;
+    <span style="color: #51afef;">for</span> <span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">i</span> = <span style="color: #da8548; font-weight: bold;">1</span>; i &lt; size<span style="color: #98be65;">(</span>nums<span style="color: #98be65;">)</span>; i++<span style="color: #c678dd;">)</span> pre<span style="color: #c678dd;">[</span>i<span style="color: #c678dd;">]</span> += max<span style="color: #c678dd;">(</span><span style="color: #da8548; font-weight: bold;">0</span>, pre<span style="color: #98be65;">[</span>i - <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #98be65;">]</span><span style="color: #c678dd;">)</span>;
+    <span style="color: #51afef;">for</span> <span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">i</span> = size<span style="color: #98be65;">(</span>nums<span style="color: #98be65;">)</span> - <span style="color: #da8548; font-weight: bold;">2</span>; ~i; i--<span style="color: #c678dd;">)</span> suf<span style="color: #c678dd;">[</span>i<span style="color: #c678dd;">]</span> += max<span style="color: #c678dd;">(</span><span style="color: #da8548; font-weight: bold;">0</span>, suf<span style="color: #98be65;">[</span>i + <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #98be65;">]</span><span style="color: #c678dd;">)</span>;
+    <span style="color: #51afef;">return</span> maxSubArray_dq1<span style="color: #c678dd;">(</span>nums, <span style="color: #da8548; font-weight: bold;">0</span>, size<span style="color: #98be65;">(</span>nums<span style="color: #98be65;">)</span> - <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #c678dd;">)</span>;
+<span style="color: #51afef;">}</span>
+
+<span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">maxSubArray_dq1</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span> &amp;<span style="color: #dcaeea;">A</span>, <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">L</span>, <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">R</span><span style="color: #51afef;">)</span> <span style="color: #51afef;">{</span>
+    <span style="color: #51afef;">if</span> <span style="color: #c678dd;">(</span>L == R<span style="color: #c678dd;">)</span> <span style="color: #51afef;">return</span> A<span style="color: #c678dd;">[</span>L<span style="color: #c678dd;">]</span>;
+    <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">mid</span> = <span style="color: #c678dd;">(</span>L + R<span style="color: #c678dd;">)</span> / <span style="color: #da8548; font-weight: bold;">2</span>;
+    <span style="color: #51afef;">return</span> max<span style="color: #c678dd;">(</span><span style="color: #98be65;">{</span>maxSubArray_dq1<span style="color: #a9a1e1;">(</span>A, L, mid<span style="color: #a9a1e1;">)</span>, maxSubArray_dq1<span style="color: #a9a1e1;">(</span>A, mid + <span style="color: #da8548; font-weight: bold;">1</span>, R<span style="color: #a9a1e1;">)</span>, pre<span style="color: #a9a1e1;">[</span>mid<span style="color: #a9a1e1;">]</span> + suf<span style="color: #a9a1e1;">[</span>mid + <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #a9a1e1;">]</span><span style="color: #98be65;">}</span><span style="color: #c678dd;">)</span>;
+<span style="color: #51afef;">}</span>
+</pre>
+</div>
+
+<pre class="example" id="org6e31b82">
+                                   f(0, False)                       🔽 =&gt; repeated calculations
+                                 /             \
+                       f(1, False)              f(1, True)
+                      /          \       🔽          \      🔽
+             f(2, False)      f(2, True)           f(2, True)
+          /            \  🔽       \   🔽           \  🔽
+   f(3, False)   f(3,True)     f(3, True)           f(3, True)
+   /        \            \           \                  \
+ ...        ...          ...         ...                ...
+</pre>
+<p>
+These redundant calculations can be eliminated if we store the results for a given state and reuse them later whenever required rather than recalculating them over and over again.
+</p>
+
+<p>
+Thus, we can use <i>memoization</i> technique here to make our solution more efficient. Here, we use a <code>dp</code> array where <code>dp[mustPick][i]</code> denotes the maximum sum subarray starting from <code>i</code> and <code>mustPick</code> denotes whether the current element must be picked compulsorily or not.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-cpp"><span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">solve</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span> &amp;<span style="color: #dcaeea;">A</span>, <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">i</span>, <span style="color: #ECBE7B;">bool</span> <span style="color: #dcaeea;">mustPick</span>, <span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">vector</span><span style="color: #98be65;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #98be65;">&gt;</span><span style="color: #c678dd;">&gt;</span> &amp;<span style="color: #dcaeea;">dp</span><span style="color: #51afef;">)</span> <span style="color: #51afef;">{</span>
+    <span style="color: #51afef;">if</span> <span style="color: #c678dd;">(</span>i &gt;= size<span style="color: #98be65;">(</span>A<span style="color: #98be65;">)</span><span style="color: #c678dd;">)</span> <span style="color: #51afef;">return</span> mustPick ? <span style="color: #da8548; font-weight: bold;">0</span> : -<span style="color: #da8548; font-weight: bold;">1e5</span>;
+    <span style="color: #51afef;">if</span> <span style="color: #c678dd;">(</span>dp<span style="color: #98be65;">[</span>mustPick<span style="color: #98be65;">][</span>i<span style="color: #98be65;">]</span> != -<span style="color: #da8548; font-weight: bold;">1</span><span style="color: #c678dd;">)</span> <span style="color: #51afef;">return</span> dp<span style="color: #c678dd;">[</span>mustPick<span style="color: #c678dd;">][</span>i<span style="color: #c678dd;">]</span>;
+    <span style="color: #51afef;">if</span> <span style="color: #c678dd;">(</span>mustPick<span style="color: #c678dd;">)</span>
+        <span style="color: #51afef;">return</span> dp<span style="color: #c678dd;">[</span>mustPick<span style="color: #c678dd;">][</span>i<span style="color: #c678dd;">]</span> = max<span style="color: #c678dd;">(</span><span style="color: #da8548; font-weight: bold;">0</span>, A<span style="color: #98be65;">[</span>i<span style="color: #98be65;">]</span> + solve<span style="color: #98be65;">(</span>A, i + <span style="color: #da8548; font-weight: bold;">1</span>, <span style="color: #a9a1e1;">true</span>, dp<span style="color: #98be65;">)</span><span style="color: #c678dd;">)</span>;
+    <span style="color: #51afef;">return</span> dp<span style="color: #c678dd;">[</span>mustPick<span style="color: #c678dd;">][</span>i<span style="color: #c678dd;">]</span> = max<span style="color: #c678dd;">(</span>solve<span style="color: #98be65;">(</span>A, i + <span style="color: #da8548; font-weight: bold;">1</span>, <span style="color: #a9a1e1;">false</span>, dp<span style="color: #98be65;">)</span>, A<span style="color: #98be65;">[</span>i<span style="color: #98be65;">]</span> + solve<span style="color: #98be65;">(</span>A, i + <span style="color: #da8548; font-weight: bold;">1</span>, <span style="color: #a9a1e1;">true</span>, dp<span style="color: #98be65;">)</span><span style="color: #c678dd;">)</span>;
+<span style="color: #51afef;">}</span>
+
+<span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">maxSubArray_dp_memo</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span> &amp;<span style="color: #dcaeea;">nums</span><span style="color: #51afef;">)</span> <span style="color: #51afef;">{</span>
+    <span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">vector</span><span style="color: #98be65;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #98be65;">&gt;</span><span style="color: #c678dd;">&gt;</span> <span style="color: #dcaeea;">dp</span><span style="color: #c678dd;">(</span><span style="color: #da8548; font-weight: bold;">2</span>, vector<span style="color: #98be65;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #98be65;">&gt;(</span><span style="color: #ECBE7B;">size</span><span style="color: #a9a1e1;">(</span><span style="color: #dcaeea;">nums</span><span style="color: #a9a1e1;">)</span>, -<span style="color: #da8548; font-weight: bold;">1</span><span style="color: #98be65;">)</span><span style="color: #c678dd;">)</span>;
+    <span style="color: #51afef;">return</span> solve<span style="color: #c678dd;">(</span>nums, <span style="color: #da8548; font-weight: bold;">0</span>, <span style="color: #a9a1e1;">false</span>, dp<span style="color: #c678dd;">)</span>;
+<span style="color: #51afef;">}</span>
+</pre>
+</div>
+
+<dl class="org-dl">
+<dt>Time Complexity</dt><dd>\(O(N)\), we are calculating each state of the dp just once and memoizing the result. Thus, we are calculating results for \(2*N\) states and returning them directly in future recursive calls.</dd>
+<dt>Space Complexity</dt><dd>\(O(N)\), for recursive space.</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org0d79999" class="outline-4">
+<h4 id="org0d79999"><span class="section-number-4">1.3.4.</span> Dynamic programming - Bottom-up (Tabulation)</h4>
+<div class="outline-text-4" id="text-1-3-4">
+<p>
+We can employ similar logic in iterative version as well. Here, we again use <code>dp</code> array and use <i>bottom-up</i> approach. Here <code>dp[1][i]</code> denotes maximum subarray sum ending at <code>i</code> (including <code>nums[i]</code>) and <code>dp[0][i]</code> denotes maximum subarray sum up to <code>i</code> (may or may not include <code>nums[i]</code>).
+</p>
+
+<p>
+At each index, we update <code>dp[1][i]</code> as <code>max</code> between either only choosing current element - <code>nums[i]</code> or extending from previous subarray and choosing current element as well - <code>dp[1][i-1] + nums[i]</code>.
+</p>
+
+<p>
+Similarly, <code>dp[0][1]</code> can be updated as max between maximum sum subarray found till last index - <code>dp[0][i-1]</code> or max subarray sum found ending at current index <code>dp[1][i]</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-cpp"><span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">maxSubArray_dp_tab</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span>&amp; <span style="color: #dcaeea;">nums</span><span style="color: #51afef;">)</span> <span style="color: #51afef;">{</span>
+    <span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">vector</span><span style="color: #98be65;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #98be65;">&gt;</span><span style="color: #c678dd;">&gt;</span> <span style="color: #dcaeea;">dp</span><span style="color: #c678dd;">(</span><span style="color: #da8548; font-weight: bold;">2</span>, vector<span style="color: #98be65;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #98be65;">&gt;(</span><span style="color: #dcaeea;">size</span><span style="color: #a9a1e1;">(</span>nums<span style="color: #a9a1e1;">)</span><span style="color: #98be65;">)</span><span style="color: #c678dd;">)</span>;
+    dp<span style="color: #c678dd;">[</span><span style="color: #da8548; font-weight: bold;">0</span><span style="color: #c678dd;">][</span><span style="color: #da8548; font-weight: bold;">0</span><span style="color: #c678dd;">]</span> = dp<span style="color: #c678dd;">[</span><span style="color: #da8548; font-weight: bold;">1</span><span style="color: #c678dd;">][</span><span style="color: #da8548; font-weight: bold;">0</span><span style="color: #c678dd;">]</span> = nums<span style="color: #c678dd;">[</span><span style="color: #da8548; font-weight: bold;">0</span><span style="color: #c678dd;">]</span>;
+    <span style="color: #51afef;">for</span><span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">i</span> = <span style="color: #da8548; font-weight: bold;">1</span>; i &lt; size<span style="color: #98be65;">(</span>nums<span style="color: #98be65;">)</span>; i++<span style="color: #c678dd;">)</span> <span style="color: #c678dd;">{</span>
+        dp<span style="color: #98be65;">[</span><span style="color: #da8548; font-weight: bold;">1</span><span style="color: #98be65;">][</span>i<span style="color: #98be65;">]</span> = max<span style="color: #98be65;">(</span>nums<span style="color: #a9a1e1;">[</span>i<span style="color: #a9a1e1;">]</span>, nums<span style="color: #a9a1e1;">[</span>i<span style="color: #a9a1e1;">]</span> + dp<span style="color: #a9a1e1;">[</span><span style="color: #da8548; font-weight: bold;">1</span><span style="color: #a9a1e1;">][</span>i-<span style="color: #da8548; font-weight: bold;">1</span><span style="color: #a9a1e1;">]</span><span style="color: #98be65;">)</span>;
+        dp<span style="color: #98be65;">[</span><span style="color: #da8548; font-weight: bold;">0</span><span style="color: #98be65;">][</span>i<span style="color: #98be65;">]</span> = max<span style="color: #98be65;">(</span>dp<span style="color: #a9a1e1;">[</span><span style="color: #da8548; font-weight: bold;">0</span><span style="color: #a9a1e1;">][</span>i-<span style="color: #da8548; font-weight: bold;">1</span><span style="color: #a9a1e1;">]</span>, dp<span style="color: #a9a1e1;">[</span><span style="color: #da8548; font-weight: bold;">1</span><span style="color: #a9a1e1;">][</span>i<span style="color: #a9a1e1;">]</span><span style="color: #98be65;">)</span>;
+    <span style="color: #c678dd;">}</span>
+    <span style="color: #51afef;">return</span> dp<span style="color: #c678dd;">[</span><span style="color: #da8548; font-weight: bold;">0</span><span style="color: #c678dd;">]</span>.back<span style="color: #c678dd;">()</span>;
+<span style="color: #51afef;">}</span>
+</pre>
+</div>
+
+<p>
+We can actually do away with just 1 row as well. We denoted <code>dp[1][i]</code> as the maximum subarray sum ending at <code>i</code>. We can just store that row and calculate the overall maximum subarray sum at the end by choosing the maximum of all max subarray sum ending at <code>i</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-cpp"><span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">maxSubArray_dp_tab_v2</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span>&amp; <span style="color: #dcaeea;">nums</span><span style="color: #51afef;">)</span> <span style="color: #51afef;">{</span>
+    <span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span> <span style="color: #dcaeea;">dp</span><span style="color: #c678dd;">(</span>nums<span style="color: #c678dd;">)</span>;
+    <span style="color: #51afef;">for</span><span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">i</span> = <span style="color: #da8548; font-weight: bold;">1</span>; i &lt; size<span style="color: #98be65;">(</span>nums<span style="color: #98be65;">)</span>; i++<span style="color: #c678dd;">)</span>
+        dp<span style="color: #c678dd;">[</span>i<span style="color: #c678dd;">]</span> = max<span style="color: #c678dd;">(</span>nums<span style="color: #98be65;">[</span>i<span style="color: #98be65;">]</span>, nums<span style="color: #98be65;">[</span>i<span style="color: #98be65;">]</span> + dp<span style="color: #98be65;">[</span>i-<span style="color: #da8548; font-weight: bold;">1</span><span style="color: #98be65;">]</span><span style="color: #c678dd;">)</span>;
+    <span style="color: #51afef;">return</span> *max_element<span style="color: #c678dd;">(</span>begin<span style="color: #98be65;">(</span>dp<span style="color: #98be65;">)</span>, end<span style="color: #98be65;">(</span>dp<span style="color: #98be65;">)</span><span style="color: #c678dd;">)</span>;
+<span style="color: #51afef;">}</span>
+</pre>
+</div>
+
+<dl class="org-dl">
+<dt>Time Complexity</dt><dd>\(O(N)\), we are just iterating over the nums array once to compute the <code>dp</code> array and once more over the <code>dp</code> at the end to find maximum subarray sum. Thus overall time complexity is \(O(N) + O(N) = O(N)\)</dd>
+<dt>Space Complexity</dt><dd>\(O(N)\), for maintaining <code>dp</code>.</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org4928567" class="outline-4">
+<h4 id="org4928567"><span class="section-number-4">1.3.5.</span> Kadane&rsquo;s algorithm</h4>
+<div class="outline-text-4" id="text-1-3-5">
+<p>
+We can observe that in the previous approach, <code>dp[i]</code> only depended on <code>dp[i-1]</code>. So do we really need to maintain the whole <code>dp</code> array of <code>N</code> elements?
+One might see the last line of previous solution and say that we needed all elements of <code>dp</code> at the end to find the maximum sum subarray. But we can simply optimize that by storing the max at each iteration instead of separately calculating it at the end.
+</p>
+
+<p>
+Thus, we only need to maintain <code>curMax</code> which is the maximum subarray sum ending at <code>i</code> and <code>maxTillNow</code> which is the maximum sum we have seen till now. And this way of solving this problem is what we popularly know as <i>Kadane&rsquo;s Algorithm</i>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-cpp"><span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">maxSubArray_kadane</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">vector</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;</span>&amp; <span style="color: #dcaeea;">nums</span><span style="color: #51afef;">)</span> <span style="color: #51afef;">{</span>
+    <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">curMax</span> = <span style="color: #da8548; font-weight: bold;">0</span>, <span style="color: #dcaeea;">maxTillNow</span> = <span style="color: #a9a1e1;">INT_MIN</span>;
+    <span style="color: #51afef;">for</span><span style="color: #c678dd;">(</span><span style="color: #51afef;">auto</span> <span style="color: #dcaeea;">c</span> : nums<span style="color: #c678dd;">)</span>
+        curMax = max<span style="color: #c678dd;">(</span>c, curMax + c<span style="color: #c678dd;">)</span>,
+        maxTillNow = max<span style="color: #c678dd;">(</span>maxTillNow, curMax<span style="color: #c678dd;">)</span>;
+    <span style="color: #51afef;">return</span> maxTillNow;
+<span style="color: #51afef;">}</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Boban Joksimoski</p>
+<p class="date">Created: 2023-05-15 Mon 09:23</p>
+</div>
+</body>
+</html>

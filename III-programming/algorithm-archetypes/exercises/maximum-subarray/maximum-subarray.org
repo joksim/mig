@@ -59,6 +59,38 @@ But we can reduce that term to $O(1)$ if we precompute it. This can be done by p
 - Time Complexity :: $O(N)$, the recurrence relation can be written as $T(N) = 2T(N/2) + O(1)$ since we are recurring for left and right half $(2T(N/2))$ and calculating maximal subarray including mid element in $O(1)$. Solving this recurrence using master theorem, we can get the time complexity as $O(N)$
 - Space Complexity :: $O(N)$, required by ~suf~ and ~pre~.
 
+*** Recursive Approach Dynamic Programming - Top-down (Memoization)
+We can devise a recursive approach to solve the problem.
+Here we can state the approach as:
+- At each index $i$, we can either pick that element or not pick it.
+- If we pick current element, then all future element must also be picked since our array needs to be contiguous.
+- If we had picked any elements till now, we can either end further recursion at any time by returning sum formed till now or we can choose current element and recurse further. This denotes two choices of either
+  choosing the subarray formed from 1st picked element till now or expanding the subarray by choosing current element respectively.
+
+In the code below, we will use ~mustPick~ to denote whether we must compulsorily pick current element. When ~mustPick~ is true, we must either return ~0~ or pick current element and recurse further. If ~pickCur~ is false, we have both choices of not picking current element and moving on to next element, or picking the current one.
+
+#+begin_src c++
+int maxSubArray_recursive(vector<int>& nums) {
+    return solve(nums, 0, false);
+}
+int solve(vector<int>& A, int i, bool mustPick) {
+	// Our subarray must contain atleast 1 element.
+  // If mustPick is false at end means no element
+  //    is picked and this is not valid case
+  if(i >= size(A)) return mustPick ? 0 : -1e5;
+
+  if(mustPick)
+    // either stop here or choose current element and recurse
+    return max(0, A[i] + solve(A, i+1, true));
+
+  // try both choosing current element or not choosing
+  return max(solve(A, i+1, false), A[i] + solve(A, i+1, true));
+}
+#+end_src
+
+- Time Complexity :: $O(N^2)$, we are basically considering every subarray sum and choosing maximum of it.
+- Space Complexity :: $O(N)$, for recursive space
+
 *** Dynamic Programming - Top-down (Memoization)
 We can observe a lot of repeated calculations if we draw out the recursive tree for above solution.
 #+begin_example
@@ -76,6 +108,32 @@ These redundant calculations can be eliminated if we store the results for a giv
 
 Thus, we can use /memoization/ technique here to make our solution more efficient. Here, we use a ~dp~ array where ~dp[mustPick][i]~ denotes the maximum sum subarray starting from ~i~ and ~mustPick~ denotes whether the current element must be picked compulsorily or not.
 
-#+INCLUDE: "./maximum-subarray.cpp" src cpp :lines
+#+INCLUDE: "./maximum-subarray.cpp" src cpp :lines "79-91"
 
-** Dynamic Programming approaches
+- Time Complexity :: $O(N)$, we are calculating each state of the dp just once and memoizing the result. Thus, we are calculating results for $2*N$ states and returning them directly in future recursive calls.
+- Space Complexity :: $O(N)$, for recursive space.
+
+*** Dynamic programming - Bottom-up (Tabulation)
+
+We can employ similar logic in iterative version as well. Here, we again use ~dp~ array and use /bottom-up/ approach. Here ~dp[1][i]~ denotes maximum subarray sum ending at ~i~ (including ~nums[i]~) and ~dp[0][i]~ denotes maximum subarray sum up to ~i~ (may or may not include ~nums[i]~).
+
+At each index, we update ~dp[1][i]~ as ~max~ between either only choosing current element - ~nums[i]~ or extending from previous subarray and choosing current element as well - ~dp[1][i-1] + nums[i]~.
+
+Similarly, ~dp[0][1]~ can be updated as max between maximum sum subarray found till last index - ~dp[0][i-1]~ or max subarray sum found ending at current index ~dp[1][i]~.
+
+#+INCLUDE: "./maximum-subarray.cpp" src cpp :lines "96-106"
+
+We can actually do away with just 1 row as well. We denoted ~dp[1][i]~ as the maximum subarray sum ending at ~i~. We can just store that row and calculate the overall maximum subarray sum at the end by choosing the maximum of all max subarray sum ending at ~i~.
+
+#+INCLUDE: "./maximum-subarray.cpp" src cpp :lines "108-114"
+
+- Time Complexity :: $O(N)$, we are just iterating over the nums array once to compute the ~dp~ array and once more over the ~dp~ at the end to find maximum subarray sum. Thus overall time complexity is $O(N) + O(N) = O(N)$
+- Space Complexity :: $O(N)$, for maintaining ~dp~.
+
+*** Kadane's algorithm
+We can observe that in the previous approach, ~dp[i]~ only depended on ~dp[i-1]~. So do we really need to maintain the whole ~dp~ array of ~N~ elements?
+One might see the last line of previous solution and say that we needed all elements of ~dp~ at the end to find the maximum sum subarray. But we can simply optimize that by storing the max at each iteration instead of separately calculating it at the end.
+
+Thus, we only need to maintain ~curMax~ which is the maximum subarray sum ending at ~i~ and ~maxTillNow~ which is the maximum sum we have seen till now. And this way of solving this problem is what we popularly know as /Kadane's Algorithm/.
+
+#+INCLUDE: "./maximum-subarray.cpp" src cpp :lines "116-123"

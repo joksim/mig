@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2023-05-15 Mon 00:52 -->
+<!-- 2023-05-15 Mon 00:56 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>&lrm;</title>
@@ -232,23 +232,23 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org71797e8">1. Implement <code>Diff</code> utility</a>
+<li><a href="#org476e400">1. Implement <code>Diff</code> utility</a>
 <ul>
-<li><a href="#org7eb3da5">1.1. Examples</a>
+<li><a href="#orgd132c7f">1.1. Examples</a>
 <ul>
-<li><a href="#orgeada4c7">1.1.1. Example 1</a></li>
-<li><a href="#orgcaf9f2d">1.1.2. Example 2</a></li>
-<li><a href="#org071e269">1.1.3. Explanation:</a></li>
+<li><a href="#org70e13cf">1.1.1. Example 1</a></li>
+<li><a href="#org12def02">1.1.2. Example 2</a></li>
+<li><a href="#org3449659">1.1.3. Explanation:</a></li>
 </ul>
 </li>
-<li><a href="#orgbf5458c">1.2. Approach</a>
+<li><a href="#orgc5900d1">1.2. Approach</a>
 <ul>
-<li><a href="#org0b13349">1.2.1. Longest Common Subsequence problem</a></li>
+<li><a href="#org9cac2b0">1.2.1. Longest Common Subsequence problem</a></li>
 </ul>
 </li>
-<li><a href="#org6f66865">1.3. Example Solution</a>
+<li><a href="#org865b7e9">1.3. Example Solution</a>
 <ul>
-<li><a href="#org0dd868a">1.3.1. Metrics</a></li>
+<li><a href="#orga3c0a01">1.3.1. Metrics</a></li>
 </ul>
 </li>
 </ul>
@@ -256,8 +256,8 @@
 </ul>
 </div>
 </div>
-<div id="outline-container-org71797e8" class="outline-2">
-<h2 id="org71797e8"><span class="section-number-2">1.</span> Implement <code>Diff</code> utility</h2>
+<div id="outline-container-org476e400" class="outline-2">
+<h2 id="org476e400"><span class="section-number-2">1.</span> Implement <code>Diff</code> utility</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 Implement your <a href="https://en.wikipedia.org/wiki/Diff">diff utility</a>, i.e., given two similar strings, efficiently list out all differences between them.
@@ -268,43 +268,43 @@ The diff utility is a data comparison tool that calculates and displays the diff
 </p>
 </div>
 
-<div id="outline-container-org7eb3da5" class="outline-3">
-<h3 id="org7eb3da5"><span class="section-number-3">1.1.</span> Examples</h3>
+<div id="outline-container-orgd132c7f" class="outline-3">
+<h3 id="orgd132c7f"><span class="section-number-3">1.1.</span> Examples</h3>
 <div class="outline-text-3" id="text-1-1">
 </div>
-<div id="outline-container-orgeada4c7" class="outline-4">
-<h4 id="orgeada4c7"><span class="section-number-4">1.1.1.</span> Example 1</h4>
+<div id="outline-container-org70e13cf" class="outline-4">
+<h4 id="org70e13cf"><span class="section-number-4">1.1.1.</span> Example 1</h4>
 <div class="outline-text-4" id="text-1-1-1">
-<pre class="example" id="org177b5fb">
+<pre class="example" id="org720aab2">
 string X = "XMJYAUZ"
 string Y = "XMJAATZ"
 </pre>
 
 
-<pre class="example" id="org472a775">
+<pre class="example" id="org497a2c2">
 X M J -Y A -U +A +T Z
 </pre>
 </div>
 </div>
 
-<div id="outline-container-orgcaf9f2d" class="outline-4">
-<h4 id="orgcaf9f2d"><span class="section-number-4">1.1.2.</span> Example 2</h4>
+<div id="outline-container-org12def02" class="outline-4">
+<h4 id="org12def02"><span class="section-number-4">1.1.2.</span> Example 2</h4>
 <div class="outline-text-4" id="text-1-1-2">
-<pre class="example" id="org839d8c0">
+<pre class="example" id="orgfdf4f80">
 string X = "ABCDFGHJQZ";
 string Y = "ABCDEFGIJKRXYZ";
 </pre>
 
 
-<pre class="example" id="orgd6fdae9">
+<pre class="example" id="org648c59e">
 A B C D +E F G -H +I J -Q +K +R +X +Y Z
 </pre>
 </div>
 </div>
 
 
-<div id="outline-container-org071e269" class="outline-4">
-<h4 id="org071e269"><span class="section-number-4">1.1.3.</span> Explanation:</h4>
+<div id="outline-container-org3449659" class="outline-4">
+<h4 id="org3449659"><span class="section-number-4">1.1.3.</span> Explanation:</h4>
 <div class="outline-text-4" id="text-1-1-3">
 <ul class="org-ul">
 <li><b><code>'-'</code></b> indicates that character is <b>deleted</b> from <code>Y</code> but it was present in <code>X</code>.</li>
@@ -314,8 +314,8 @@ A B C D +E F G -H +I J -Q +K +R +X +Y Z
 </div>
 </div>
 
-<div id="outline-container-orgbf5458c" class="outline-3">
-<h3 id="orgbf5458c"><span class="section-number-3">1.2.</span> Approach</h3>
+<div id="outline-container-orgc5900d1" class="outline-3">
+<h3 id="orgc5900d1"><span class="section-number-3">1.2.</span> Approach</h3>
 <div class="outline-text-3" id="text-1-2">
 <p>
 We can use the <code>Longest Common Subsequence (LCS)</code> to solve this problem. The idea is to find the longest sequence of characters present in both original sequences in the same order. From the longest common subsequence, it is only a small step to get the diff-like output:
@@ -328,8 +328,8 @@ We can use the <code>Longest Common Subsequence (LCS)</code> to solve this probl
 </div>
 
 
-<div id="outline-container-org0b13349" class="outline-4">
-<h4 id="org0b13349"><span class="section-number-4">1.2.1.</span> Longest Common Subsequence problem</h4>
+<div id="outline-container-org9cac2b0" class="outline-4">
+<h4 id="org9cac2b0"><span class="section-number-4">1.2.1.</span> Longest Common Subsequence problem</h4>
 <div class="outline-text-4" id="text-1-2-1">
 <p>
 Let two sequences be defined as follows: \(X=(x_{1}x_{2}\cdots x_{m})\) and \(Y=(y_{1}y_{2}\cdots y_{n})\). The prefixes of \(X\) are \(X_{0}, X_{1}, X_{2},\dots, X_{m}\); the prefixes of \(Y\) are \(Y_{0},Y_{1},Y_{2},\dots ,Y_{n}\). Let \(LCS(X_{i}, Y_{j})\) represent the set of longest common subsequence of prefixes \(X_{i}\) and \(Y_{j}\). This set of sequences is given by the following:
@@ -347,8 +347,8 @@ Let two sequences be defined as follows: \(X=(x_{1}x_{2}\cdots x_{m})\) and \(Y=
 </div>
 
 
-<div id="outline-container-org6f66865" class="outline-3">
-<h3 id="org6f66865"><span class="section-number-3">1.3.</span> Example Solution</h3>
+<div id="outline-container-org865b7e9" class="outline-3">
+<h3 id="org865b7e9"><span class="section-number-3">1.3.</span> Example Solution</h3>
 <div class="outline-text-3" id="text-1-3">
 <p>
 Let see a solution to the <a href="https://en.wikipedia.org/wiki/Longest_common_subsequence">LCS problem</a>.
@@ -706,12 +706,12 @@ After generation of the lookup table, we search for the differences by iterating
 </div>
 
 <p>
-Link to the full working example:
+<a href="https://raw.githubusercontent.com/joksim/mig/main/III-programming/algorithm-archetypes/dynamic-programming/diff.cpp">Link to the full working example.</a>
 </p>
 </div>
 
-<div id="outline-container-org0dd868a" class="outline-4">
-<h4 id="org0dd868a"><span class="section-number-4">1.3.1.</span> Metrics</h4>
+<div id="outline-container-orga3c0a01" class="outline-4">
+<h4 id="orga3c0a01"><span class="section-number-4">1.3.1.</span> Metrics</h4>
 <div class="outline-text-4" id="text-1-3-1">
 <dl class="org-dl">
 <dt>Time complexity</dt><dd>\(O(m*n)\)</dd>
@@ -724,7 +724,7 @@ Link to the full working example:
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Boban Joksimoski</p>
-<p class="date">Created: 2023-05-15 Mon 00:52</p>
+<p class="date">Created: 2023-05-15 Mon 00:56</p>
 </div>
 </body>
 </html>
